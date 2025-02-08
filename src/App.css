@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+  font-family: "myYekan-regular";
+  src: url("./assets/fonts/woff/IRANYekanX-Regular.woff") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "myYekan-medium";
+  src: url("./assets/fonts/woff/IRANYekanX-Medium.woff") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "myYekan-demibold";
+  src: url("./assets/fonts/woff/IRANYekanX-DemiBold.woff") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "myYekanFaNum-regular";
+  src: url("./assets/fonts/fNum/Woff/IRANYekanXFaNum-Regular.woff")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "myYekanFaNum-medium";
+  src: url("./assets/fonts/fNum/Woff/IRANYekanXFaNum-Medium.woff")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "myYekanFaNum-demiBold";
+  src: url("./assets/fonts/fNum/Woff/IRANYekanXFaNum-DemiBold.woff")
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.toast {
+  font-family: "myYekan-demibold";
+}
+
+input::placeholder {
+  color: #e2e2e2;
+  font-family: "myYekan-regular";
+  font-size: 14px;
+}
+
+/* 
+.custom-calendar {
+  @apply bg-white rounded-lg shadow-md;
+}
+
+.calendar__day {
+  @apply text-gray-700 hover:bg-blue-500 hover:text-white rounded transition-all;
+}
+
+.calendar__monthYear {
+  @apply font-semibold text-lg;
+}
+
+.calendar__today {
+  @apply border-2 border-blue-500 rounded-full;
+}
+
+.calendar__selected {
+  @apply bg-blue-500 text-white rounded;
+} */
+
