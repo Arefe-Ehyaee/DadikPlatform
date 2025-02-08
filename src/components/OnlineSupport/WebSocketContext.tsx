@@ -27,7 +27,7 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
 
   useEffect(() => {
     // Initialize WebSocket connection
-    ws.current = new WebSocket("ws://your-websocket-server-url");
+    ws.current = new WebSocket("wss://your-websocket-server-url");
 
     ws.current.onopen = () => {
       console.log("WebSocket connected");
