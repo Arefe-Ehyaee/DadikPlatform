@@ -22,7 +22,7 @@ const LagalPersonLayout = ({
   return (
     <div className="flex min-h-screen">
       <div className="flex-1">
-        <div className="flex flex-col justify-between w-[560px] h-[896px] mx-[80px] my-[24px] px-10 py-6 bg-background-500 rounded-lg">
+        <div className="flex flex-col justify-between min-w-[560px] h-[896px] mx-[80px] my-[24px] px-10 py-6 bg-background-500 rounded-lg">
           <div className="flex flex-col items-center justify-end">
             {back ? (<div className="flex items-center justify-center relative">
             <button onClick={() => navigate("/loginWithPassword")}><img src={arrow} alt="back" className="right-[256px] top-[4px] h-6 w-6 absolute" /></button>
