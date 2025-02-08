@@ -30,7 +30,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<LegalPerson></LegalPerson>}></Route>
+            <Route path="/loginWithPassword" element={<LegalPerson></LegalPerson>}></Route>
             <Route path="/signUp" element={<InitialSignUp />}></Route>
             <Route
               path="/loginWithPassword"

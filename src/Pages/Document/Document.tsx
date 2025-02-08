@@ -9,6 +9,12 @@ import linkedin from "../../assets/icons/linkedin-engine.svg";
 import instagram from "../../assets/icons/instagramEngine.svg";
 import CustomButton from "../../components/CustomButton";
 import emoji from "../../assets/icons/fase.svg";
+import word from "../../assets/icons/word-svgrepo-com 2.svg";
+import pdf from "../../assets/icons/pdf-file-svgrepo-com 2.svg"
+import soroosh from "../../assets/icons/soroosh.svg";
+import eeta from "../../assets/icons/eeta.svg";
+import bale from "../../assets/icons/bale.svg";
+import rubika from "../../assets/icons/rubika.svg";
 
 export default function Document() {
   return (
@@ -19,7 +25,11 @@ export default function Document() {
         </div>
         <div className="flex flex-row gap-[15px]">
           <button>
-            <img src={download} alt="" />
+            <img src={pdf} alt="" />
+          </button>
+
+          <button>
+            <img src={word} alt="" />
           </button>
 
           <button>
@@ -30,31 +40,29 @@ export default function Document() {
 
       <div className="flex flex-row gap-4 mt-4">
         <DepartmentBadge department={"سازمان امور مالیاتی"}></DepartmentBadge>
-        <DocumnetBadge type={"تفسیر"}></DocumnetBadge>
+        <DepartmentBadge department={"قوه قضاییه"}></DepartmentBadge>
+        <DepartmentBadge department={"سازمان مجلس شورای اسلامی"}></DepartmentBadge>
+        <DepartmentBadge department={"دیوان عدالت اداری"}></DepartmentBadge>
+        {/* <DocumnetBadge type={"تفسیر"}></DocumnetBadge>
         <DocumnetBadge type={"نامه اصلاحی"}></DocumnetBadge>
-        <DocumnetBadge type={"منسوخه"}></DocumnetBadge>
+        <DocumnetBadge type={"منسوخه"}></DocumnetBadge> */}
+      </div>
+
+      <div className="flex flex-row gap-4 mt-4">
+        <img src={soroosh} alt="linkedin" className="w-6 h-6" />
+        <img src={rubika} alt="tel" className="w-6 h-6" />
+        <img src={bale} alt="whatsapp" className="w-6 h-6" />
+        <img src={eeta} alt="instagram" className="w-6 h-6" />
       </div>
 
       <p className="font-myYekanFaNumRegular text-sm mt-4 mb-2 text-text-300">
         تاریخ سند ۱۴۰۳/۱/۱۶
       </p>
 
-      <div className="font-myYekanFaNumRegular text-text-300 text-sm mb-4">
-        سازمان امور مالیاتی کشور در راستای اجرای آیین نامه اجرایی ماده ۲۴ قانون
-        بهبود مستمر محیط کسب و کار، پیش نویس دستورالعمل درخصوص اصلاح بند ۱۰
-        دستورالعمل دادرسی مالیاتی موضوع بخشنامه ۱۱۷۳۰۰ را با هدف ملاحظه و اعلام
-        نظر عموم مردم و فعالان اقتصادی در پایگاه ملی اطلاع رسانی قوانین و مقررات
-        کشور منتشر نمود.
+      <div className="font-myYekanFaNumRegular text-text-300 text-sm mb-4 leading-8">
+        لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.
       </div>
 
-      <ShowMoreButton></ShowMoreButton>
-
-      <div className="flex flex-row gap-4 mt-4">
-        <img src={linkedin} alt="linkedin" className="w-6 h-6" />
-        <img src={tel} alt="tel" className="w-6 h-6" />
-        <img src={whatsapp} alt="whatsapp" className="w-6 h-6" />
-        <img src={instagram} alt="instagram" className="w-6 h-6" />
-      </div>
 
       <div className="min-w-[1056px] border-t mt-6 pt-6 text-sm">
         <p className="font-myYekanMedium mb-4">نظرات و پیشنهادات</p>
