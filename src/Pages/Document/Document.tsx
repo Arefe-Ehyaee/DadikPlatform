@@ -1,14 +1,7 @@
-import download from "../../assets/icons/download.svg";
 import printIcon from "../../assets/icons/printer.svg";
 import DepartmentBadge from "../../components/SearchEngineComponents/DepartmentBadge";
-import DocumnetBadge from "../../components/SearchEngineComponents/DocumnetBadge";
-import ShowMoreButton from "../../components/ShowMoreButton";
-import tel from "../../assets/icons/telEngine.svg";
-import whatsapp from "../../assets/icons/whatsappEngine.svg";
-import linkedin from "../../assets/icons/linkedin-engine.svg";
-import instagram from "../../assets/icons/instagramEngine.svg";
 import CustomButton from "../../components/CustomButton";
-import emoji from "../../assets/icons/fase.svg";
+import star from "../../assets/icons/star-01.svg";
 import word from "../../assets/icons/word-svgrepo-com 2.svg";
 import pdf from "../../assets/icons/pdf-file-svgrepo-com 2.svg"
 import soroosh from "../../assets/icons/soroosh.svg";
@@ -19,6 +12,7 @@ import rubika from "../../assets/icons/rubika.svg";
 export default function Document() {
   return (
     <div className="flex flex-col bg-white min-w-[1104px] mb-4 h-[724px] rounded-2xl mt-0 p-6">
+      <div className="overflow-y-auto scrollbar-webkit px-[10px]">
       <div className="flex flex-row justify-between">
         <div className="font-myYekanFaNumMedium text-sm text-text-500">
           شماره سند : ۱۲۳۴۵۶ باب چهارم فصل دوم{" "}
@@ -61,8 +55,9 @@ export default function Document() {
 
       <div className="font-myYekanFaNumRegular text-text-300 text-sm mb-4 leading-8">
         لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.
+        لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.
+        لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.
       </div>
-
 
       <div className="min-w-[1056px] border-t mt-6 pt-6 text-sm">
         <p className="font-myYekanMedium mb-4">نظرات و پیشنهادات</p>
@@ -91,7 +86,7 @@ export default function Document() {
           </div>
 
           <div className="flex flex-row items-center gap-2">
-            <img src={emoji} alt="" className="mt-4" />
+            <img src={star} alt="" className="mt-4" />
             <input
               type="range"
               className="w-full mt-4 accent-primary-500"
@@ -109,6 +104,8 @@ export default function Document() {
           }
         ></CustomButton>
       </div>
+      </div>
+
     </div>
   );
 }
