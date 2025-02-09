@@ -1,7 +1,7 @@
 import SideNavbar from "../../components/SideNavbar";
 import TopBar from "../../components/Topbar/TopBar";
-import Banner from "../../components/Banner";
 import Header from "../../components/Header";
+import BannerCarousel from "../../components/Banners/BannerCarousel";
 
 interface MainLayoutProps {
   mainComponents?: JSX.Element;
@@ -19,7 +19,7 @@ export default function MainLayout({ mainComponents}: MainLayoutProps) {
           {/* top Section */}
           <div className="flex-1">
             <Header></Header>
-            <Banner></Banner>
+            <BannerCarousel></BannerCarousel>
           </div>
 
           {mainComponents}
