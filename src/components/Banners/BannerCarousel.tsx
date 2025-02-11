@@ -1,9 +1,13 @@
 import { useState, useEffect } from "react";
 import BannerOne from "./BannerOne";
 import BannerTwo from "./BannerTwo";
+import BannerThree from "./BannerThree";
+import BannerFour from "./BannerFour";
+import BannerFive from "./BannerFive";
+import BannerNextButton from "./BannerNextButton";
+import BannerPreviousButton from "./BannerPreviousButton";
 
-
-const banners = [BannerOne, BannerTwo]; 
+const banners = [BannerOne, BannerTwo, BannerThree, BannerFour, BannerFive];
 
 const BannerCarousel = () => {
   const [current, setCurrent] = useState(0);
@@ -12,28 +16,35 @@ const BannerCarousel = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % totalSlides);
-    }, 3000); 
+    }, 3000);
     return () => clearInterval(interval);
   }, []);
 
-  const CurrentBanner = banners[current]; 
+  const CurrentBanner = banners[current];
 
   return (
     <div className="relative w-full overflow-hidden">
       <div className="relative">
-        <CurrentBanner /> 
+        <CurrentBanner />
       </div>
 
-      <div className="absolute z-30 flex -translate-x-1/2 bottom-1 left-1/2 space-x-2">
+      {/* Navigation Circles */}
+      <div className="absolute z-30 flex -translate-x-1/2 bottom-1 left-1/3 gap-1 bg-primary-200 px-2 mx-auto py-[2px] rounded-full w-[52px]">
         {banners.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrent(index)}
-            className={`w-3 h-3 rounded-full ${
-              index === current ? "bg-primary-800 w-2 h-2" : "bg-gray-400 w-2 h-2"
+            className={`w-1 h-1 rounded-full ${
+              index === current ? "bg-primary-800 w-2 h-2" : "bg-white w-2 h-2"
             }`}
           />
         ))}
+      </div>
+
+      {/* Previous and Next buttons */}
+      <div className="absolute font-myYekanMedium text-sm text-white left-5 bottom-2 flex flex-row gap-4">
+        <BannerPreviousButton setCurrent={setCurrent} current={current} totalSlides={totalSlides} />
+        <BannerNextButton setCurrent={setCurrent} current={current} totalSlides={totalSlides} />
       </div>
     </div>
   );

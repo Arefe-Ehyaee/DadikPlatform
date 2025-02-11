@@ -1,35 +1,66 @@
-import dadikHeader from "../../assets/images/newBack.png";
+import dadikHeader from "../../assets/icons/bannerMainImage.svg";
+import BannerNextButton from "./BannerNextButton";
+import BannerPreviousButton from "./BannerPreviousButton";
+import partOne from "../../assets/icons/bannerPart1.svg"
+import partTwo from "../../assets/icons/bannerPartTwo.svg"
+import bannerCircle from "../../assets/icons/bannerWhiteCircle.svg"
+import address from "../../assets/icons/webAddress.svg"
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import BannerTwo from "./BannerTwo";
+import BannerThree from "./BannerThree";
+import BannerFour from "./BannerFour";
+import BannerFive from "./BannerFive";
+
 
 export default function BannerOne() {
-
+  const navigate = useNavigate();
+  const [current, setCurrent] = useState(0);
+  const banners = [BannerOne, BannerTwo, BannerThree, BannerFour, BannerFive];
+  const totalSlides = banners.length;
   return (
-    <div className="relative flex justify-center">
-    <img
-      src={dadikHeader}
-      alt="dadikHeader"
-      className="w-full min-w-[1104px] h-[152px]"
-    />
-      <div className="absolute inset-0 flex flex-col text-primary-800 items-start">
-        <h1 className="text-xl font-myYekanDemibold mt-1 mr-[315px] lg-xl:mr-[640px]">
+    <div className="relative flex justify-center bg-primary-100 rounded-2xl min-w-[1104px] h-[154px]">
+      <div className="absolute bg-primary-500 min-w-[416px] h-[154px] right-0 
+  overflow-hidden rounded-r-2xl rounded-l-[77px] pl-[50px]">
+      </div>
+
+      <img src={partOne} alt="partOne" className="absolute right-[172px] bottom-[30px] z-10 h-[144px] w-[144px]" />
+      <img src={partTwo} alt="partOne" className="absolute right-[117px] bottom-4 z-10 h-[109px] w-[109px]" />
+      <img src={bannerCircle} alt="partOne" className="absolute right-[110px] top-10 z-10 h-8 w-8" />
+      <img src={bannerCircle} alt="partOne" className="absolute right-[290px] top-8 z-10 h-8 w-8" />
+      <img src={address} alt="partOne" className="absolute right-[170px] top-20 z-10 w-[209px] h-10" />
+
+
+      <div className="absolute inset-0 flex flex-col text-primary-800 items-start mr-[440px]">
+        <h1 className="text-xl font-myYekanDemibold mt-4 mb-3">
         طرح های متنوع اشتراک با توجه به نیاز شما
         </h1>
-        <div className="mr-[333px] lg-xl:mr-[640px] mb-5">
-          <p className="text-sm font-myYekanRegular mt-4 ">
+        <div className="mb-5">
+          <p className="text-sm font-myYekanRegular ">
           ویژه وکلا ، ویژه مدیران مالی ، ویژه مشاوران ، ویژه شرکت ها 
           </p>
           <p className="text-sm font-myYekanRegular mt-4">
           اشتراک به صورت ماهانه ، دوره ای ، سالانه
           </p>
-          <button className='w-[70px] h-6 bg-primary-500 font-myYekanRegular text-sm text-white rounded-[4px] mt-2 relative z-20'>خرید طرح</button>
+          <button className='w-[70px] h-6 bg-primary-500 font-myYekanRegular text-sm text-white rounded-[4px] mt-3 mb-[2px] relative z-20'>خرید طرح</button>
         </div>
 
 
       </div>
 
-      <div className='absolute font-myYekanMedium text-sm text-white inset-0 mr-[19px] mt-2'>
+      <div className='absolute font-myYekanRegular text-sm text-white inset-0 mr-[16px] mt-4'>
       سکوی حقوقی دادیک
       </div>
 
+      <div className="absolute font-myYekanMedium text-sm text-white left-5 bottom-2 flex flex-row gap-4">
+        <BannerNextButton setCurrent={setCurrent}
+          current={current}
+          totalSlides={totalSlides} />
+        <BannerPreviousButton setCurrent={setCurrent}
+          current={current}
+          totalSlides={totalSlides} />
+      </div>
+      
     {/* <div className="absolute inset-0 flex justify-between items-center px-4">
       <button className="w-12 h-12 rounded-full bg-white text-white flex items-center justify-center shadow-lg mr-12 ">
         <Moreright></Moreright>

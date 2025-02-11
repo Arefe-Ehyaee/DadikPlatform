@@ -23,6 +23,7 @@ import SearchEngine from "./Pages/SearchEngine/SearchEngine";
 import SecondaryLayout from "./Pages/Layouts/SecondaryLayout";
 import Document from "./Pages/Document/Document";
 import SearchGuide from "./components/SearchEngineComponents/SearchGuide";
+import MarketChart from "./components/chart";
 
 function App() {
   const queryClient = new QueryClient();
@@ -78,7 +79,7 @@ function App() {
               element={<CoursesPageComponent />}
             ></Route>
 
-            <Route path="/test" element={<NotifModal></NotifModal>}></Route>
+            <Route path="/test" element={<MarketChart/>}></Route>
             <Route path="/personProfile" element={<PersonProfile />}></Route>
             <Route path="/legalProfile" element={<LegalProfile />}></Route>
             <Route

@@ -8,7 +8,7 @@ interface MarketData {
     timestamp: number;
     date: string;
   };
-  harat_naghdi_sell: {
+  bahar: {
     value: string;
     change: number;
     timestamp: number;

@@ -245,7 +245,7 @@ export default function PersonProfile() {
                   size="large"
                   text={"ثبت تغییرات"}
                   className={
-                    "bg-primary-500 text-white text-base font-myYekanMedium w-[120px] h-10 py-[10px]"
+                    "bg-primary-500 text-white text-base font-myYekanMedium w-[120px] h-[40px] py-[10px]"
                   }
                 ></CustomButton>
               </div>
