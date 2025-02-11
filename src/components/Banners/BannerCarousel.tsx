@@ -35,7 +35,7 @@ const BannerCarousel = () => {
             key={index}
             onClick={() => setCurrent(index)}
             className={`w-1 h-1 rounded-full ${
-              index === current ? "bg-primary-800 w-2 h-2" : "bg-white w-2 h-2"
+              index === current ? "bg-primary-800 w-1 h-1" : "bg-white w-1 h-1"
             }`}
           />
         ))}
