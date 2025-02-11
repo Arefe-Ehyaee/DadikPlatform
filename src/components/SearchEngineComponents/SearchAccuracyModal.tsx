@@ -9,7 +9,7 @@ export default function SearchAccuracyModal({
   onClick,
 }: SearchAccuracyModalProps) {
   return (
-    <div className="flex flex-col bg-white w-[224px] rounded-lg h-[156px]">
+    <div className="flex flex-col bg-white w-[224px] rounded-lg h-[200px]">
       <div className="flex flex-row items-center border-b justify-between px-4">
         <p className="text-text-200 text-sm font-myYekanMedium py-[14px]">
           دقت جستجو
@@ -23,7 +23,7 @@ export default function SearchAccuracyModal({
         </button>
       </div>
       <div className="flex flex-row items-center w-[192px] h-10 rounded-lg mx-4 px-2 py-1 hover:bg-neutral-50 mt-2">
-        <input type="checkbox" id="exact"></input>
+        <input type="checkbox" className="accent-primary-500" id="exact"></input>
         <label
           htmlFor="exact"
           className="font-myYekanRegular text-text-500 text-sm mr-1"
@@ -32,13 +32,23 @@ export default function SearchAccuracyModal({
         </label>
       </div>
 
-      <div className="flex flex-row items-center w-[192px] h-10 rounded-lg mx-4 px-2 py-1 hover:bg-neutral-50 mb-4">
-        <input type="checkbox" id="similar"></input>
+      <div className="flex flex-row items-center w-[192px] h-10 rounded-lg mx-4 px-2 py-1 hover:bg-neutral-50 mt-1">
+        <input type="checkbox" className="accent-primary-500" id="similar"></input>
         <label
           htmlFor="similar"
           className="font-myYekanRegular text-text-500 text-sm mr-1"
         >
           مشابه عبارت
+        </label>
+      </div>
+
+      <div className="flex flex-row items-center w-[192px] h-10 rounded-lg mx-4 px-2 py-1 hover:bg-neutral-50 mb-4">
+        <input type="checkbox" className="accent-primary-500" id="meaning"></input>
+        <label
+          htmlFor="similar"
+          className="font-myYekanRegular text-text-500 text-sm mr-1"
+        >
+          فعال سازی معنی لغات
         </label>
       </div>
     </div>

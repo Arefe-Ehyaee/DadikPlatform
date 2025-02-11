@@ -8,8 +8,29 @@ import soroosh from "../../assets/icons/soroosh.svg";
 import eeta from "../../assets/icons/eeta.svg";
 import bale from "../../assets/icons/bale.svg";
 import rubika from "../../assets/icons/rubika.svg";
+import { useState } from "react";
 
 export default function Document() {
+
+  const [rating, setRating] = useState<number>(4);
+
+  const getRatingText = (rating: number) => {
+    switch (rating) {
+      case 0:
+        return "بد";
+      case 1:
+        return "متوسط";
+      case 2:
+        return "خوب";
+      case 3:
+        return "بسیار خوب";
+      case 4:
+        return "عالی";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div className="flex flex-col bg-white min-w-[1104px] mb-4 h-[724px] rounded-2xl mt-0 p-6">
       <div className="overflow-y-auto scrollbar-webkit px-[10px]">
@@ -81,7 +102,7 @@ export default function Document() {
               امتیاز شما
             </label>
             <p className="font-myYekanRegular text-text-200 text-sm">
-              بسیار خوب
+            {getRatingText(rating)}
             </p>
           </div>
 
@@ -93,6 +114,7 @@ export default function Document() {
               min="0"
               max="4"
               step="1"
+              onChange={(e) => setRating(Number(e.target.value))}
             />
           </div>
         </div>

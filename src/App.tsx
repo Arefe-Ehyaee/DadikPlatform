@@ -22,6 +22,7 @@ import LegalProfile from "./Pages/CompleteProfile/LegalProfile";
 import SearchEngine from "./Pages/SearchEngine/SearchEngine";
 import SecondaryLayout from "./Pages/Layouts/SecondaryLayout";
 import Document from "./Pages/Document/Document";
+import SearchGuide from "./components/SearchEngineComponents/SearchGuide";
 
 function App() {
   const queryClient = new QueryClient();
@@ -95,6 +96,16 @@ function App() {
               element={
                 <SecondaryLayout
                   mainComponents={<Document />}
+                  title={"جستجوی قوانین و مقررات"}
+                />
+              }
+            ></Route>
+
+            <Route
+              path="/searchGuide"
+              element={
+                <SecondaryLayout
+                  mainComponents={<SearchGuide />}
                   title={"جستجوی قوانین و مقررات"}
                 />
               }
