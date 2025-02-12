@@ -4,15 +4,14 @@ import CustomButton from "../../components/CustomButton";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InitialSignUpSchema } from "../../Schemas/InitialSignUpSchema";
-import { useInitialSignup } from "../../api/useAuth";
+import { useState, useEffect } from "react";
 
 interface SignUpData {
-  usernamePhone: string;
+  username: string;
   password: string;
 }
 
 const InitialSignUpMain = () => {
-
   const {
     register,
     handleSubmit,
@@ -21,29 +20,59 @@ const InitialSignUpMain = () => {
     resolver: zodResolver(InitialSignUpSchema),
   });
 
-  const { signUp, isPending, error } = useInitialSignup();
+  const [formData, setFormData] = useState<FormData | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!formData) return; 
+
+      try {
+        const response = await fetch("https://api.legaldadik.ir/api/user/register/", {
+          method: "POST",
+          body: formData, 
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to register");
+        }
+
+        const result = await response.json();
+        console.log("Success:", result);
+      } catch (err: any) {
+        setError(err.message);
+      }
+    };
+
+    fetchData();
+  }, [formData]);
 
   const onSubmit = (data: SignUpData) => {
-    signUp(data);
+    const formData = new FormData();
+    formData.append("username", data.username);
+    formData.append("password", data.password);
+
+    setFormData(formData);
+    console.log("FormData:", formData);
   };
 
   return (
-    <div className="">
+    <div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <Label name={"نام کاربری"} necessary={false}></Label>
+          <Label name={"نام کاربری"} necessary={false} />
           <Input
-            name={"usernamePhone"}
+            name={"username"}
             type={"text"}
             placeholder={"شماره تلفن همراه"}
             className={"border-neutral-100 w-[480px] h-[40px] leading-[18px]"}
             register={register}
-            error={errors.usernamePhone?.message}
-          ></Input>
+            error={errors.username?.message}
+          />
         </div>
 
         <div className="mt-8">
-          <Label name={"رمز عبور"} necessary={false}></Label>
+          <Label name={"رمز عبور"} necessary={false} />
           <Input
             name={"password"}
             type={"password"}
@@ -51,19 +80,19 @@ const InitialSignUpMain = () => {
             className={"border-neutral-100 w-[480px] h-[40px] leading-[18px]"}
             register={register}
             error={errors.password?.message}
-          ></Input>
+          />
         </div>
 
         <div className="mt-[76px] mb-[180px]">
           <CustomButton
             text={"ایجاد حساب کاربری"}
-            className={
-              "bg-primary-500 w-[480px] h-[40px] text-white font-myYekanDemibold"
-            }
+            className={"bg-primary-500 w-[480px] h-[40px] text-white font-myYekanDemibold"}
             type="submit"
-          ></CustomButton>
+          />
         </div>
       </form>
+
+      {error && <p className="text-red-500">{error}</p>}
     </div>
   );
 };

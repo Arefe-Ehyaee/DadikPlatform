@@ -98,23 +98,23 @@ export default function Plans({ planType }: PlansProps) {
           <h3 className="text-xs font-myYekanRegular text-black">{title}</h3>
         </div>
 
-        <div className="flex flex-col gap-2 mt-3">
+        <div className="flex flex-col gap-0 mt-2">
         
-          <p className="flex flex-row items-center gap-1 text-sm mt-1 text-text-300 my-[12px] max-h-[78px] text-wrap">
+          <p className="flex flex-row items-center gap-1 text-xs text-text-300 my-[12px] max-h-[78px] text-wrap">
             <Check></Check>
             ایجاد لایحه برای تمام سازمان ها
           </p>
 
-          <p className="flex flex-row items-center gap-1 text-sm mt-1 text-text-300 my-[12px] max-h-[78px] text-wrap">
+          <p className="flex flex-row items-center gap-1 text-xs text-text-300 my-[12px] max-h-[78px] text-wrap">
             <Check></Check>
             ایجاد لایحه برای تمام سازمان ها
           </p>
         </div>
 
-        <div className="flex justify-center mb-2">
+        <div className="flex justify-center mb-2 mt-[0px] lg-xl:mt-[33px]">
           <CustomButton
             text={"خرید طرح"}
-            className={"bg-primary-500 w-[110px] font-myYekanRegular text-sm"}
+            className={"bg-primary-500 w-[110px] h-[32px] font-myYekanRegular text-sm"}
             handleOnClick={handleButtonClick}
           ></CustomButton>
         </div>

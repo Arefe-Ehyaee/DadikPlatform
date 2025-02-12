@@ -2,38 +2,37 @@ import { create } from 'zustand';
 import defaultAvatar from "../assets/icons/defaultAvatar-rounded.svg";
 
 interface UserProfile {
-  firstName: string;
+  name: string;
   lastName: string;
   username: string;
   avatar: string;
   token: string;
-  subscription: {
-    plan:  "gold" | "silver" | "bronze" | "noPlan",
-    start_date: string | null,
-    end_date: string | null,
-    is_active: boolean
-},
+  subscription: Subscription | null; 
   searchCount: number;
-  billsNumber: number
+  billsNumber: number;
 }
+
+interface Subscription {
+  plan: "gold" | "silver" | "bronze";
+  start_date: string | null;
+  end_date: string | null;
+  is_active: boolean;
+}
+
 
 // "2025-01-20T18:52:07.569331Z"
 
 export const defaultUserProfile: UserProfile = {
   username: '',
   avatar: defaultAvatar,
-  firstName: 'نام',
+  name: 'نام',
   lastName: 'نام خانوادگی',
   token: '',
-  subscription: {
-        plan: "noPlan",
-        start_date: null,
-        end_date: null,
-        is_active: false
-    },
+  subscription: null, 
   searchCount: 0,
   billsNumber: 0
 };
+
 
 interface AuthState {
   user: UserProfile | null;

@@ -10,7 +10,7 @@ interface ShoppingModal {
   onClose: () => void;
 }
 
-type PlanType = "gold" | "silver" | "bronze";
+type PlanType = "gold" | "silver" | "bronze" ;
 
 const planDetails = {
   gold: {

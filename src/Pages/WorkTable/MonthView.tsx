@@ -4,7 +4,7 @@ import {isToday } from "../../utils/dateUtils";
 
 interface MonthViewProps {
   weeks: (Moment | null)[][];
-  renderTasks: (date: Moment, hour?: number) => React.ReactNode;
+  renderTasks: (deadline: Moment, hour?: number) => React.ReactNode;
   handleOpenModal: (date: Moment, hour?: number) => void;
 }
 

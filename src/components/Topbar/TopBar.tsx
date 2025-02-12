@@ -17,9 +17,8 @@ export default function TopBar() {
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
   const [isNotifOpen, setIsNotifOpen] = useState(false);
 
-
-  const firstName = useAuthStore((state) => state.user?.firstName || '');
-  const lastName = useAuthStore((state) => state.user?.lastName || '');
+  const firstName = useAuthStore((state) => state.user?.name || 'نام');
+  const lastName = useAuthStore((state) => state.user?.lastName || 'نام خانوادگی');
   const avatar = useAuthStore((state) => state.user?.avatar || defaultAvatarRound);
 
   const toggleNotif = () => {
@@ -47,7 +46,7 @@ export default function TopBar() {
             ></img>
 
             <span className="text-sm font-myYekanRegular text-text-500 leading-[18px]">
-            {`${firstName} و ${lastName}`}
+            {`${firstName} ${lastName}`}
             </span>
 
             {isProfileMenuOpen ? (

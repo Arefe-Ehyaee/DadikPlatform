@@ -23,11 +23,11 @@ export const usePassLogin = () => {
       // loading state or do side effects before the mutation runs
     },
     onSuccess: async (data) => { //data from mutationFn
-      setToken(data.token);
-      saveTokenToCookie(data.token);
+      setToken(data.access);
+      saveTokenToCookie(data.access);
 
       try {
-        const userData = await fetchUserProfile(data.token);
+        const userData = await fetchUserProfile(data.access);
         setUser(userData);
 
         toast.success('ورود موفق', {

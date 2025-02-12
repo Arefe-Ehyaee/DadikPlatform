@@ -7,7 +7,7 @@ import { api } from './Auth';
 const token = getTokenFromCookie();
 
 export const fetchTasks = async (): Promise<Task[]> => {
-  const response = await api.get<TaskResponse[]>("/api/tasks", {
+  const response = await api.get<TaskResponse[]>("https://api.legaldadik.ir/api/tasks/", {
     headers: {
       Authorization: `Bearer ${token}`, 
       'Content-Type': 'application/json'

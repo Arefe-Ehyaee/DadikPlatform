@@ -12,7 +12,7 @@ const prepareTaskForSubmission = (task: Task): TaskPost => ({
 export const submitTask = async (task: Task) => {
   const taskPost: TaskPost = prepareTaskForSubmission(task);
 
-  const response = await axios.post("/api/tasks", taskPost, {
+  const response = await axios.post("https://api.legaldadik.ir/api/tasks/", taskPost, {
     headers: {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",

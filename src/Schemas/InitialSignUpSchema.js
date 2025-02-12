@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const InitialSignUpSchema = z.object({
-    usernamePhone: z
+    username: z
       .string({ required_error: "نام کاربری (شماره همراه) را وارد کنید" })
       .min(1, { message: "شماره تلفن همراه را وارد کنید" }) 
       .regex(/^09\d{9}$/, {

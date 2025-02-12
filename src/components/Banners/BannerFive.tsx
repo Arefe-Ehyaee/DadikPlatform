@@ -17,7 +17,7 @@ export default function BannerFive() {
   const totalSlides = banners.length;
   return (
     <div className="relative flex justify-center bg-primary-100 rounded-2xl min-w-[1104px] h-[154px]">
-      <div className="absolute bg-primary-600 min-w-[416px] h-[154px] right-0 
+      <div className="absolute bg-gradient-to-l from-[#3F51B5] to-[#233087] min-w-[416px] h-[154px] right-0 
   overflow-hidden rounded-r-2xl rounded-l-[77px] pl-[50px]">
       </div>
 

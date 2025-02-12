@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 export const api = axios.create({
-  baseURL: 'http://127.0.0.1:8000',
+  baseURL: 'https://api.legaldadik.ir',
   // withCredentials: true,  
 });
 
@@ -14,11 +14,11 @@ export const Initialsignup = async (userData: { usernamePhone: string; password:
 };
 
 
-
 export const postLoginPassAPI = async (credentials: { username: string; password: string }) => {
   const response = await api.post('/api/token/', credentials);
   return response.data; // { token }
 };
+
 
 
 export const fetchUserProfile = async (token: string) => {

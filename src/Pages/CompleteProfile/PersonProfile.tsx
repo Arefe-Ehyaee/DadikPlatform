@@ -10,7 +10,6 @@ import { useRef, useState } from "react";
 import cloud from "../../assets/icons/cloud.svg";
 import trash from "../../assets/icons/trash-02.svg";
 import useAuthStore from "../../Stores/authStore";
-import defaultAvatar from "../../assets/icons/newIcons/defaultAvatr.png";
 import CustomButton from "../../components/CustomButton";
 import { useMutation } from "@tanstack/react-query";
 import { postPersonProfile } from "../../api/postPersonProfile";
@@ -32,7 +31,7 @@ interface PersonProfile {
 export default function PersonProfile() {
   const [selectedImage, setSelectedImage] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const avatar = useAuthStore((state) => state.user?.avatar || defaultAvatar);
+  const avatar = useAuthStore((state) => state.user?.avatar );
 
   const {
     register,
