@@ -12,7 +12,7 @@ import {
   convertJalaliToGregorian,
 } from "../../utils/dateUtils";
 import { chunkArray as chunk } from "../../utils/arrayUtils";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchTasks } from "../../api/fetchTasks";
 import { submitTask } from "../../api/postTask";
 import { Task } from "./CalendarTypes";
@@ -47,11 +47,13 @@ const TaskCalendar: React.FC = () => {
   // 24 hours (0..23)
   const hours = Array.from({ length: 24 }, (_, i) => i);
 
+  const queryClient = useQueryClient();
+  
   const mutation = useMutation({
     mutationFn: (task: Task) => submitTask(task),
     onSuccess: () => {
       console.log("Task submitted successfully");
-      refetchTasks(); // Refresh tasks after submission
+      queryClient.invalidateQueries({ queryKey: ["tasks"] }); // Refresh tasks after submission
       setIsModalOpen(false); // Close the modal
     },
     onError: (error) => {
@@ -81,17 +83,20 @@ const TaskCalendar: React.FC = () => {
   const monthCells: Array<Moment | null> = [...leadingCells, ...monthDays];
   const weeks = chunk(monthCells, 7);
 
-  // --- Retrieve tasks for a specific date (Jalali) ---
-  const tasksForDate = (date: Moment) =>
-    (tasks || []).filter((task) => task.date === date.format("jYYYY-jMM-jDD"));
-
-  // --- Render tasks in a cell ---
+  const tasksForDate = (date: Moment) => {
+    const formattedDate = date.format("jYYYY/jMM/jDD"); 
+    // console.log('Formatted Date:', formattedDate);
+    const filteredTasks = (tasks || []).filter((task) => task.date === formattedDate);
+    // console.log('Filtered Tasks:', filteredTasks);
+    return filteredTasks;
+  };
+  
   const renderTasks = (date: Moment, hour?: number) =>
     tasksForDate(date)
       .filter((task) => (hour !== undefined ? task.startHour === hour : true))
       .map((task) => <TaskItem key={task.id} task={task} />);
+  
 
-  // --- NAVIGATION (prev/next) ---
   const goToPrev = () => {
     if (view === "month") {
       setCurrentDate((prev) => prev.clone().subtract(1, "jMonth"));
@@ -173,22 +178,13 @@ const TaskCalendar: React.FC = () => {
     const jalaliDate = modalDate.format("jYYYY-jMM-jDD");
     const gregorianDate = convertJalaliToGregorian(jalaliDate);
 
+
     if (gregorianDate === "Invalid Date") {
       alert("تاریخ جلالی نامعتبر است. لطفا تاریخ را به درستی وارد کنید.");
       return;
     }
 
     const isoDateTime = generateISODateTime(modalDate, modalHour);
-
-    // const newTask: Task = {
-    //   id: tasks.length + 1,
-    //   title: modalTitle,
-    //   date: jalaliDate,
-    //   gregorianDate: gregorianDate,
-    //   startHour: modalHour,
-    //   // endHour: modalHour + 1,
-    //   isoDateTime: isoDateTime,
-    // };
 
     const newTask: Task = {
       id: 0,
@@ -197,12 +193,14 @@ const TaskCalendar: React.FC = () => {
       gregorianDate: gregorianDate,
       startHour: modalHour,
       isoDateTime: isoDateTime,
+      deadline: isoDateTime
     };
 
     // setTasks((prev) => [...prev, newTask]);
     handleCloseModal();
     // console.log("newTask", newTask);
     mutation.mutate(newTask);
+    console.log(tasks)
   };
 
   return (

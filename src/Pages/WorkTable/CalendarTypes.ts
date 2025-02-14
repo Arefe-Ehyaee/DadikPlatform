@@ -6,17 +6,18 @@ export interface Task {
     startHour?: number;
     // endHour?: number;
     isoDateTime: string; // ISO 8601 formatted date-time
+    deadline: string;
   }
   
   // Task structure for posting to the backend
   export interface TaskPost {
     title: string;
-    isoDateTime: string; // ISO 8601 formatted date-time
+    deadline: string; // ISO 8601 formatted date-time
   }
   
   // Task structure received from the backend
   export interface TaskResponse {
     id: string;
     title: string;
-    isoDateTime: string; // ISO 8601 formatted date-time
+    deadline: string; // ISO 8601 formatted date-time
   }

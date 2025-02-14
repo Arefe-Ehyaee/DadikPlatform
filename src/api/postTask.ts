@@ -6,7 +6,7 @@ const token = getTokenFromCookie();
 
 const prepareTaskForSubmission = (task: Task): TaskPost => ({
   title: task.title,
-  isoDateTime: task.isoDateTime,
+  deadline: task.isoDateTime,
 });
 
 export const submitTask = async (task: Task) => {

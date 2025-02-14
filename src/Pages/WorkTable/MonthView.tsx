@@ -15,7 +15,6 @@ const MonthView: React.FC<MonthViewProps> = ({
 }) => {
   return (
     <>
-      {/* Day-name row for month view (Saturday to Friday) */}
       <div className="grid grid-cols-7 gap-2 mb-2 text-center text-text-300 text-sm">
         <div>شنبه</div>
         <div>یکشنبه</div>
