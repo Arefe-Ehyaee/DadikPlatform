@@ -16,16 +16,16 @@ import { postPersonProfile } from "../../api/postPersonProfile";
 import { toast } from "react-toastify";
 
 interface PersonProfile {
-  name: string;
+  firstName: string;
+  lastName: string;
   nationalCode: string;
   job: string;
-  username: string;
-  password: string;
   phone: string;
   workAddress: string;
   workPhone: string;
   avatar: string;
   post: string;
+  education: string;
 }
 
 export default function PersonProfile() {
@@ -69,7 +69,7 @@ export default function PersonProfile() {
       <div className="flex flex-1">
         <SideNavbar></SideNavbar>
         <div className="flex flex-1 flex-col mr-[272px] px-8 bg-background-550 calc(100vh - 4rem) ">
-          {/* top Section */}
+
           <div className="flex-1">
             <UserInfoHeader></UserInfoHeader>
           </div>
@@ -124,14 +124,38 @@ export default function PersonProfile() {
               </div>
 
               <div className="mb-[30px]">
-                <Label name={"نام و نام خانوادگی"} necessary={true}></Label>
+                <Label name={"نام"} necessary={true}></Label>
                 <Input
-                  name={"name"}
+                  name={"firstName"}
                   type={"text"}
-                  placeholder={"نام و نام خانوادگی"}
+                  placeholder={"نام"}
                   className={"border-neutral-100 w-[536px] h-[48px]"}
                   register={register}
-                  error={errors.name?.message}
+                  error={errors.firstName?.message}
+                ></Input>
+              </div>
+
+              <div className="mb-[30px]">
+                <Label name={"نام خانوادگی"} necessary={true}></Label>
+                <Input
+                  name={"lastName"}
+                  type={"text"}
+                  placeholder={"نام خانوادگی"}
+                  className={"border-neutral-100 w-[536px] h-[48px]"}
+                  register={register}
+                  error={errors.lastName?.message}
+                ></Input>
+              </div>
+
+              <div className="mb-[30px]">
+                <Label name={"تحصیلات"} necessary={true}></Label>
+                <Input
+                  name={"education"}
+                  type={"text"}
+                  placeholder={""}
+                  className={"border-neutral-100 w-[536px] h-[48px]"}
+                  register={register}
+                  error={errors.education?.message}
                 ></Input>
               </div>
 
@@ -147,7 +171,7 @@ export default function PersonProfile() {
                 ></Input>
               </div>
 
-              <div className="mb-[30px]">
+              {/* <div className="mb-[30px]">
                 <Label name={"نام کاربری"} necessary={false}></Label>
                 <Input
                   name={"username"}
@@ -169,7 +193,7 @@ export default function PersonProfile() {
                   register={register}
                   error={errors.password?.message}
                 ></Input>
-              </div>
+              </div> */}
 
               <div className="mb-[30px]">
                 <Label name={"سمت"} necessary={false}></Label>

@@ -26,6 +26,7 @@
     "jalaali-js": "^1.2.7",
     "jalali-moment": "^3.3.11",
     "js-cookie": "^3.0.5",
+    "moment-timezone": "^0.5.47",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",

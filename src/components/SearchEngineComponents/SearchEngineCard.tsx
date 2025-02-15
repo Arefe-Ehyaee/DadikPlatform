@@ -4,6 +4,7 @@ import daadname from "../../assets/images/DaadName.png";
 import eblaghie from "../../assets/images/Eblaghie.png";
 import SearchEngineBadge from "./DepartmentBadge";
 import DocumnetBadge from "./DocumnetBadge";
+import { useNavigate } from "react-router-dom";
 
 interface SearchEngineCardProps {
   department: string;
@@ -17,8 +18,10 @@ interface SearchEngineCardProps {
 }
 
 export default function SearchEngineCard({ department, document, documentType, documentDate, startDate, endDate, title, documnetNumber }: SearchEngineCardProps) {
+  const navigate = useNavigate();
+
   return (
-    <button className="bg-background-550 min-w-[1056px] h-[122px] rounded-lg p-3 mb-4 flex flex-row items-center gap-3">
+    <button className="bg-background-550 min-w-[1056px] h-[122px] rounded-lg p-3 mb-4 flex flex-row items-center gap-3" onClick={() => navigate(`/documentDetail/${documentType}`)}>
 
       {documentType === "بخشنامه" && (
         <img src={bakhshName} alt="" className="w-[98px] h-[98px]" />

@@ -2,6 +2,7 @@ import SideNavbar from "../../components/SideNavbar";
 import TopBar from "../../components/Topbar/TopBar";
 import Header from "../../components/Header";
 import SecondaryHeader from "../../components/SecondaryHeader ";
+import { useParams } from "react-router-dom";
 
 interface SecondaryLayoutProps {
   mainComponents?: JSX.Element;
@@ -12,6 +13,9 @@ export default function SecondaryLayout({
   mainComponents,
   title,
 }: SecondaryLayoutProps) {
+
+  const { documentType } = useParams();
+
   return (
     <div className="min-h-screen flex flex-col overflow-hidden">
       <TopBar></TopBar>
@@ -23,7 +27,7 @@ export default function SecondaryLayout({
             <SecondaryHeader></SecondaryHeader>
           </div>
 
-          <p className="font-myYekanMedium text-base mb-4">{title}</p>
+          <p className="font-myYekanMedium text-base mb-4">{title} {documentType}</p>
 
           <div>{mainComponents}</div>
         </div>

@@ -14,9 +14,6 @@ import MainLayout from "./Pages/Layouts/MainLayout";
 import DashboardComponent from "./Pages/Dashboard/DashboardComponent";
 import WorkTableComponent from "./Pages/WorkTable/WorkTableComponent";
 import CoursesPageComponent from "./Pages/Courses/CoursesPageComponent";
-
-import NotifModal from "./components/Topbar/NotifModal";
-import ProtectedRoute from "./components/ProtectedRoute";
 import PersonProfile from "./Pages/CompleteProfile/PersonProfile";
 import LegalProfile from "./Pages/CompleteProfile/LegalProfile";
 import SearchEngine from "./Pages/SearchEngine/SearchEngine";
@@ -24,6 +21,9 @@ import SecondaryLayout from "./Pages/Layouts/SecondaryLayout";
 import Document from "./Pages/Document/Document";
 import SearchGuide from "./components/SearchEngineComponents/SearchGuide";
 import MarketChart from "./components/chart";
+import DocumentDetails from "./Pages/Document/DocumentDetail";
+
+
 
 function App() {
   const queryClient = new QueryClient();
@@ -79,7 +79,7 @@ function App() {
               element={<CoursesPageComponent />}
             ></Route>
 
-            <Route path="/test" element={<MarketChart/>}></Route>
+            <Route path="/test" element={<MarketChart />}></Route>
             <Route path="/personProfile" element={<PersonProfile />}></Route>
             <Route path="/legalProfile" element={<LegalProfile />}></Route>
             <Route
@@ -93,14 +93,9 @@ function App() {
             ></Route>
 
             <Route
-              path="/document"
-              element={
-                <SecondaryLayout
-                  mainComponents={<Document />}
-                  title={"جستجوی قوانین و مقررات"}
-                />
-              }
-            ></Route>
+              path="/documentDetail/:documentType"
+              element={<SecondaryLayout mainComponents={<DocumentDetails owner={"امیر حسن ثابتی مقدم مدیر کل سازمان امور مالیاتی"} />} title={""} />}
+            />
 
             <Route
               path="/searchGuide"

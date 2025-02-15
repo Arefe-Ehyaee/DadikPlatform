@@ -4,16 +4,16 @@ import { getTokenFromCookie } from "../utils/cookies";
 const token = getTokenFromCookie();
 
 export const postPersonProfile = async (personProfileData: {
-  name: string;
+  firstName: string;
+  lastName: string;
   nationalCode: string;
   job: string;
-  username: string;
-  password: string;
   phone: string;
   workAddress: string;
   workPhone: string;
   avatar: string;
   post: string;
+  education: string;
 }) => {
   const response = await axios.post("/api/personProfile", personProfileData, {
     headers: {

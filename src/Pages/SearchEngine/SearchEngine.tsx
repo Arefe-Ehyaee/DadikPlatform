@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import CustomButton from "../../components/CustomButton";
 import NextPageButton from "../../components/SearchEngineComponents/NextPageButton";
 import PreviousButton from "../../components/SearchEngineComponents/PreviousButton";
@@ -7,6 +8,9 @@ import SearchEngineCard from "../../components/SearchEngineComponents/SearchEngi
 const finds = 1440;
 
 export default function SearchEngine() {
+
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col bg-white min-w-[1104px] mb-4 h-[724px] rounded-2xl mt-0 p-6">
       <div className="flex flex-row">
@@ -50,7 +54,7 @@ export default function SearchEngine() {
 
       <div className="flex flex-row justify-between w-full">
         <div className="flex flex-grow justify-center gap-4">
-        <PreviousButton></PreviousButton>
+          <PreviousButton></PreviousButton>
           <NextPageButton text={"صفحه بعد"}></NextPageButton>
         </div>
 
