@@ -85,8 +85,8 @@ export const personProfileSchema = z.object({
 
   workPhone: z
   .string()
-  .regex(/^09\d{9}$/, {
-    message: "فرمت شماره تماس معتبر نیست. لطفاً شماره معتبر وارد کنید.",
+  .regex(/^(0\d{2})\d{8}$/, {
+    message: "فرمت شماره تلفن معتبر نیست. لطفاً شماره معتبر وارد کنید.",
   })
   .optional()
   .or(z.literal("")),

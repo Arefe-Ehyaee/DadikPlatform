@@ -6,9 +6,9 @@ interface RelatedItemProps{
 
 export default function RelatedItem({text}: RelatedItemProps) {
     return(
-        <div className="flex flex-row gap-2 items-center bg-background-550 py-2 px-4">
+        <button className="flex flex-row gap-2 items-center bg-background-550 py-2 px-4 rounded-b-lg border-t">
             <img src={item} alt="" />
             <p className="text-sm text-text-500 font-myYekanRegular text-clip line-clamp-2">{text}</p>
-        </div>
+        </button>
     )
 }

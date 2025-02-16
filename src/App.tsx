@@ -18,7 +18,6 @@ import PersonProfile from "./Pages/CompleteProfile/PersonProfile";
 import LegalProfile from "./Pages/CompleteProfile/LegalProfile";
 import SearchEngine from "./Pages/SearchEngine/SearchEngine";
 import SecondaryLayout from "./Pages/Layouts/SecondaryLayout";
-import Document from "./Pages/Document/Document";
 import SearchGuide from "./components/SearchEngineComponents/SearchGuide";
 import MarketChart from "./components/chart";
 import DocumentDetails from "./Pages/Document/DocumentDetail";
@@ -94,7 +93,7 @@ function App() {
 
             <Route
               path="/documentDetail/:documentType"
-              element={<SecondaryLayout mainComponents={<DocumentDetails owner={"امیر حسن ثابتی مقدم مدیر کل سازمان امور مالیاتی"} />} title={""} />}
+              element={<SecondaryLayout mainComponents={<DocumentDetails owner={"امیر حسن ثابتی مقدم"} ownerPost={"مدیر کل سازمان امور مالیاتی"}/>} title={""} />}
             />
 
             <Route

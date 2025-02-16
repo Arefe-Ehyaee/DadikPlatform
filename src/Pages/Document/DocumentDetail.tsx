@@ -8,13 +8,18 @@ import pdf from "../../assets/icons/pdf-file-svgrepo-com 2.svg"
 import share from "../../assets/icons/share.svg"
 import RelatedDocuments from "./RelatedDocuments";
 import link from "../../assets/icons/link.svg";
+import { useLocation } from "react-router-dom";
+import DocumentStateBadge from "../../components/SearchEngineComponents/DocumentStateBadge";
 
 interface DocumentDetailsProps {
     owner: string;
+    ownerPost: string;
 }
 
-export default function DocumentDetails({ owner }: DocumentDetailsProps) {
+export default function DocumentDetails({ owner, ownerPost}: DocumentDetailsProps) {
     const [rating, setRating] = useState<number>(4);
+    const location = useLocation();
+    const { documentDate, startDate, endDate, documnetNumber, title } = location.state || {};
 
     const getRatingText = (rating: number) => {
         switch (rating) {
@@ -39,7 +44,7 @@ export default function DocumentDetails({ owner }: DocumentDetailsProps) {
 
                 <div className="flex flex-row items-center justify-between bg-white mb-6">
                     <div className="font-myYekanFaNumMedium text-sm text-text-500 min-w-[682px] bg-white">
-                        قوانین و مقررات مالیاتی-باب 1-فصل 2-ماده 35-تبصره 1
+                        {title}
                     </div>
                     <div className="flex flex-row gap-[15px] min-w-[350px] justify-end">
                         <button>
@@ -70,8 +75,15 @@ export default function DocumentDetails({ owner }: DocumentDetailsProps) {
                         </div> */}
 
                         <div className="flex flex-row justify-between font-myYekanFaNumRegular text-sm text-text-300">
-                            <p>شماره سند:123456</p>
-                            <p>تاریخ سند ۱۴۰۳/۱/۱۶</p>
+                            <div className="flex flex-row gap-6">
+                            <p>شماره سند: {documnetNumber}</p>
+                            <p>تاریخ سند: {documentDate}</p>
+                            </div>
+
+                            <div className="flex flex-row gap-6">
+                            <p>تاریخ شروع اجرا: {startDate}</p>
+                            <p>تاریخ پایان اجرا: {endDate}</p>
+                            </div>
                         </div>
 
                         <div className="flex flex-row gap-4 mt-6 mb-4">
@@ -91,14 +103,52 @@ export default function DocumentDetails({ owner }: DocumentDetailsProps) {
                             ></CustomButton>
                         </div>
 
-                        <div className="border-b-[1px] border-neutral-100 pb-6 font-myYekanFaNumRegular text-text-300 text-sm mb-4 leading-8 text-justify">
+                        <div className="font-myYekanFaNumRegular text-text-300 text-sm mb-4 leading-8 text-justify">
                             لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.
                             لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.
                             لورم ایپسوم یا طرح‌نما (به انگلیسی: Lorem ipsum) به متنی آزمایشی و بی‌معنی در صنعت چاپ، صفحه‌آرایی و طراحی گرافیک گفته می‌شود. طراح گرافیک از این متن به عنوان عنصری از ترکیب بندی برای پر کردن صفحه و ارایه اولیه شکل ظاهری و کلی طرح سفارش گرفته شده استفاده می نماید، تا از نظر گرافیکی نشانگر چگونگی نوع و اندازه فونت و ظاهر متن باشد. معمولا طراحان گرافیک برای صفحه‌آرایی، نخست از متن‌های آزمایشی و بی‌معنی استفاده می‌کنند تا صرفا به مشتری یا صاحب کار خود نشان دهند که صفحه طراحی یا صفحه بندی شده بعد از اینکه متن در آن قرار گیرد چگونه به نظر می‌رسد و قلم‌ها و اندازه‌بندی‌ها چگونه در نظر گرفته شده‌است. از آنجایی که طراحان عموما نویسنده متن نیستند و وظیفه رعایت حق تکثیر متون را ندارند و در همان حال کار آنها به نوعی وابسته به متن می‌باشد آنها با استفاده از محتویات ساختگی، صفحه گرافیکی خود را صفحه‌آرایی می‌کنند تا مرحله طراحی و صفحه‌بندی را به پایان برند.
 
-                            <div className="font-myYekanFaNumRegular text-text-300 text-left text-sm">{owner}</div>
+                            <div className="flex flex-col gap-2 font-myYekanFaNumRegular text-left text-sm my-6">
+                                <p>{owner}</p>
+                                <p>{ownerPost}</p>
+                            </div>
 
+                            <div className="flex flex-row flex-wrap items-center gap-2 py-[26px] border-t-[1px] border-neutral-100 font-myYekanRegular text-sm text-text-500">
+                                مرجع وضع : 
+                                <DepartmentBadge department={"قوه قضاییه"}></DepartmentBadge>
+                                <DepartmentBadge department={"قوه قضاییه"}></DepartmentBadge>
+                                <DepartmentBadge department={"قوه قضاییه"}></DepartmentBadge>
+                                <DepartmentBadge department={"قوه قضاییه"}></DepartmentBadge>
+                                <DepartmentBadge department={"سازمان امور مالیاتی"}></DepartmentBadge>
+                                <DepartmentBadge department={"سازمان امور مالیاتی"}></DepartmentBadge>
+                                <DepartmentBadge department={"سازمان امور مالیاتی"}></DepartmentBadge>
+                                <DepartmentBadge department={"سازمان امور مالیاتی"}></DepartmentBadge>
+                                <DepartmentBadge department={"سازمان امور مالیاتی"}></DepartmentBadge>
+                                <DepartmentBadge department={"سازمان امور مالیاتی"}></DepartmentBadge>
+                                <DepartmentBadge department={"سازمان امور مالیاتی"}></DepartmentBadge>
+                                <DepartmentBadge department={"سازمان امور مالیاتی"}></DepartmentBadge>
+                                <DepartmentBadge department={"سازمان امور مالیاتی"}></DepartmentBadge>
+                                <DepartmentBadge department={"قوه قضاییه"}></DepartmentBadge>
+                                <DepartmentBadge department={"قوه قضاییه"}></DepartmentBadge>
+                                <DepartmentBadge department={"قوه قضاییه"}></DepartmentBadge>
+                                <DepartmentBadge department={"قوه قضاییه"}></DepartmentBadge>
+                                <DepartmentBadge department={"قوه قضاییه"}></DepartmentBadge>
+
+                            </div>
+
+                            <div className="flex flex-row flex-wrap items-center gap-2 py-[26px] border-t-[1px] border-neutral-100 font-myYekanRegular text-sm text-text-500">
+                                وضعیت سند : 
+                                <DocumentStateBadge state={"معتبر"}></DocumentStateBadge>
+                                <DocumentStateBadge state={"منسوخ شده"}></DocumentStateBadge>
+                                <DocumentStateBadge state={"حذف شده"}></DocumentStateBadge>
+
+                            </div>
+
+                            <div className="py-[26px] border-y-[1px] border-neutral-100 font-myYekanRegular text-sm text-text-500">
+                                مواردی که روی سند اثر گذاشته
+                            </div>
                         </div>
+
 
                         <div>
                             <p className="font-myYekanMedium mb-4">نظرات و پیشنهادات</p>
@@ -108,7 +158,7 @@ export default function DocumentDetails({ owner }: DocumentDetailsProps) {
                             </label>
                             <textarea
                                 id="message"
-                                className="block w-[682px] h-[112px] p-2.5 text-sm text-text-100 rounded-lg border border-neutral-100"
+                                className="block w-full h-[112px] p-2.5 text-sm text-text-100 rounded-lg border border-neutral-100"
                                 placeholder="نظر خود را بنویسید"
                             ></textarea>
 

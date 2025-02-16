@@ -4,7 +4,7 @@ import RelatedItem from "./RelatedItem"
 export default function RelatedDocuments() {
     return (
         <div className="w-[350px]">
-            <div className="flex flex-row gap-2 pr-4 items-center h-[56px] bg-primary-50 rounded-t-2xl py-3 ">
+            <div className="flex flex-row gap-2 pr-4 items-center h-[56px] bg-secondary-50 rounded-t-2xl py-3 ">
                 <img src={docs} alt="relatedDocs" className="w-8 h-8" />
 
                 <p className="text-sm font-myYekanMedium text-text-500">

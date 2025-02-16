@@ -2,8 +2,6 @@ import bakhshName from "../../assets/images/BakhshName.png";
 import tabsare from "../../assets/images/Tabsare.png";
 import daadname from "../../assets/images/DaadName.png";
 import eblaghie from "../../assets/images/Eblaghie.png";
-import SearchEngineBadge from "./DepartmentBadge";
-import DocumnetBadge from "./DocumnetBadge";
 import { useNavigate } from "react-router-dom";
 
 interface SearchEngineCardProps {
@@ -17,11 +15,18 @@ interface SearchEngineCardProps {
   documnetNumber: string;
 }
 
-export default function SearchEngineCard({ department, document, documentType, documentDate, startDate, endDate, title, documnetNumber }: SearchEngineCardProps) {
+
+export default function SearchEngineCard({ department, document, documentType, documentDate, title, documnetNumber }: SearchEngineCardProps) {
   const navigate = useNavigate();
 
+  const handleCardClick = () => {
+    navigate(`/documentDetail/${documentType}`, {
+      state: { documentDate, documnetNumber, title },
+    });
+  };
+
   return (
-    <button className="bg-background-550 min-w-[1056px] h-[122px] rounded-lg p-3 mb-4 flex flex-row items-center gap-3" onClick={() => navigate(`/documentDetail/${documentType}`)}>
+    <button className="bg-background-550 min-w-[1056px] h-[122px] rounded-lg p-3 mb-4 flex flex-row items-center gap-3" onClick={handleCardClick}>
 
       {documentType === "بخشنامه" && (
         <img src={bakhshName} alt="" className="w-[98px] h-[98px]" />
@@ -47,12 +52,12 @@ export default function SearchEngineCard({ department, document, documentType, d
               {title}
             </div>
           </div>
-          <div className="flex flex-row items-center gap-3">
+          {/* <div className="flex flex-row items-center gap-3">
             <p className="text-text-300 font-myYekanFaNumRegular text-sm">{`شماره سند: ${documnetNumber}`}</p>
             <p className="text-text-300 font-myYekanFaNumRegular text-sm">{`تاریخ سند: ${documentDate}`}</p>
-          </div>
+          </div> */}
         </div>
-        <div className="text-text-500 text-right font-myYekanRegular text-sm min-w-[924px] leading-6 mt-1 text-clip line-clamp-2">
+        <div className="text-text-500 text-justify font-myYekanRegular text-sm min-w-[924px] leading-6 mt-1 text-clip line-clamp-2">
           رأی شماره ۲۵۸۷۴۱۰هیأت عمومی دیوان عدالت اداری با موضوع: بطلان اطلاق
           بند ۷ بخشنامه شماره ۱۳۵۳۰ مورخ ۱۳۸۴/۷/۲۷ سازمان امور مالیاتی کشور راجع
           به فصل مالیات بر درآمد املاک قانون مالیات های مستقیم و بند ۲ رأی هیأت
@@ -64,10 +69,8 @@ export default function SearchEngineCard({ department, document, documentType, d
           املاکی که به صورت زمین
         </div>
         <div className="flex flex-row gap-6 mt-2">
-          <div className="text-text-300 text-right text-sm font-myYekanFaNumRegular">
-            {`تاریخ شروع اجرا: ${startDate}`}
-          </div>
-          <div className="text-text-300 text-right text-sm font-myYekanFaNumRegular">{`تاریخ پایان اجرا: ${endDate}`}</div>
+        <p className="text-text-300 font-myYekanFaNumRegular text-sm">{`شماره سند: ${documnetNumber}`}</p>
+        <p className="text-text-300 font-myYekanFaNumRegular text-sm">{`تاریخ سند: ${documentDate}`}</p>
         </div>
 
       </div>
