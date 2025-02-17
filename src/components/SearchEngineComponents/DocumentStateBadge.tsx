@@ -7,7 +7,7 @@ interface DocumentStateBadgeProps{
       case "معتبر":
         return "bg-success-200 text-success-800";
       case "حذف شده":
-        return "bg-error-300 text-red-400";
+        return "bg-error-300 text-red-500";
       case "منسوخ شده":
         return "bg-warning-200 text-warning-500";
       default:
@@ -19,7 +19,7 @@ interface DocumentStateBadgeProps{
   export default function DocumentStateBadge({state}:DocumentStateBadgeProps) {
   
     return (
-        <div className={`${getBgColor(state)} text-text-500 font-myYekanRegular text-sm rounded px-[7px] py-[2px]`}>
+        <div className={`${getBgColor(state)} font-myYekanRegular text-sm rounded px-[7px] py-[2px]`}>
         {state}
       </div>
     )

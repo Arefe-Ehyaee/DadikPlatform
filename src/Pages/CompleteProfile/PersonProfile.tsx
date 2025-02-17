@@ -23,7 +23,7 @@ interface PersonProfile {
   phone: string;
   workAddress: string;
   workPhone: string;
-  avatar: string;
+  profilePicture: string;
   post: string;
   education: string;
 }
@@ -31,7 +31,7 @@ interface PersonProfile {
 export default function PersonProfile() {
   const [selectedImage, setSelectedImage] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const avatar = useAuthStore((state) => state.user?.avatar );
+  const profilePicture = useAuthStore((state) => state.user?.avatar );
 
   const {
     register,
@@ -82,7 +82,7 @@ export default function PersonProfile() {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-4 flex flex-row items-center">
                 <img
-                  src={selectedImage || avatar}
+                  src={selectedImage || profilePicture}
                   alt="profile image edit/upload"
                   className="h-[72px] w-[72px] rounded-full border-[1px] border-neutral-100"
                 />
@@ -91,7 +91,7 @@ export default function PersonProfile() {
                   type="file"
                   id="avatar"
                   className="hidden"
-                  {...register("avatar", {
+                  {...register("profilePicture", {
                     onChange: (e) => {
                       const file = e.target.files?.[0];
                       if (file) {
@@ -99,7 +99,7 @@ export default function PersonProfile() {
                       }
                     },
                   })}
-                  ref={fileInputRef} // Attach the ref here
+                  ref={fileInputRef} 
                 />
 
                 <button

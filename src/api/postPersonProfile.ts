@@ -12,7 +12,7 @@ export const postPersonProfile = async (personProfileData: {
   phone: string;
   workAddress: string;
   workPhone: string;
-  avatar: string;
+  profilePicture: string;
   post: string;
   education: string;
 }) => {
@@ -24,3 +24,5 @@ export const postPersonProfile = async (personProfileData: {
   });
   return response.data;
 };
+
+

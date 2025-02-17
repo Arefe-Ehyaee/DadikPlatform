@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import CustomButton from "../../components/CustomButton";
 import NextPageButton from "../../components/SearchEngineComponents/NextPageButton";
 import PreviousButton from "../../components/SearchEngineComponents/PreviousButton";
@@ -9,7 +8,6 @@ const finds = 1440;
 
 export default function SearchEngine() {
 
-  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col bg-white min-w-[1104px] mb-4 h-[724px] rounded-2xl mt-0 p-6">
@@ -18,7 +16,7 @@ export default function SearchEngine() {
         <CustomButton
           text={"جستجو پیشرفته"}
           className={
-            "border border-primary-500 text-primary-500 text-base font-myYekanMedium min-w-[128px] h-[48px] mr-3"
+            "border border-primary-500 text-primary-500 text-base font-myYekanMedium min-w-[128px] h-[48px] mr-3 px-[2px]"
           }
         ></CustomButton>
       </div>
@@ -27,11 +25,10 @@ export default function SearchEngine() {
         <p className="my-4 font-myYekanRegular text-base text-text-500">
           نمایش نتایج برای اداره مالیات
         </p>
-
         <p className="text-text-200 font-myYekanFaNumRegular text-sm">{`تعداد نتایج یافت شده ${finds}`}</p>
       </div>
 
-      <div className="overflow-y-auto scrollbar-webkit mb-4 pl-[10px]">
+      <div className="overflow-y-auto overflow-x-hidden scrollbar-webkit mb-4 pl-[10px]">
         <SearchEngineCard
           department={"سازمان امور مالیات"}
           document={"تفسیر"} documentType={"ابلاغیه"} documentDate={"۱۴۰۳/۱/۱۶"} startDate={"۱۴۰۳/۱/۱۶"} endDate={"۱۴۰۳/۱/۱۶"} title={"قوانین و مقررات مالیاتی-باب 1-فصل 2-ماده 35-تبصره 1"} documnetNumber={"123456"}        ></SearchEngineCard>

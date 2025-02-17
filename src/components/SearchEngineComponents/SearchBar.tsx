@@ -5,6 +5,7 @@ import SearchAccuracyModal from "./SearchAccuracyModal";
 import SearchAccuracyModalTemplate from "./SearchAccuracyModalTemplate";
 import SearchSelectDepartment from "./SearchSelectDepartmentModal";
 import SearchDepartmentModalTemplate from "./SearchDepartmentModalTemplate";
+import { ReactComponent as SearchIcon } from '../../assets/icons/searchEngine.svg';
 
 export default function SearchBar() {
   const [isAccuracyModalOpen, setIsAccuracyModalOpen] = useState(false);
@@ -19,14 +20,15 @@ export default function SearchBar() {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <form>
-        <div className="relative min-w-[916px]">
+        <div className="relative w-full">
           <button
             type="button"
             className="absolute bg-primary-500 w-14 h-12 rounded-l-lg left-0 top-1/2 transform -translate-y-1/2"
           >
-            <img src={search} alt="search" className="my-3 mx-auto" />
+            <SearchIcon className="my-3 mx-auto text-white"></SearchIcon>
+
           </button>
 
           <button
@@ -57,7 +59,7 @@ export default function SearchBar() {
             )}
 
             {isSelectDepartmentModalOpen && (
-              <div className="absolute top-0 -right-16">
+              <div className="absolute top-0 -left-8">
                 <SearchDepartmentModalTemplate showModal={true} onClose={() => SetSelectDepartmentModalOpen(false)}>
                   <SearchSelectDepartment onClick={toggledepartmentModal} />
                 </SearchDepartmentModalTemplate>
@@ -66,7 +68,7 @@ export default function SearchBar() {
           </div>
 
           <input
-            className="min-w-[916px] h-12 border rounded-lg pr-[296px]"
+            className="w-full h-12 border rounded-lg pr-[296px]"
             placeholder="جستجو"
           />
         </div>

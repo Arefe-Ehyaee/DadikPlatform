@@ -43,21 +43,17 @@ export default function DashboardComponent() {
 
   return (
     <div>
-      {/* AI Chat Modal */}
       <AIChatModaltemplate showModal={showChatModal} onClose={closeChatModal}>
         <AIChatModal onClick={closeChatModal} />
       </AIChatModaltemplate>
 
-      {/* Online Support Chat Modal */}
       <OnlineChatModaltemplate showModal={showOnlineChatModal} onClose={closeOnlineChatModal}>
         <WebSocketProvider>
           <OnlineChatModal onClick={closeOnlineChatModal} />
         </WebSocketProvider>
       </OnlineChatModaltemplate>
 
-      {/* Dashboard Content */}
       <div className="flex-1">
-        {/* Navigation Tabs */}
         <div className="flex flex-row bg-white w-[248px] h-12 rounded-lg p-1 mt-4">
           <NavLink
             to="/dashboard"
@@ -88,14 +84,12 @@ export default function DashboardComponent() {
           </NavLink>
         </div>
 
-        {/* Main Content Layout */}
         <div className="flex flex-row justify-between gap-4 pt-4 pb-8 lg-xl:pb-2">
-          {/* Left Column */}
           <div className="w-4/12 flex flex-col gap-4">
             <UserInfoCard
               name={`${firstName}${firstName && lastName ? " " : ""}${lastName}`}
               avatar={avatar}
-              subscription={subscription} // Pass full subscription object
+              subscription={subscription} 
               billsNumber={billsNumber}
               numberOfSearch={searchCount}
             />
@@ -104,7 +98,6 @@ export default function DashboardComponent() {
             <ConsultCard onClick={() => setShowOnlineChatModal(true)} />
           </div>
 
-          {/* Right Column */}
           <div className="w-8/12 flex flex-col gap-4">
             <PlansCard />
             <div className="flex flex-row gap-4">

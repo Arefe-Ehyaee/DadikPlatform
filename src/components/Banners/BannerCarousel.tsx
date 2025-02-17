@@ -28,8 +28,7 @@ const BannerCarousel = () => {
         <CurrentBanner />
       </div>
 
-      {/* Navigation Circles */}
-      <div className="absolute z-30 flex -translate-x-1/2 bottom-1 left-1/3 gap-1 bg-primary-200 px-2 mx-auto py-[2px] rounded-full w-[52px]">
+      {/* <div className="absolute z-30 flex -translate-x-1/2 bottom-1 left-1/3 gap-1 bg-primary-200 px-2 mx-auto py-[2px] rounded-full w-[52px]">
         {banners.map((_, index) => (
           <button
             key={index}
@@ -39,7 +38,7 @@ const BannerCarousel = () => {
             }`}
           />
         ))}
-      </div>
+      </div> */}
 
       {/* Previous and Next buttons */}
       <div className="absolute font-myYekanMedium text-sm text-white left-5 bottom-2 flex flex-row gap-4">

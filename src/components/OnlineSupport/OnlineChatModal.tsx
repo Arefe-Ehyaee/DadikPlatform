@@ -167,7 +167,7 @@ export default function OnlineChatModal({ onClick }: OnlineChatModalProps) {
         <p className="text-text-400 text-sm font-myYekanRegular mb-4">
           حوزه سوال خود را انتخاب کنید
         </p>
-        <div className="flex flex-row gap-8">
+        <div className="flex flex-row gap-5">
           <ChatDepartmentButton
             text="کار و رفاه اجتماعی"
             departmentlogo={tax}

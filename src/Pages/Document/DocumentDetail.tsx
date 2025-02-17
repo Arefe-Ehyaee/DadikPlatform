@@ -55,9 +55,9 @@ export default function DocumentDetails({ owner, ownerPost}: DocumentDetailsProp
                             <img src={word} alt="" />
                         </button>
 
-                        <button>
+                        {/* <button>
                             <img src={link} alt="" />
-                        </button>
+                        </button> */}
 
                         <button>
                             <img src={printIcon} alt="" />
