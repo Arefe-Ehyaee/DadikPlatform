@@ -16,22 +16,23 @@ import { postPersonProfile } from "../../api/postPersonProfile";
 import { toast } from "react-toastify";
 
 interface PersonProfile {
-  firstName: string;
+  name: string;
   lastName: string;
   nationalCode: string;
   job: string;
   phone: string;
   workAddress: string;
   workPhone: string;
-  profilePicture: string;
+  profilePicture: File;
   post: string;
   education: string;
 }
 
 export default function PersonProfile() {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [selectedImage, setSelectedImage] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const profilePicture = useAuthStore((state) => state.user?.avatar );
+  const profilePicture = useAuthStore((state) => state.user?.avatar);
 
   const {
     register,
@@ -44,7 +45,7 @@ export default function PersonProfile() {
   const { mutate, isPending } = useMutation({
     mutationFn: postPersonProfile,
     onSuccess: (data) => {
-      toast.success("تغییرات با موفقیت ثبت شد")
+      toast.success("تغییرات با موفقیت ثبت شد");
     },
     onError: (error) => {
       toast.error("خطایی رخ داده است.");
@@ -52,7 +53,19 @@ export default function PersonProfile() {
   });
 
   const onSubmit = async (data: PersonProfile) => {
-    mutate(data);
+    const formData = new FormData();
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (key !== "profilePicture") {
+        formData.append(key, value);
+      }
+    });
+
+    if (selectedFile) {
+      formData.append("profilePicture", selectedFile, selectedFile.name);
+    }
+
+    mutate(formData);
   };
 
   const handleDeleteImage = () => {
@@ -69,7 +82,6 @@ export default function PersonProfile() {
       <div className="flex flex-1">
         <SideNavbar></SideNavbar>
         <div className="flex flex-1 flex-col mr-[272px] px-8 bg-background-550 calc(100vh - 4rem) ">
-
           <div className="flex-1">
             <UserInfoHeader></UserInfoHeader>
           </div>
@@ -91,15 +103,15 @@ export default function PersonProfile() {
                   type="file"
                   id="avatar"
                   className="hidden"
-                  {...register("profilePicture", {
-                    onChange: (e) => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        setSelectedImage(URL.createObjectURL(file));
-                      }
-                    },
-                  })}
-                  ref={fileInputRef} 
+                  {...register("profilePicture")}
+                  ref={fileInputRef}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setSelectedImage(URL.createObjectURL(file)); 
+                      setSelectedFile(file);
+                    }
+                  }}
                 />
 
                 <button
@@ -126,12 +138,12 @@ export default function PersonProfile() {
               <div className="mb-[30px]">
                 <Label name={"نام"} necessary={true}></Label>
                 <Input
-                  name={"firstName"}
+                  name={"name"}
                   type={"text"}
                   placeholder={"نام"}
                   className={"border-neutral-100 w-[536px] h-[48px]"}
                   register={register}
-                  error={errors.firstName?.message}
+                  error={errors.name?.message}
                 ></Input>
               </div>
 

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const personProfileSchema = z.object({
-  firstName: z
+  name: z
   .string({ required_error: "نام را وارد کنید" })
   .nonempty("نام الزامی است")
   .regex(/^[آ-ی\s]+$/, {
