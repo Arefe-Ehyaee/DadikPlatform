@@ -5,7 +5,7 @@ import maliat from "../../assets/icons/maliat.svg"
 import refah from "../../assets/icons/refah.svg"
 import ghoveGhazaee from "../../assets/icons/ghoveGhazaee.svg"
 import education from "../../assets/icons/education.svg"
-import test from "../../assets/icons/logoTemplate.png"
+import test from "../../assets/icons/departmentLogoDefault.svg"
 import { ReactComponent as SearchIcon } from '../../assets/icons/searchEngine.svg';
 import { useState } from "react";
 
@@ -13,8 +13,6 @@ interface SearchSelectDepartmentProps {
     onClick?: () => void;
     onSelect?: (department: string) => void;
 }
-
-
 
 export default function SearchSelectDepartmentModal({ onClick, onSelect }: SearchSelectDepartmentProps) {
 
