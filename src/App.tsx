@@ -21,6 +21,7 @@ import SecondaryLayout from "./Pages/Layouts/SecondaryLayout";
 import SearchGuide from "./components/SearchEngineComponents/SearchGuide";
 import MarketChart from "./components/chart";
 import DocumentDetails from "./Pages/Document/DocumentDetail";
+import SearchResult from "./components/SearchEngineComponents/SearchResult";
 
 
 
@@ -78,7 +79,7 @@ function App() {
               element={<CoursesPageComponent />}
             ></Route>
 
-            <Route path="/test" element={<MarketChart />}></Route>
+            {/* <Route path="/test" element={<SearchResult text={"رأی شماره ۲۵۸۷۴۱۰هیأت عمومی دیوان عدالت اداری با موضوع: بطلان اطلاق بند ۷ بخشنامه شماره ۱۳۵۳۰ مورخ ۱۳۸۴/۷/۲۷ سازمان امور مالیاتی کشور راجع به فصل مالیات بر درآمد املاک قانون مالیات های مستقیم و بند ۲ رأی هیأت عمومی شورای عالی مالیاتی به شماره ۱۱۸۱۸/۴/۳۰ مورخ ۱۳۷۶/۱۱/۱۹ در مورد املاکی که به صورت زمین "} />}></Route> */}
             <Route path="/personProfile" element={<PersonProfile />}></Route>
             <Route path="/legalProfile" element={<LegalProfile />}></Route>
             <Route

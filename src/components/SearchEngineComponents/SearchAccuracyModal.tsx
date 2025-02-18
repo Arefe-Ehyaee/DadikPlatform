@@ -6,7 +6,7 @@ interface SearchAccuracyModalProps {
 }
 
 export default function SearchAccuracyModal({
-  onClick,
+  onClick, 
 }: SearchAccuracyModalProps) {
   return (
     <div className="flex flex-col bg-white w-[224px] rounded-lg h-[200px]">

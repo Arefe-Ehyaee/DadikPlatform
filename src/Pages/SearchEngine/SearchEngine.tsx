@@ -8,7 +8,6 @@ const finds = 1440;
 
 export default function SearchEngine() {
 
-
   return (
     <div className="flex flex-col bg-white min-w-[1104px] mb-4 h-[724px] rounded-2xl mt-0 p-6">
       <div className="flex flex-row">
