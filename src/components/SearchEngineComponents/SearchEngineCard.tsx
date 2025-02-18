@@ -48,7 +48,7 @@ export default function SearchEngineCard({ department, document, documentType, d
       <div className="flex flex-col">
         <div className="flex flex-row justify-between">
           <div className="flex flex-row items-center gap-3">
-            <div className="text-text-500 font-myYekanFaNumMedium text-sm">
+            <div className="text-text-500 font-myYekanFaNumMedium text-sm text-right text-clip line-clamp-1">
               {title}
             </div>
           </div>

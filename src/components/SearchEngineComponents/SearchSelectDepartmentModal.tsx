@@ -16,13 +16,11 @@ interface SearchSelectDepartmentProps {
 
 export default function SearchSelectDepartmentModal({ onClick, onSelect }: SearchSelectDepartmentProps) {
 
-    // const [selectedDepartment, setSelectedDepartment] = useState("");
+    const [selectedDepartment, setSelectedDepartment] = useState("");
 
     const handleDepartmentSelect = (department: string) => {
-        // console.log("department", department);
-        // alert(department);
-        // setSelectedDepartment(department);
-      };
+        onSelect && onSelect(department); 
+    };
 
       
     return (
@@ -56,9 +54,10 @@ export default function SearchSelectDepartmentModal({ onClick, onSelect }: Searc
 
             <div className="flex flex-col gap-1 mt-2 pb-2 h-[256px] px-1">
                 <div className="overflow-y-auto overflow-x-hidden scrollbar-webkit">
-                    <DepartmentItem title={"وزارت تعاون"} logo={taavon} onSelect={handleDepartmentSelect}></DepartmentItem>
                     <DepartmentItem title={"سازمان امور مالیاتی"} logo={maliat} onSelect={handleDepartmentSelect}></DepartmentItem>
+                    <DepartmentItem title={"سازمان تامین اجتماعی"} logo={test} onSelect={handleDepartmentSelect}></DepartmentItem>
                     <DepartmentItem title={"سازمان تعاون و رفاه اجتماعی"} logo={refah} onSelect={handleDepartmentSelect}></DepartmentItem>
+                    <DepartmentItem title={"وزارت تعاون"} logo={taavon} onSelect={handleDepartmentSelect}></DepartmentItem>
                     <DepartmentItem title={"قوه قضايیه"} logo={ghoveGhazaee} onSelect={handleDepartmentSelect}></DepartmentItem>
                     <DepartmentItem title={"وزارت آموزش و پروش"} logo={education} onSelect={handleDepartmentSelect}></DepartmentItem>
                     <DepartmentItem title={"دبیر خانه شورای عالی مناطق آزاد تجاری - صنعتی و ویژه اقتصادی"} logo={test} onSelect={handleDepartmentSelect}></DepartmentItem>

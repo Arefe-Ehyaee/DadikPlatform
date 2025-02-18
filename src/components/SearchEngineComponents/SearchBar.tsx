@@ -11,8 +11,31 @@ import { useQuery } from "@tanstack/react-query";
 import { FetchSearchEngineSuggestion } from "../../api/FetchSearchEngineSuggestion";
 import { getTokenFromCookie } from "../../utils/cookies";
 import SearchDelete from "../../assets/icons/searchCross.svg"
+import { FetchSearchResults } from "../../api/FetchSearchResults";
 
-export default function SearchBar() {
+export interface SearchResult {
+  _index: string;                // Index of the document, e.g., "tamin_ejtemaei"
+  _id: string;                   // Document ID, e.g., "uWZkGJUBLTB8PVUSpIi7"
+  _score: number;                // Relevance score, e.g., 5.5988836
+  _source: {
+    Organization: string;        // Organization, e.g., "تامین اجتماعی"
+    Title: string;               // Title of the document, e.g., "مدارک و مستندات لازم جهت صدور اعلامیه تهاتر بدهی حق بیمه"
+    TitleNumber: string;         // Title number, e.g., "2000/93/2587"
+    TitleDate: string;           // Title date, e.g., "1393/6/23"
+    Subject: string;             // Subject of the document, e.g., "مدارک و مستندات لازم جهت صدور اعلامیه تهاتر بدهی حق بیمه"
+    ApprovalAuthority: string;   // Approval authority, e.g., "معاونت برنامه ریزی، مالی و پشتیبانی"
+    AttachmentLink: string | null;  // Link to the attachment, e.g., "https://www.tamin.ir/circularsapi/item/435"
+    AttachmentFile: string;      // Attachment file name, e.g., "file_478"
+    AttachmentText: string;      // Text content of the attachment
+  };
+}
+
+
+interface SearchBarProps {
+  onSearchResults: (results: SearchResult[]) => void; // Typing the onSearchResults prop
+}
+
+export default function SearchBar({onSearchResults }: SearchBarProps) {
   const [isAccuracyModalOpen, setIsAccuracyModalOpen] = useState(false);
   const [isSelectDepartmentModalOpen, SetSelectDepartmentModalOpen] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
@@ -32,24 +55,44 @@ export default function SearchBar() {
     return FetchSearchEngineSuggestion(token, searchEngineInput) ?? [];
   };
 
+  const handleSelectDepartment = (department: string) => {
+    setSelectedDepartment(department);  
+};
+
+// const handleSelectAccuracy = (accuracy: string) => {
+//   setSelectedAccuracy(accuracy);  
+// };
   const {
-    //suggestion
+    //results
     data: searchEngineData,
     isError: searchEngineDataIsError,
     isFetching: searchEngineDataIsFetching,
     refetch: searchEngineRefetch,
   } = useQuery({
     queryKey: ["searchEngineSuggestion", searchEngineInput],
-    queryFn: fetchSuggestions,
-    enabled: searchEngineInput.length >= 2,
+    queryFn: async() => {
+      if (!searchTerm || searchTerm.length < 2 || !selectedDepartment) return [];
+      if (selectedDepartment === "سازمان امور مالیاتی") return FetchSearchResults(token, "maliat", searchTerm);
+      if (selectedDepartment === "سازمان تامین اجتماعی") return FetchSearchResults(token, "tamin_ejtemaei", searchTerm);
+      else return FetchSearchResults(token, selectedDepartment, searchTerm);
+    },
+    enabled: !!searchTerm && searchTerm.length >= 2 && !!selectedDepartment,
     staleTime: 5000,
   });
 
   useEffect(() => {
-    if (searchEngineData && searchEngineData.length > 0) {
-      setShowDropDown(true);
+    if (searchTerm.length >= 2 && selectedDepartment) {
+      searchEngineRefetch();
     }
-  }, [searchEngineData]);
+  }, [searchTerm, selectedDepartment]);
+  
+
+  useEffect(() => {
+    if (searchEngineData && searchEngineData.length > 0) {
+      onSearchResults(searchEngineData);
+    }
+  }, [searchEngineData, onSearchResults]);
+
 
   const toggleAccuracyModal = () => {
     setIsAccuracyModalOpen((prev) => !prev);
@@ -70,23 +113,18 @@ export default function SearchBar() {
     }
   };
 
-  const handleSearchResult = async () => {
-    if (!searchTerm.trim()) return; // Prevent empty searches
-    alert(selectedDepartment);
-    try {
-      const response = await api.post("/search", {
-        query: searchTerm,
-        department: selectedDepartment,
-      });
-      console.log("Search Results:", response.data);
-    } catch (error) {
-      console.error("Search failed:", error);
+  const handleSearchResult = () => {
+    console.log("Search button clicked!");
+    console.log("Search Term:", searchTerm);
+    console.log("Selected Department:", selectedDepartment);
+  
+    if (!searchTerm.trim() || !selectedDepartment) {
+      console.log("Search prevented due to missing values");
+      return;
     }
+    searchEngineRefetch();
   };
-
-  // const handleSearchResult = () => {
-  //   setIsModalVisible(true);
-  // };
+  
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -141,7 +179,7 @@ export default function SearchBar() {
             {isAccuracyModalOpen && (
               <div className="absolute top-0 -right-16">
                 <SearchAccuracyModalTemplate showModal={true} onClose={() => setIsAccuracyModalOpen(false)}>
-                  <SearchAccuracyModal onClick={toggleAccuracyModal} />
+                  <SearchAccuracyModal onClick={toggleAccuracyModal}/>
                 </SearchAccuracyModalTemplate>
               </div>
             )}
@@ -149,7 +187,7 @@ export default function SearchBar() {
             {isSelectDepartmentModalOpen && (
               <div className="absolute top-0 right-[calc(100%+8px)]">
                 <SearchDepartmentModalTemplate showModal={true} onClose={() => SetSelectDepartmentModalOpen(false)}>
-                  <SearchSelectDepartment onClick={toggleDepartmentModal} onSelect={setSelectedDepartment} />
+                  <SearchSelectDepartment onClick={toggleDepartmentModal} onSelect={handleSelectDepartment} />
                 </SearchDepartmentModalTemplate>
               </div>
             )}

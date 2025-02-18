@@ -8,7 +8,7 @@ export default function SearchGuide() {
     return (
         <div className="flex flex-col bg-white min-w-[1104px] mb-4 h-[724px] rounded-2xl mt-0 p-6">
             <div className="flex flex-row">
-                <SearchBar></SearchBar>
+                {/* <SearchBar></SearchBar> */}
                 <CustomButton
                     text={"جستجو پیشرفته"}
                     className={

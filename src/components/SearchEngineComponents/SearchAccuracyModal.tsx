@@ -22,6 +22,7 @@ export default function SearchAccuracyModal({
           />
         </button>
       </div>
+      
       <div className="flex flex-row items-center w-[192px] h-10 rounded-lg mx-4 px-2 py-1 hover:bg-neutral-50 mt-2">
         <input type="checkbox" className="accent-primary-500" id="exact"></input>
         <label
