@@ -6,6 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { InitialSignUpSchema } from "../../Schemas/InitialSignUpSchema";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { fetchUserProfile } from "../../api/Auth";
+import { saveTokenToCookie } from "../../utils/cookies";
+import useAuthStore from "../../Stores/authStore";
 
 interface SignUpData {
   username: string;
@@ -21,45 +24,42 @@ const InitialSignUpMain = () => {
     resolver: zodResolver(InitialSignUpSchema),
   });
 
-  const [formData, setFormData] = useState<FormData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const setUser = useAuthStore((state) => state.setUser);
+  const setToken = useAuthStore((state) => state.setToken);
   const navigate = useNavigate();
 
-
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!formData) return; 
-
-      try {
-        const response = await fetch("https://api.legaldadik.ir/api/user/register/", {
-          method: "POST",
-          body: formData, 
-        });
-
-        if (!response.ok) {
-          throw new Error("Failed to register");
-        }
-
-        const result = await response.json();
-        // console.log("Success:", result);
-        navigate("/dashboard");
-        
-      } catch (err: any) {
-        setError(err.message);
-      }
-    };
-
-    fetchData();
-  }, [formData]);
-
-  const onSubmit = (data: SignUpData) => {
+  const onSubmit = async (data: SignUpData) => {
     const formData = new FormData();
     formData.append("username", data.username);
     formData.append("password", data.password);
-
-    setFormData(formData);
-    // console.log("FormData:", formData);
+  
+    try {
+      const response = await fetch("https://api.legaldadik.ir/api/user/register/", {
+        method: "POST",
+        body: formData,
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to register");
+      }
+  
+      const result = await response.json(); 
+      const token = result.tokens.access; 
+      console.log("register token", result.tokens.access)
+      const userData = await fetchUserProfile(token);
+      
+      setUser(userData);
+      setToken(token);
+      saveTokenToCookie(token);
+  
+      navigate("/dashboard");
+  
+    } catch (err: any) {
+      setError(err.message);
+    }
   };
+  
 
   return (
     <div>

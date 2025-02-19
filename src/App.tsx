@@ -26,6 +26,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 
 
+
 function App() {
   const queryClient = new QueryClient();
   return (
@@ -67,10 +68,10 @@ function App() {
               path="/setNewPassword"
               element={<SetNewPassword></SetNewPassword>}
             ></Route>
-            <Route
+            {/* <Route
               path="/dashboard"
               element={<MainLayout mainComponents={<DashboardComponent />} />}
-            />
+            /> */}
             <Route
               path="/worktable"
               element={<MainLayout mainComponents={<WorkTableComponent />} />}
@@ -108,16 +109,16 @@ function App() {
               }
             ></Route>
 
-            {/* <Route element={<ProtectedRoute />}>
+             <Route element={<ProtectedRoute />}>
               <Route
                 path="/dashboard"
                 element={<MainLayout mainComponents={<DashboardComponent />} />}
               />
-              <Route
+              {/* <Route
                 path="/worktable"
                 element={<MainLayout mainComponents={<WorkTableComponent />} />}
-              />
-            </Route> */}
+              /> */}
+            </Route> 
           </Routes>
         </BrowserRouter>
         <ToastContainer />

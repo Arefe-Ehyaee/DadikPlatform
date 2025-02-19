@@ -47,12 +47,10 @@ interface AuthState {
 
 const useAuthStore = create<AuthState>((set, get) => ({
   user: defaultUserProfile,
-  get isAuthenticated() {
-    return !!get().token;
-  },
+  isAuthenticated: false,
   token: null,
   setUser: (user) => set({ user }),
-  setToken: (token) => set({ token }),
+  setToken: (token) => set({ token, isAuthenticated: !!token }),
   clearUser: () => set({ user: null, token: null, isAuthenticated: false }),
   login: (user, token) => set({ user, token, isAuthenticated: true }),
   logout: () => set({ user: null, token: null,  isAuthenticated: false }),

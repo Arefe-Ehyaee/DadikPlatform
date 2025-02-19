@@ -29,7 +29,7 @@ export const usePassLogin = () => {
       try {
         const userData = await fetchUserProfile(data.access);
         setUser(userData);
-
+        // console.log("data.access", data.access)
         toast.success('ورود موفق', {
           className: 'toast',
           progressClassName: 'fancy-progress-bar',
@@ -67,11 +67,11 @@ export function useInitialSignup() {
       // a loading state 
     },
     onSuccess: async (data) => {
-      setToken(data.token);
-      saveTokenToCookie(data.token);
+      setToken(data.access);
+      saveTokenToCookie(data.access);
 
       try {
-        const userData = await fetchUserProfile(data.token);
+        const userData = await fetchUserProfile(data.access);
         setUser(userData); 
 
         toast.success('ثبت نام موفق', {
