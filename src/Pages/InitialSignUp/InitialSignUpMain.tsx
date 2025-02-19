@@ -41,7 +41,7 @@ const InitialSignUpMain = () => {
         }
 
         const result = await response.json();
-        console.log("Success:", result);
+        // console.log("Success:", result);
         navigate("/dashboard");
         
       } catch (err: any) {
@@ -58,7 +58,7 @@ const InitialSignUpMain = () => {
     formData.append("password", data.password);
 
     setFormData(formData);
-    console.log("FormData:", formData);
+    // console.log("FormData:", formData);
   };
 
   return (

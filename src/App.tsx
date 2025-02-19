@@ -22,6 +22,7 @@ import SearchGuide from "./components/SearchEngineComponents/SearchGuide";
 import MarketChart from "./components/chart";
 import DocumentDetails from "./Pages/Document/DocumentDetail";
 import SearchResult from "./components/SearchEngineComponents/SearchResult";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 

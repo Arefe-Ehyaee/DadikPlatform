@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import useAuthStore from '../Stores/authStore';
 import { getTokenFromCookie } from '../utils/cookies';
 import { fetchUserProfile } from '../api/Auth';
@@ -8,6 +8,8 @@ const ProtectedRoute = () => {
   const { user, setUser, setToken, clearUser, isAuthenticated } = useAuthStore();
   const token = getTokenFromCookie();
   const [isVerifying, setIsVerifying] = useState(false);
+  console.log("Retrieved token:", getTokenFromCookie());
+  const navigate = useNavigate();
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -19,7 +21,9 @@ const ProtectedRoute = () => {
           setToken(token);
         } catch (error) {
           console.error('Token verification failed', error);
-          clearUser();
+          // clearUser();
+          console.warn('Token invalid, redirect to login.');
+          navigate("/loginWithPassword"); 
         } finally {
           setIsVerifying(false);
         }
@@ -27,6 +31,8 @@ const ProtectedRoute = () => {
     };
     verifyUser();
   }, [user, token, setUser, setToken, clearUser]);
+
+  console.log("Auth Status:", isAuthenticated);
 
   if (isVerifying) {
     return <div>در حال انتقال به داشبورد ...</div>; // Loading UI

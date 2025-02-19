@@ -45,9 +45,11 @@ interface AuthState {
   clearUser: () => void;
 }
 
-const useAuthStore = create<AuthState>((set) => ({
+const useAuthStore = create<AuthState>((set, get) => ({
   user: defaultUserProfile,
-  isAuthenticated: false,
+  get isAuthenticated() {
+    return !!get().token;
+  },
   token: null,
   setUser: (user) => set({ user }),
   setToken: (token) => set({ token }),

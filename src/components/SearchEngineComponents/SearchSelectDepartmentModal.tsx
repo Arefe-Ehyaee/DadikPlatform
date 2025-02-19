@@ -62,6 +62,19 @@ export default function SearchSelectDepartmentModal({ onClick, onSelect }: Searc
                     <DepartmentItem title={"وزارت تعاون"} logo={taavon} onSelect={handleDepartmentSelect}></DepartmentItem>
                     <DepartmentItem title={"قوه قضايیه"} logo={ghoveGhazaee} onSelect={handleDepartmentSelect}></DepartmentItem>
                     <DepartmentItem title={"وزارت آموزش و پروش"} logo={education} onSelect={handleDepartmentSelect}></DepartmentItem>
+                    <DepartmentItem title={"مجلس شورای اسلامی"} logo={test} onSelect={handleDepartmentSelect}></DepartmentItem>
+                    <DepartmentItem title={"شورای نگهبان"} logo={test} onSelect={handleDepartmentSelect}></DepartmentItem>
+                    <DepartmentItem title={"ستاد ملی جمعیت"} logo={test} onSelect={handleDepartmentSelect}></DepartmentItem>
+                    <DepartmentItem title={"وزارت اقتصاد و امور دارایی"} logo={test} onSelect={handleDepartmentSelect}></DepartmentItem>
+                    <DepartmentItem title={"گمرک جمهوری اسلامی ایران"} logo={test} onSelect={handleDepartmentSelect}></DepartmentItem>
+                    <DepartmentItem title={"سازمان بورس و اوراق بهادار"} logo={test} onSelect={handleDepartmentSelect}></DepartmentItem>
+                    <DepartmentItem title={"خزانه داری کل کشور"} logo={test} onSelect={handleDepartmentSelect}></DepartmentItem>            
+                    <DepartmentItem title={"سازمان خصوصی سازی"} logo={test} onSelect={handleDepartmentSelect}></DepartmentItem>            
+                    <DepartmentItem title={"شورای عالی بیمه"} logo={test} onSelect={handleDepartmentSelect}></DepartmentItem>            
+                    <DepartmentItem title={"وزارت اطلاعات"} logo={test} onSelect={handleDepartmentSelect}></DepartmentItem>             
+                    <DepartmentItem title={"شورای عالی مسکن"} logo={test} onSelect={handleDepartmentSelect}></DepartmentItem>            
+                    <DepartmentItem title={"وزارت علوم تحقیقات و فناوری"} logo={test} onSelect={handleDepartmentSelect}></DepartmentItem>            
+                    <DepartmentItem title={"سازمان ثبت احوال کشور"} logo={test} onSelect={handleDepartmentSelect}></DepartmentItem>            
                     <DepartmentItem title={"دبیر خانه شورای عالی مناطق آزاد تجاری - صنعتی و ویژه اقتصادی"} logo={test} onSelect={handleDepartmentSelect}></DepartmentItem>
                 </div>
             </div>
