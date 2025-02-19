@@ -9,36 +9,37 @@ const finds = 1440;
 
 
 export interface source {
-  Organization: string; // Represents the organization like "تامین اجتماعی"
-  Title: string; // Represents the title of the document
-  TitleNumber: string | null; // Can be null in some cases
-  TitleDate: string | null; // Can be null in some cases
-  Subject: string; // Represents the subject of the document
-  ApprovalAuthority: string; // Represents the approval authority information
-  AttachmentLink: string | null; // Represents an optional link to the attachment
-  AttachmentFile: string; // The file associated with the attachment
-  AttachmentText: string; // The text of the attachment
+  Organization: string; 
+  Title: string; 
+  TitleNumber: string | null;
+  TitleDate: string | null; 
+  Subject: string;
+  ApprovalAuthority: string; 
+  AttachmentLink: string | null; 
+  AttachmentFile: string; 
+  AttachmentText: string; 
 }
 export interface SearchResult {
-  _index: string;                // Index of the document, e.g., "tamin_ejtemaei"
-  _id: string;                   // Document ID, e.g., "uWZkGJUBLTB8PVUSpIi7"
-  _score: number;                // Relevance score, e.g., 5.5988836
+  _index: string;               
+  _id: string;                  
+  _score: number;               
   _source: {
-    Organization: string;        // Organization, e.g., "تامین اجتماعی"
-    Title: string;               // Title of the document, e.g., "مدارک و مستندات لازم جهت صدور اعلامیه تهاتر بدهی حق بیمه"
-    TitleNumber: string;         // Title number, e.g., "2000/93/2587"
-    TitleDate: string;           // Title date, e.g., "1393/6/23"
-    Subject: string;             // Subject of the document, e.g., "مدارک و مستندات لازم جهت صدور اعلامیه تهاتر بدهی حق بیمه"
-    ApprovalAuthority: string;   // Approval authority, e.g., "معاونت برنامه ریزی، مالی و پشتیبانی"
-    AttachmentLink: string | null;  // Link to the attachment, e.g., "https://www.tamin.ir/circularsapi/item/435"
-    AttachmentFile: string;      // Attachment file name, e.g., "file_478"
-    AttachmentText: string;      // Text content of the attachment
+    Organization: string;       
+    Title: string;              
+    TitleNumber: string;         
+    TitleDate: string;         
+    Subject: string;            
+    ApprovalAuthority: string;  
+    AttachmentLink: string | null; 
+    AttachmentFile: string;     
+    AttachmentText: string;   
   };
 }
 
 
 export default function SearchEngine() {
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [ SearchedTerm, setSearchedTerm] = useState<string>("");
 
   const handleSearchResults = (results: SearchResult[]) => {
     console.log(results[2]?._source.Subject);
@@ -50,7 +51,7 @@ export default function SearchEngine() {
   return (
     <div className="flex flex-col bg-white min-w-[1104px] mb-4 h-[724px] rounded-2xl mt-0 p-6">
       <div className="flex flex-row">
-        <SearchBar onSearchResults={handleSearchResults}></SearchBar>
+        <SearchBar onSearchResults={handleSearchResults} setSearchedTerm={setSearchedTerm}></SearchBar>
         <CustomButton
           text={"جستجو پیشرفته"}
           className={
@@ -61,7 +62,7 @@ export default function SearchEngine() {
 
       <div className="flex flex-row justify-between items-center">
         <p className="my-4 font-myYekanRegular text-base text-text-500">
-          نمایش نتایج
+          نمایش نتایج {SearchedTerm}
         </p>
         {/* <p className="text-text-200 font-myYekanFaNumRegular text-sm">{`تعداد نتایج یافت شده ${finds}`}</p> */}
       </div>

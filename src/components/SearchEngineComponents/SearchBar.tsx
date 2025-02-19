@@ -14,28 +14,29 @@ import SearchDelete from "../../assets/icons/searchCross.svg"
 import { FetchSearchResults } from "../../api/FetchSearchResults";
 
 export interface SearchResult {
-  _index: string;                // Index of the document, e.g., "tamin_ejtemaei"
-  _id: string;                   // Document ID, e.g., "uWZkGJUBLTB8PVUSpIi7"
-  _score: number;                // Relevance score, e.g., 5.5988836
+  _index: string;                
+  _id: string;                 
+  _score: number;           
   _source: {
-    Organization: string;        // Organization, e.g., "تامین اجتماعی"
-    Title: string;               // Title of the document, e.g., "مدارک و مستندات لازم جهت صدور اعلامیه تهاتر بدهی حق بیمه"
-    TitleNumber: string;         // Title number, e.g., "2000/93/2587"
-    TitleDate: string;           // Title date, e.g., "1393/6/23"
-    Subject: string;             // Subject of the document, e.g., "مدارک و مستندات لازم جهت صدور اعلامیه تهاتر بدهی حق بیمه"
-    ApprovalAuthority: string;   // Approval authority, e.g., "معاونت برنامه ریزی، مالی و پشتیبانی"
-    AttachmentLink: string | null;  // Link to the attachment, e.g., "https://www.tamin.ir/circularsapi/item/435"
-    AttachmentFile: string;      // Attachment file name, e.g., "file_478"
-    AttachmentText: string;      // Text content of the attachment
+    Organization: string;    
+    Title: string;          
+    TitleNumber: string;        
+    TitleDate: string;           
+    Subject: string;           
+    ApprovalAuthority: string;   
+    AttachmentLink: string | null;  
+    AttachmentFile: string;    
+    AttachmentText: string;    
   };
 }
 
 
 interface SearchBarProps {
-  onSearchResults: (results: SearchResult[]) => void; // Typing the onSearchResults prop
+  onSearchResults: (results: SearchResult[]) => void; 
+  setSearchedTerm : (term: string) => void;
 }
 
-export default function SearchBar({onSearchResults }: SearchBarProps) {
+export default function SearchBar({onSearchResults, setSearchedTerm }: SearchBarProps) {
   const [isAccuracyModalOpen, setIsAccuracyModalOpen] = useState(false);
   const [isSelectDepartmentModalOpen, SetSelectDepartmentModalOpen] = useState(false);
   const [showDropDown, setShowDropDown] = useState(false);
@@ -45,7 +46,8 @@ export default function SearchBar({onSearchResults }: SearchBarProps) {
   const [selectedAccuracy, setSelectedAccuracy] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(null);
   const [searchEngineInput, setSearchEngineInput] = useState<string>("");
-
+  const [fuzzy, setFuzzy] = useState<boolean>(true); 
+  
   const token = getTokenFromCookie();
 
   const fetchSuggestions = async () => {
@@ -72,19 +74,19 @@ export default function SearchBar({onSearchResults }: SearchBarProps) {
     queryKey: ["searchEngineSuggestion", searchEngineInput],
     queryFn: async() => {
       if (!searchTerm || searchTerm.length < 2 || !selectedDepartment) return [];
-      if (selectedDepartment === "سازمان امور مالیاتی") return FetchSearchResults(token, "maliat", searchTerm);
-      if (selectedDepartment === "سازمان تامین اجتماعی") return FetchSearchResults(token, "tamin_ejtemaei", searchTerm);
-      else return FetchSearchResults(token, selectedDepartment, searchTerm);
+      if (selectedDepartment === "سازمان امور مالیاتی") return FetchSearchResults(token, "maliat", searchTerm, fuzzy);
+      if (selectedDepartment === "سازمان تامین اجتماعی") return FetchSearchResults(token, "tamin_ejtemaei", searchTerm, fuzzy);
+      else return FetchSearchResults(token, selectedDepartment, searchTerm, fuzzy);
     },
-    enabled: !!searchTerm && searchTerm.length >= 2 && !!selectedDepartment,
+    enabled: !!searchTerm && !!selectedDepartment,
     staleTime: 5000,
   });
 
-  useEffect(() => {
-    if (searchTerm.length >= 2 && selectedDepartment) {
-      searchEngineRefetch();
-    }
-  }, [searchTerm, selectedDepartment]);
+  // useEffect(() => {
+  //   if (searchTerm.length >= 2 && selectedDepartment) {
+  //     searchEngineRefetch();
+  //   }
+  // }, [searchTerm, selectedDepartment]);
   
 
   useEffect(() => {
@@ -114,16 +116,26 @@ export default function SearchBar({onSearchResults }: SearchBarProps) {
   };
 
   const handleSearchResult = () => {
-    console.log("Search button clicked!");
-    console.log("Search Term:", searchTerm);
-    console.log("Selected Department:", selectedDepartment);
+    // console.log("Search button clicked!");
+    // console.log("Search Term:", searchTerm);
+    // console.log("Selected Department:", selectedDepartment);
   
     if (!searchTerm.trim() || !selectedDepartment) {
-      console.log("Search prevented due to missing values");
+      // console.log("Search prevented due to missing values");
       return;
     }
+    setSearchedTerm(searchTerm);
     searchEngineRefetch();
   };
+
+  
+  const handleSelectAccuracy = (accuracy: string) => {
+    if(accuracy==="مطابق عبارت"){
+      setFuzzy(false);
+    }else if (accuracy === "مشابه عبارت"){
+      setFuzzy(true);
+    }
+  }
   
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -179,7 +191,7 @@ export default function SearchBar({onSearchResults }: SearchBarProps) {
             {isAccuracyModalOpen && (
               <div className="absolute top-0 -right-16">
                 <SearchAccuracyModalTemplate showModal={true} onClose={() => setIsAccuracyModalOpen(false)}>
-                  <SearchAccuracyModal onClick={toggleAccuracyModal}/>
+                  <SearchAccuracyModal onClick={toggleAccuracyModal} onSelect={handleSelectAccuracy}/>
                 </SearchAccuracyModalTemplate>
               </div>
             )}
@@ -200,18 +212,7 @@ export default function SearchBar({onSearchResults }: SearchBarProps) {
             onChange={handleChange}
             onKeyDown={handleKeyDown}
           />
-
-          {isModalVisible && (
-            <div className="absolute min-w-full bg-white border border-gray-300 rounded-b-lg z-20 px-4">
-              {/* <p>{searchTerm}</p> */}
-              <button className="flex flex-row items-center text-right min-h-10 gap-2 w-full rounded-lg px-4" dir="rtl">
-                {/* <img src={search} alt="search" className="h-4 w-4"/> */}
-                <SearchIcon className="text-text-500 w-[15px] h-[15px]"></SearchIcon>
-                <div className="font-myYekanRegular text-text-500 text-sm">همه نتایج برای {searchTerm}</div>
-              </button>
-              <SearchResult text={"مالیات"}></SearchResult>
-            </div>
-          )}
+          
         </div>
 
       </form>

@@ -24,7 +24,9 @@ export default function SearchSelectDepartmentModal({ onClick, onSelect }: Searc
 
       
     return (
-        <div className=" flex flex-col bg-white w-[320px] rounded-lg h-[372px]">
+        <div className=" flex flex-col bg-white w-[320px] rounded-lg h-[372px]" style={{
+            boxShadow: "-4px 4px 16px 2px rgba(175, 175, 175, 0.32)",
+          }}>
             <div className="flex flex-row items-center border-b justify-between px-4">
                 <p className="text-text-200 text-sm font-myYekanMedium py-[14px]">
                     انتخاب سازمان

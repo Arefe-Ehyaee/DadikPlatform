@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { InitialSignUpSchema } from "../../Schemas/InitialSignUpSchema";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface SignUpData {
   username: string;
@@ -22,6 +23,8 @@ const InitialSignUpMain = () => {
 
   const [formData, setFormData] = useState<FormData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,6 +42,8 @@ const InitialSignUpMain = () => {
 
         const result = await response.json();
         console.log("Success:", result);
+        navigate("/dashboard");
+        
       } catch (err: any) {
         setError(err.message);
       }
