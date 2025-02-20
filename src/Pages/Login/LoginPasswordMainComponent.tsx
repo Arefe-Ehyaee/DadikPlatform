@@ -84,6 +84,7 @@ const LoginPasswordMainComponent = () => {
             "bg-primary-500 w-[480px] h-[40px] text-white font-myYekanDemibold"
           }
           type="submit"
+          disabled={isPending}
         ></CustomButton>
 
         <div className="flex justify-center items-center my-6">

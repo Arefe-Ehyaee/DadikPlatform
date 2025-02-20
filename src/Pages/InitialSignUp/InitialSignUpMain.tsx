@@ -28,8 +28,10 @@ const InitialSignUpMain = () => {
   const setUser = useAuthStore((state) => state.setUser);
   const setToken = useAuthStore((state) => state.setToken);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmit = async (data: SignUpData) => {
+    setLoading(true);
     const formData = new FormData();
     formData.append("username", data.username);
     formData.append("password", data.password);
@@ -46,7 +48,7 @@ const InitialSignUpMain = () => {
   
       const result = await response.json(); 
       const token = result.tokens.access; 
-      console.log("register token", result.tokens.access)
+      // console.log("register token", result.tokens.access)
       const userData = await fetchUserProfile(token);
       
       setUser(userData);
@@ -57,7 +59,7 @@ const InitialSignUpMain = () => {
   
     } catch (err: any) {
       setError(err.message);
-    }
+    } 
   };
   
 
@@ -93,11 +95,12 @@ const InitialSignUpMain = () => {
             text={"ایجاد حساب کاربری"}
             className={"bg-primary-500 w-[480px] h-[40px] text-white font-myYekanDemibold"}
             type="submit"
+            disabled={loading}
           />
         </div>
       </form>
 
-      {error && <p className="text-red-500">{error}</p>}
+      {/* {error && <p className="text-red-500">{error}</p>} */}
     </div>
   );
 };
