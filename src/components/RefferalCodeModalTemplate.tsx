@@ -1,0 +1,36 @@
+import { useEffect } from "react";
+
+interface RefferalCodeModalTemplatelProps {
+    showModal: boolean;
+    onClose?: () => void;
+    className?: string;
+    mainComponent?: JSX.Element;
+    children?:React.ReactNode;
+  }
+  
+  const RefferalCodeModalTemplate = ({
+    showModal,
+    onClose,
+    className,
+    mainComponent,
+    children
+  }: RefferalCodeModalTemplatelProps) => {
+    
+  
+    return (
+      <div   
+        className={`fixed top-[160px] left-[50px] z-50 flex flex-col items-center justify-center${className} ${showModal ? "visible bg-black-100/40" : "invisible"}`}
+        onClick={onClose}
+      >
+        <div
+          className="flex flex-col items-center justify-center rounded-3xl border-grey-400 bg-grey-100 px-[35px] py-16"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {mainComponent}{children}
+        </div>
+      </div>
+    );
+  };
+  
+  export default RefferalCodeModalTemplate;
+  

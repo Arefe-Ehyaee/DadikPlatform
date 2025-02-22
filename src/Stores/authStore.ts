@@ -8,8 +8,9 @@ interface UserProfile {
   avatar: string;
   token: string;
   subscription: Subscription | null; 
-  searchCount: number;
+  searchs: number;
   billsNumber: number;
+  referral_code: string;
 }
 
 interface Subscription {
@@ -29,8 +30,9 @@ export const defaultUserProfile: UserProfile = {
   lastName: 'نام خانوادگی',
   token: '',
   subscription: null, 
-  searchCount: 0,
-  billsNumber: 0
+  searchs: 0,
+  billsNumber: 0,
+  referral_code: ''
 };
 
 

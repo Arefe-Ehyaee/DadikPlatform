@@ -3,6 +3,7 @@ import Input from "../../components/Input";
 import Label from "../../components/Label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { personProfileSchema } from "../../Schemas/PersonProfileSchema";
+import defaultAvatarMain from "../../assets/icons/newIcons/defaultAvatarMain.svg";
 import SideNavbar from "../../components/SideNavbar";
 import TopBar from "../../components/Topbar/TopBar";
 import UserInfoHeader from "../../components/Header";
@@ -15,25 +16,31 @@ import { useMutation } from "@tanstack/react-query";
 import { postPersonProfile } from "../../api/postPersonProfile";
 import { toast } from "react-toastify";
 import prize from "../../assets/icons/gift-01.svg"
+import RefferalCodeModal from "../../components/RefferalCodeModal";
+import RefferalCodeModalTemplate from "../../components/RefferalCodeModalTemplate";
 
 interface PersonProfile {
   name: string;
   lastName: string;
-  nationalCode: string;
+  national_code: string;
   job: string;
   phone: string;
-  workAddress: string;
-  workPhone: string;
+  address: string;
+  workNumber: string;
   profilePicture: File;
-  post: string;
+  role: string;
   education: string;
 }
 
 export default function PersonProfile() {
+  const user = useAuthStore((state) => state.user);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [selectedImage, setSelectedImage] = useState<string>("");
+  const [refferalModalOpen, setRefferalModalOpen] = useState<boolean>(false);
+  const avatar = useAuthStore((state) => state.user?.avatar || defaultAvatarMain);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const profilePicture = useAuthStore((state) => state.user?.avatar);
+  const refferal_code = user?.referral_code || "";
+
 
   const {
     register,
@@ -54,6 +61,9 @@ export default function PersonProfile() {
   });
 
   const onSubmit = async (data: PersonProfile) => {
+    if (isPending) {
+      return;
+    }
     const formData = new FormData();
 
     Object.entries(data).forEach(([key, value]) => {
@@ -65,7 +75,6 @@ export default function PersonProfile() {
     if (selectedFile) {
       formData.append("profilePicture", selectedFile, selectedFile.name);
     }
-
     mutate(formData);
   };
 
@@ -76,6 +85,7 @@ export default function PersonProfile() {
       fileInputRef.current.value = "";
     }
   };
+
 
   return (
     <div className="min-h-screen flex flex-col overflow-hidden">
@@ -96,7 +106,7 @@ export default function PersonProfile() {
               <div className="flex flex-row justify-between">
                 <div className="mb-4 flex flex-row items-center">
                   <img
-                    src={selectedImage || profilePicture}
+                    src={selectedImage || avatar}
                     alt="profile image edit/upload"
                     className="h-[72px] w-[72px] rounded-full border-[1px] border-neutral-100"
                   />
@@ -119,6 +129,7 @@ export default function PersonProfile() {
                   <button
                     className="flex flex-row gap-2 mr-4 items-center"
                     onClick={() => fileInputRef.current?.click()}
+                    type="button"
                   >
                     <img src={cloud} alt="upload" />
                     <span className="font-myYekanRegular text-text-200 text-sm">
@@ -129,6 +140,7 @@ export default function PersonProfile() {
                   <button
                     className="flex flex-row gap-2 mr-4 items-center"
                     onClick={handleDeleteImage}
+                    type="button"
                   >
                     <img src={trash} alt="trash" />
                     <span className="font-myYekanRegular text-error-500 text-sm">
@@ -137,14 +149,23 @@ export default function PersonProfile() {
                   </button>
                 </div>
 
-                <button className="bg-primary-500 w-[113px] h-10 rounded-lg flex flex-row gap-2 items-center justify-center">
+                <button className="relative bg-primary-500 w-[113px] h-10 rounded-lg flex flex-row gap-2 items-center justify-center" type="button" onClick={() => setRefferalModalOpen((prev) => !(prev))}>
                     <img src={prize} alt="invitationCode" />
                     <p className="text-base text-white font-myYekanRegular">کد دعوت</p>
                 </button>
+
+                {refferalModalOpen && (
+                <div className="absolute">
+                  <RefferalCodeModalTemplate showModal={refferalModalOpen}  onClose={() => setRefferalModalOpen(false)}>
+                  <RefferalCodeModal onClick={() => setRefferalModalOpen((prev) => !(prev))} refferal_code={refferal_code}></RefferalCodeModal>
+
+                  </RefferalCodeModalTemplate>
+                </div>
+              )}
               </div>
 
               <div className="mb-[30px]">
-                <Label name={"نام"} necessary={true}></Label>
+                <Label name={"نام"} necessary={false}></Label>
                 <Input
                   name={"name"}
                   type={"text"}
@@ -156,7 +177,7 @@ export default function PersonProfile() {
               </div>
 
               <div className="mb-[30px]">
-                <Label name={"نام خانوادگی"} necessary={true}></Label>
+                <Label name={"نام خانوادگی"} necessary={false}></Label>
                 <Input
                   name={"lastName"}
                   type={"text"}
@@ -168,7 +189,7 @@ export default function PersonProfile() {
               </div>
 
               <div className="mb-[30px]">
-                <Label name={"تحصیلات"} necessary={true}></Label>
+                <Label name={"تحصیلات"} necessary={false}></Label>
                 <Input
                   name={"education"}
                   type={"text"}
@@ -180,50 +201,26 @@ export default function PersonProfile() {
               </div>
 
               <div className="mb-[30px]">
-                <Label name={"شماره ملی"} necessary={true}></Label>
+                <Label name={"شماره ملی"} necessary={false}></Label>
                 <Input
-                  name={"nationalCode"}
+                  name={"national_code"}
                   type={"text"}
                   placeholder={""}
                   className={"border-neutral-100 w-[536px] h-[48px]"}
                   register={register}
-                  error={errors.nationalCode?.message}
+                  error={errors.national_code?.message}
                 ></Input>
               </div>
-
-              {/* <div className="mb-[30px]">
-                <Label name={"نام کاربری"} necessary={false}></Label>
-                <Input
-                  name={"username"}
-                  type={"text"}
-                  placeholder={""}
-                  className={"border-neutral-100 w-[536px] h-[48px]"}
-                  register={register}
-                  error={errors.username?.message}
-                ></Input>
-              </div>
-
-              <div className="mb-[30px]">
-                <Label name={"رمز عبور"} necessary={false}></Label>
-                <Input
-                  name={"password"}
-                  type={"text"}
-                  placeholder={""}
-                  className={"border-neutral-100 w-[536px] h-[48px]"}
-                  register={register}
-                  error={errors.password?.message}
-                ></Input>
-              </div> */}
 
               <div className="mb-[30px]">
                 <Label name={"سمت"} necessary={false}></Label>
                 <Input
-                  name={"post"}
+                  name={"role"}
                   type={"text"}
                   placeholder={""}
                   className={"border-neutral-100 w-[536px] h-[48px]"}
                   register={register}
-                  error={errors.post?.message}
+                  error={errors.role?.message}
                 ></Input>
               </div>
 
@@ -254,24 +251,24 @@ export default function PersonProfile() {
               <div className="mb-[30px]">
                 <Label name={"آدرس محل کار"} necessary={false}></Label>
                 <Input
-                  name={"workAddress"}
+                  name={"address"}
                   type={"text"}
                   placeholder={""}
                   className={"border-neutral-100 w-[536px] h-[48px]"}
                   register={register}
-                  error={errors.workAddress?.message}
+                  error={errors.address?.message}
                 ></Input>
               </div>
 
               <div className="mb-[62px]">
                 <Label name={"شماره تلفن محل کار"} necessary={false}></Label>
                 <Input
-                  name={"workPhone"}
+                  name={"workNumber"}
                   type={"text"}
                   placeholder={""}
                   className={"border-neutral-100 w-[536px] h-[48px]"}
                   register={register}
-                  error={errors.workPhone?.message}
+                  error={errors.workNumber?.message}
                 ></Input>
               </div>
 
@@ -285,6 +282,7 @@ export default function PersonProfile() {
                 ></CustomButton>
                 <CustomButton
                   type="submit"
+                  disabled={isPending}
                   size="large"
                   text={"ثبت تغییرات"}
                   className={

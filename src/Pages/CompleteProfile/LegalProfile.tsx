@@ -10,7 +10,7 @@ import { useRef, useState } from "react";
 import cloud from "../../assets/icons/cloud.svg";
 import trash from "../../assets/icons/trash-02.svg";
 import useAuthStore from "../../Stores/authStore";
-import defaultAvatar from "../../assets/icons/newIcons/defaultAvatr.png";
+import defaultAvatarMain from "../../assets/icons/newIcons/defaultAvatarMain.svg";
 import CustomButton from "../../components/CustomButton";
 import FileInput from "../../components/FileInput";
 import { LegalProfileSchema } from "../../Schemas/LegalProfileSchema";
@@ -18,6 +18,9 @@ import EmailInput from "../../components/EmailInput";
 import { useMutation } from "@tanstack/react-query";
 import { postLegalProfile } from "../../api/postLegalProfile";
 import { toast } from "react-toastify";
+import RefferalCodeModalTemplate from "../../components/RefferalCodeModalTemplate";
+import RefferalCodeModal from "../../components/RefferalCodeModal";
+import prize from "../../assets/icons/gift-01.svg"
 
 interface LegalProfile {
   companyName: string;
@@ -35,9 +38,13 @@ interface LegalProfile {
 }
 
 export default function LegalProfile() {
+  const user = useAuthStore((state) => state.user);
   const [selectedImage, setSelectedImage] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const avatar = useAuthStore((state) => state.user?.avatar || defaultAvatar);
+  const avatar = useAuthStore((state) => state.user?.avatar || defaultAvatarMain);
+  const [refferalModalOpen, setRefferalModalOpen] = useState<boolean>(false);
+  const refferal_code = user?.referral_code || "";
+
 
   const {
     watch,
@@ -61,6 +68,9 @@ export default function LegalProfile() {
     })
 
   const onSubmit = async (data: LegalProfile) => {
+    if (isPending) {
+      return;
+    }
     mutate(data);
   };
 
@@ -78,7 +88,6 @@ export default function LegalProfile() {
       <div className="flex flex-1">
         <SideNavbar></SideNavbar>
         <div className="flex flex-1 flex-col mr-[272px] px-8 bg-background-550 calc(100vh - 4rem) ">
-          {/* top Section */}
           <div className="flex-1">
             <UserInfoHeader></UserInfoHeader>
           </div>
@@ -89,6 +98,7 @@ export default function LegalProfile() {
 
           <div className="bg-white rounded-2xl p-6">
             <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="flex flex-row justify-between">
               <div className="mb-4 flex flex-row items-center">
                 <img
                   src={selectedImage || avatar}
@@ -131,6 +141,21 @@ export default function LegalProfile() {
                     حذف لوگو
                   </span>
                 </button>
+              </div>
+              
+              <button className="relative bg-primary-500 w-[113px] h-10 rounded-lg flex flex-row gap-2 items-center justify-center" type="button" onClick={() => setRefferalModalOpen((prev) => !(prev))}>
+                    <img src={prize} alt="invitationCode" />
+                    <p className="text-base text-white font-myYekanRegular">کد دعوت</p>
+                </button>
+
+                {refferalModalOpen && (
+                <div className="absolute">
+                  <RefferalCodeModalTemplate showModal={refferalModalOpen}  onClose={() => setRefferalModalOpen(false)}>
+                    <RefferalCodeModal onClick={() => setRefferalModalOpen((prev) => !(prev))} refferal_code={refferal_code}></RefferalCodeModal>
+                  </RefferalCodeModalTemplate>
+                </div>
+              )}
+
               </div>
 
               <div className="mb-[30px]">
@@ -278,6 +303,7 @@ export default function LegalProfile() {
                 ></CustomButton>
                 <CustomButton
                   type="submit"
+                  disabled={isPending}
                   size="large"
                   text={"ثبت تغییرات"}
                   className={

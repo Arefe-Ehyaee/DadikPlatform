@@ -8,7 +8,7 @@ import PlansCard from "../../components/PlansCard";
 import CurrencyCard from "../../components/CurrencyCard";
 import CourseCard from "../../components/CourseCard";
 import ChatAIButton from "../../components/Chat/ChatAIButton";
-import defaultAvatar from "../../assets/icons/newIcons/defaultAvatarMain.svg";
+import defaultAvatarMain from "../../assets/icons/newIcons/defaultAvatarMain.svg";
 import { ReactComponent as Grid } from "../../assets/icons/newIcons/grid-01.svg";
 import OnlineChatModaltemplate from "../../components/OnlineSupport/OnlineChatModalTemplate";
 import OnlineChatModal from "../../components/OnlineSupport/OnlineChatModal";
@@ -28,12 +28,14 @@ export default function DashboardComponent() {
   const user = useAuthStore((state) => state.user);
   const firstName = user?.name || "نام";
   const lastName = user?.lastName || "نام خانوادگی";
-  const avatar = user?.avatar?.trim() || defaultAvatar;
+  const avatar = user?.avatar?.trim() || defaultAvatarMain;
   const subscription = user?.subscription || null; 
-  const searchCount = user?.searchCount || 0;
+  const searchCount = user?.searchs || 0;
   const billsNumber = user?.billsNumber || 0;
   const planStartDate = user?.subscription?.start_date || "";
   const planEndDate = user?.subscription?.end_date || "";
+  const refferal_code = user?.referral_code || "";
+
 
   const passedDays = planStartDate ? calculatePassedDays(planStartDate) : 0;
   const remainingDays = planEndDate ? calculateRemainingDays(planEndDate) : 0;

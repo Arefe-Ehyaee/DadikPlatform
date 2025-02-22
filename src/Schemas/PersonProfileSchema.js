@@ -6,30 +6,38 @@ export const personProfileSchema = z.object({
   .nonempty("نام الزامی است")
   .regex(/^[آ-ی\s]+$/, {
     message: ".نام فقط باید شامل حروف فارسی باشد",
-  }),
+  })
+  .optional()
+  .or(z.literal("")),
 
   lastName: z
   .string({ required_error: "نام خانوادگی را وارد کنید" })
   .nonempty("نام خانوادگی الزامی است")
   .regex(/^[آ-ی\s]+$/, {
     message: ".نام خانوادگی فقط باید شامل حروف فارسی باشد",
-  }),
+  })
+  .optional()
+  .or(z.literal("")),
 
   education: z
   .string({ required_error: "تحصیلات را وارد کنید" })
   .nonempty("تحصیلات الزامی است")
   .regex(/^[آ-ی\s]+$/, {
     message: ".تحصیلات فقط باید شامل حروف فارسی باشد",
-  }),
+  })
+  .optional()
+  .or(z.literal("")),
 
-  nationalCode: z
+  national_code: z
   .string({ required_error: "شماره ملی را وارد کنید." })
   .nonempty("شماره ملی الزامی است")
-  .min(11, { message: "شماره ملی باید حداقل 11 کاراکتر باشد" })
-  .max(11, { message: "شماره ملی باید حداکثر 11 کاراکتر باشد" })
+  .min(10, { message: "شماره ملی باید حداقل 10 کاراکتر باشد" })
+  .max(10, { message: "شماره ملی باید حداکثر 10 کاراکتر باشد" })
   .regex(/^\d+$/, {
     message: "شماره ملی فقط باید شامل اعداد باشد",
-  }),
+  })
+  .optional()
+  .or(z.literal("")),
 
   job: z.string()
   .regex(/^[آ-ی\s]+$/, {
@@ -38,7 +46,7 @@ export const personProfileSchema = z.object({
   .optional()
   .or(z.literal("")),
 
-  post: z.string()
+  role: z.string()
   .regex(/^[آ-ی\s]+$/, {
     message: "سمت فقط باید شامل حروف فارسی باشد",
   })
@@ -83,7 +91,9 @@ export const personProfileSchema = z.object({
   .optional()
   .or(z.literal("")),
 
-  workPhone: z
+  address: z.string(),
+
+  workNumber: z
   .string()
   .regex(/^(0\d{2})\d{8}$/, {
     message: "فرمت شماره تلفن معتبر نیست. لطفاً شماره معتبر وارد کنید.",

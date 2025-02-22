@@ -8,7 +8,7 @@ export default function ProfileMenu() {
   return (
     <div className="absolute left-[8px] top-[30px] flex flex-col gap-1 p-3 w-[203px] h-[196px] bg-white rounded-[4px] text-sm font-myYekanRegular text-text-300 leading-6">
       <NavLink
-        to="/"
+        to="/completeProfile"
         className="flex flex-row items-center gap-[5.6px] py-[8px] pr-5 w-[179px] h-10 rounded-lg hover:bg-neutral-50"        
       >
         <img src={userSquare} alt="userSquare" />

@@ -109,6 +109,9 @@ export default function SearchBar({
   };
 
   const handleSearchResult = () => {
+    if (searchEngineDataIsFetching) {
+      return;
+    }
     // console.log("Search button clicked!");
     // console.log("Search Term:", searchTerm);
     // console.log("Selected Department:", selectedDepartment);
@@ -147,6 +150,7 @@ export default function SearchBar({
         <div className="relative w-full inline-block">
           <button
             type="button"
+            disabled={searchEngineDataIsFetching}
             className="absolute bg-primary-500 w-14 h-12 rounded-l-lg left-0 top-1/2 transform -translate-y-1/2"
             onClick={handleSearchResult}
           >

@@ -23,9 +23,7 @@ import MarketChart from "./components/chart";
 import DocumentDetails from "./Pages/Document/DocumentDetail";
 import SearchResult from "./components/SearchEngineComponents/SearchResult";
 import ProtectedRoute from "./components/ProtectedRoute";
-
-
-
+import CompleteProfile from "./Pages/CompleteProfile/CompleteProfile";
 
 function App() {
   const queryClient = new QueryClient();
@@ -34,7 +32,10 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<LoginWithPassword></LoginWithPassword>}></Route>
+            <Route
+              path="/"
+              element={<LoginWithPassword></LoginWithPassword>}
+            ></Route>
             <Route path="/signUp" element={<InitialSignUp />}></Route>
             <Route
               path="/loginWithPassword"
@@ -76,14 +77,13 @@ function App() {
               path="/worktable"
               element={<MainLayout mainComponents={<WorkTableComponent />} />}
             />
+
             <Route
               path="/trainingCourses"
               element={<CoursesPageComponent />}
             ></Route>
 
             {/* <Route path="/test" element={<SearchResult text={"رأی شماره ۲۵۸۷۴۱۰هیأت عمومی دیوان عدالت اداری با موضوع: بطلان اطلاق بند ۷ بخشنامه شماره ۱۳۵۳۰ مورخ ۱۳۸۴/۷/۲۷ سازمان امور مالیاتی کشور راجع به فصل مالیات بر درآمد املاک قانون مالیات های مستقیم و بند ۲ رأی هیأت عمومی شورای عالی مالیاتی به شماره ۱۱۸۱۸/۴/۳۰ مورخ ۱۳۷۶/۱۱/۱۹ در مورد املاکی که به صورت زمین "} />}></Route> */}
-            <Route path="/personProfile" element={<PersonProfile />}></Route>
-            <Route path="/legalProfile" element={<LegalProfile />}></Route>
             <Route
               path="/searchEngine"
               element={
@@ -96,29 +96,35 @@ function App() {
 
             <Route
               path="/documentDetail/:documentType"
-              element={<SecondaryLayout mainComponents={<DocumentDetails owner={"امیر حسن ثابتی مقدم"} ownerPost={"مدیر کل سازمان امور مالیاتی"}/>} title={""} />}
-            />
-
-            <Route
-              path="/searchGuide"
               element={
                 <SecondaryLayout
-                  mainComponents={<SearchGuide />}
-                  title={"جستجوی قوانین و مقررات"}
+                  mainComponents={
+                    <DocumentDetails
+                      owner={"امیر حسن ثابتی مقدم"}
+                      ownerPost={"مدیر کل سازمان امور مالیاتی"}
+                    />
+                  }
+                  title={""}
                 />
               }
-            ></Route>
+            />
 
-             <Route element={<ProtectedRoute />}>
+            <Route element={<ProtectedRoute />}>
               <Route
                 path="/dashboard"
                 element={<MainLayout mainComponents={<DashboardComponent />} />}
               />
+              <Route
+                path="/CompleteProfile"
+                element={<SecondaryLayout mainComponents={<CompleteProfile />} title={"انتخاب نوع کاربر"} />}
+              />
+                          <Route path="/personProfile" element={<PersonProfile />}></Route>
+                          <Route path="/legalProfile" element={<LegalProfile />}></Route>
               {/* <Route
                 path="/worktable"
                 element={<MainLayout mainComponents={<WorkTableComponent />} />}
               /> */}
-            </Route> 
+            </Route>
           </Routes>
         </BrowserRouter>
         <ToastContainer />
