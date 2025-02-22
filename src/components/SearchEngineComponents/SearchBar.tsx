@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { ReactComponent as SearchIcon } from "../../assets/icons/searchEngine.svg";
 import down from "../../assets/icons/down.svg";
-import SearchAccuracyModal from "./SearchAccuracyModal";
-import SearchAccuracyModalTemplate from "./SearchAccuracyModalTemplate";
 import SearchSelectDepartment from "./SearchSelectDepartmentModal";
 import SearchDepartmentModalTemplate from "./SearchDepartmentModalTemplate";
 import SearchResult from "./SearchResult";
-import { api } from "../../api/Auth";
 import { useQuery } from "@tanstack/react-query";
 import { FetchSearchEngineSuggestion } from "../../api/FetchSearchEngineSuggestion";
 import { getTokenFromCookie } from "../../utils/cookies";
 import SearchDelete from "../../assets/icons/searchCross.svg";
 import { FetchSearchResults } from "../../api/FetchSearchResults";
 import departments from "../../assets/icons/departments.svg";
+import ToggleSwitch from "./ToggleSwitch";
 
 export interface SearchResult {
   _index: string;
@@ -40,20 +38,17 @@ export default function SearchBar({
   onSearchResults,
   setSearchedTerm,
 }: SearchBarProps) {
-  const [isAccuracyModalOpen, setIsAccuracyModalOpen] = useState(false);
   const [isSelectDepartmentModalOpen, SetSelectDepartmentModalOpen] =
     useState(false);
-  const [showDropDown, setShowDropDown] = useState(false);
-  const [showSearchTerm, setShowSearchTerm] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedAccuracy, setSelectedAccuracy] = useState("");
   const [selectedDepartment, setSelectedDepartment] = useState<string | null>(
     null
   );
   const [searchEngineInput, setSearchEngineInput] = useState<string>("");
   const [fuzzy, setFuzzy] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [enableWordMeaning, setEnableWordMeaning] = useState<boolean>(false);
 
   const token = getTokenFromCookie();
 
@@ -68,9 +63,6 @@ export default function SearchBar({
     setSelectedDepartment(department);
   };
 
-  // const handleSelectAccuracy = (accuracy: string) => {
-  //   setSelectedAccuracy(accuracy);
-  // };
   const {
     //results
     data: searchEngineData,
@@ -93,21 +85,13 @@ export default function SearchBar({
     staleTime: 5000,
   });
 
-  // useEffect(() => {
-  //   if (searchTerm.length >= 2 && selectedDepartment) {
-  //     searchEngineRefetch();
-  //   }
-  // }, [searchTerm, selectedDepartment]);
-
   useEffect(() => {
     if (searchEngineData && searchEngineData.length > 0) {
       onSearchResults(searchEngineData);
+      setShowModal(false);
     }
   }, [searchEngineData, onSearchResults]);
 
-  const toggleAccuracyModal = () => {
-    setIsAccuracyModalOpen((prev) => !prev);
-  };
 
   const toggleDepartmentModal = () => {
     SetSelectDepartmentModalOpen((prev) => !prev);
@@ -158,9 +142,9 @@ export default function SearchBar({
   };
 
   return (
-    <div className="w-full">
+    <div className="relative w-full">
       <form>
-        <div className="relative w-full">
+        <div className="relative w-full inline-block">
           <button
             type="button"
             className="absolute bg-primary-500 w-14 h-12 rounded-l-lg left-0 top-1/2 transform -translate-y-1/2"
@@ -179,54 +163,23 @@ export default function SearchBar({
             </button>
           )}
 
-          <button
-            type="button"
-            className="absolute flex flex-row items-center px-4 text-sm border-l w-[144px] h-12 rounded-r-lg right-0 top-1/2 transform -translate-y-1/2"
-            onClick={toggleDepartmentModal}
-          >
-            <p className="ml-1">انتخاب سازمان</p>
-            <img src={down} alt="dropdown" className="w-3 h-[6px]" />
-          </button>
-
-          <div className="absolute right-[144px] top-1/2 transform -translate-y-1/2">
-            <button
-              type="button"
-              className="flex flex-row items-center px-[21px] text-sm border-l w-[144px] h-12 rounded-r-lg"
-              onClick={toggleAccuracyModal}
-            >
-              <p className="ml-1">دقت جستجو</p>
-              <img src={down} alt="dropdown" className="w-3 h-[6px]" />
-            </button>
-
-            {isAccuracyModalOpen && (
-              <div className="absolute top-0 -right-16">
-                <SearchAccuracyModalTemplate
-                  showModal={true}
-                  onClose={() => setIsAccuracyModalOpen(false)}
-                >
-                  <SearchAccuracyModal
-                    onClick={toggleAccuracyModal}
-                    onSelect={handleSelectAccuracy}
-                  />
-                </SearchAccuracyModalTemplate>
-              </div>
-            )}
-
-          </div>
-
           <input
-            className="w-full h-12 border rounded-lg pr-[296px]"
+            className="w-full h-12 border rounded-lg pr-4 pl-28"
             placeholder="جستجو"
             value={searchTerm}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
-            onFocus={()=>setShowModal(true)}
+            onFocus={() => setShowModal(true)}
           />
 
           {showModal && (
-            <div className="absolute min-w-full flex flex-row gap-4 bg-white border border-gray-300 rounded-b-lg z-10 px-4">
+            <div className="absolute w-full flex flex-row gap-4 bg-white border border-gray-300 rounded-b-lg z-10 px-4">
               <div className="flex flex-col flex-1">
-                <button className="flex flex-row items-center justify-between w-full h-14 border border-neutral-100 rounded-lg my-4 px-4" type="button" onClick={() =>SetSelectDepartmentModalOpen((prev) => !prev)}>
+                <button
+                  className="flex flex-row items-center justify-between w-full h-12 border border-neutral-100 rounded-lg my-4 px-4"
+                  type="button"
+                  onClick={() => SetSelectDepartmentModalOpen((prev) => !prev)}
+                >
                   <div className="flex flex-row items-center gap-3">
                     <img
                       src={departments}
@@ -237,18 +190,22 @@ export default function SearchBar({
                   </div>
                   <img src={down} alt="dropdown" className="w-3 h-[6px]" />
                 </button>
-                <button className="h-14 border border-neutral-100 rounded-lg px-4 my-4">
-                  <p className="text-sm text-right">فعال سازی معنی لغات</p>
+                <button className="h-12 border border-neutral-100 rounded-lg px-4 mb-4" type="button">
+                  <ToggleSwitch
+                    label="فعالسازی معنی لغات"
+                    onChange={(checked) => setEnableWordMeaning(checked)}
+                    defaultChecked={enableWordMeaning}
+                  />
                 </button>
               </div>
 
-              <button className="flex-1 flex flex-row items-center gap-8 justify-start w-full h-14 border border-neutral-100 rounded-lg px-4 mt-4">
+              <button className="flex-1 flex flex-row items-center gap-8 justify-start w-full h-12 border border-neutral-100 rounded-lg px-4 mt-4" type="button">
                 <div className="flex flex-row items-center">
                   <input
                     type="checkbox"
                     className="accent-primary-500"
                     id="exact"
-                    onChange={()=>handleSelectDepartment("مطابق عبارت")}
+                    onChange={() => handleSelectAccuracy("مطابق عبارت")}
                   ></input>
                   <label
                     htmlFor="exact"
@@ -263,7 +220,7 @@ export default function SearchBar({
                     type="checkbox"
                     className="accent-primary-500"
                     id="similar"
-                    onChange={()=>handleSelectDepartment("مشابه عبارت")}
+                    onChange={() => handleSelectAccuracy("مشابه عبارت")}
                   ></input>
                   <label
                     htmlFor="similar"
@@ -275,18 +232,18 @@ export default function SearchBar({
               </button>
 
               {isSelectDepartmentModalOpen && (
-              <div className="absolute -right-4">
-                <SearchDepartmentModalTemplate
-                  showModal={true}
-                  onClose={() => SetSelectDepartmentModalOpen(false)}
-                >
-                  <SearchSelectDepartment
-                    onClick={toggleDepartmentModal}
-                    onSelect={handleSelectDepartment}
-                  />
-                </SearchDepartmentModalTemplate>
-              </div>
-            )}
+                <div className="absolute -right-5 top-3">
+                  <SearchDepartmentModalTemplate
+                    showModal={true}
+                    onClose={() => SetSelectDepartmentModalOpen(false)}
+                  >
+                    <SearchSelectDepartment
+                      onClick={toggleDepartmentModal}
+                      onSelect={handleSelectDepartment}
+                    />
+                  </SearchDepartmentModalTemplate>
+                </div>
+              )}
             </div>
           )}
         </div>

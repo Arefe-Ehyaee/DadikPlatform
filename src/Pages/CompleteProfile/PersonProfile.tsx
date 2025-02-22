@@ -14,6 +14,7 @@ import CustomButton from "../../components/CustomButton";
 import { useMutation } from "@tanstack/react-query";
 import { postPersonProfile } from "../../api/postPersonProfile";
 import { toast } from "react-toastify";
+import prize from "../../assets/icons/gift-01.svg"
 
 interface PersonProfile {
   name: string;
@@ -92,46 +93,53 @@ export default function PersonProfile() {
 
           <div className="bg-white rounded-2xl p-6">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-4 flex flex-row items-center">
-                <img
-                  src={selectedImage || profilePicture}
-                  alt="profile image edit/upload"
-                  className="h-[72px] w-[72px] rounded-full border-[1px] border-neutral-100"
-                />
+              <div className="flex flex-row justify-between">
+                <div className="mb-4 flex flex-row items-center">
+                  <img
+                    src={selectedImage || profilePicture}
+                    alt="profile image edit/upload"
+                    className="h-[72px] w-[72px] rounded-full border-[1px] border-neutral-100"
+                  />
 
-                <input
-                  type="file"
-                  id="avatar"
-                  className="hidden"
-                  {...register("profilePicture")}
-                  ref={fileInputRef}
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      setSelectedImage(URL.createObjectURL(file)); 
-                      setSelectedFile(file);
-                    }
-                  }}
-                />
+                  <input
+                    type="file"
+                    id="avatar"
+                    className="hidden"
+                    {...register("profilePicture")}
+                    ref={fileInputRef}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setSelectedImage(URL.createObjectURL(file)); 
+                        setSelectedFile(file);
+                      }
+                    }}
+                  />
 
-                <button
-                  className="flex flex-row gap-2 mr-4 items-center"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <img src={cloud} alt="upload" />
-                  <span className="font-myYekanRegular text-text-200 text-sm">
-                    تغییر عکس
-                  </span>
-                </button>
+                  <button
+                    className="flex flex-row gap-2 mr-4 items-center"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <img src={cloud} alt="upload" />
+                    <span className="font-myYekanRegular text-text-200 text-sm">
+                      تغییر عکس
+                    </span>
+                  </button>
 
-                <button
-                  className="flex flex-row gap-2 mr-4 items-center"
-                  onClick={handleDeleteImage}
-                >
-                  <img src={trash} alt="trash" />
-                  <span className="font-myYekanRegular text-error-500 text-sm">
-                    حذف عکس
-                  </span>
+                  <button
+                    className="flex flex-row gap-2 mr-4 items-center"
+                    onClick={handleDeleteImage}
+                  >
+                    <img src={trash} alt="trash" />
+                    <span className="font-myYekanRegular text-error-500 text-sm">
+                      حذف عکس
+                    </span>
+                  </button>
+                </div>
+
+                <button className="bg-primary-500 w-[113px] h-10 rounded-lg flex flex-row gap-2 items-center justify-center">
+                    <img src={prize} alt="invitationCode" />
+                    <p className="text-base text-white font-myYekanRegular">کد دعوت</p>
                 </button>
               </div>
 

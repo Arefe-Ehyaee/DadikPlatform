@@ -61,7 +61,7 @@ export default function SearchEngine() {
       </div>
 
       <div className="flex flex-row justify-between items-center">
-        <p className="my-4 font-myYekanRegular text-base text-text-500">
+        <p className="mb-4 mt-8 font-myYekanRegular text-base text-text-500">
           نمایش نتایج {SearchedTerm}
         </p>
         {/* <p className="text-text-200 font-myYekanFaNumRegular text-sm">{`تعداد نتایج یافت شده ${finds}`}</p> */}
