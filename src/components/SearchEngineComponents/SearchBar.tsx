@@ -109,9 +109,7 @@ export default function SearchBar({
   };
 
   const handleSearchResult = () => {
-    if (searchEngineDataIsFetching) {
-      return;
-    }
+    if (searchEngineDataIsFetching) return;
     // console.log("Search button clicked!");
     // console.log("Search Term:", searchTerm);
     // console.log("Selected Department:", selectedDepartment);

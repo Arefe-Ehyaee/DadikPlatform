@@ -61,9 +61,7 @@ export default function PersonProfile() {
   });
 
   const onSubmit = async (data: PersonProfile) => {
-    if (isPending) {
-      return;
-    }
+    if (isPending) return;
     const formData = new FormData();
 
     Object.entries(data).forEach(([key, value]) => {

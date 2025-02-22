@@ -31,6 +31,7 @@ const InitialSignUpMain = () => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmit = async (data: SignUpData) => {
+    if (loading) return;
     setLoading(true);
     const formData = new FormData();
     formData.append("username", data.username);

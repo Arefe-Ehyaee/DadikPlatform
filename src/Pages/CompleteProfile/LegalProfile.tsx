@@ -68,9 +68,7 @@ export default function LegalProfile() {
     })
 
   const onSubmit = async (data: LegalProfile) => {
-    if (isPending) {
-      return;
-    }
+    if (isPending) return;
     mutate(data);
   };
 

@@ -33,6 +33,7 @@ const LoginPasswordMainComponent = () => {
   const { login, isPending } = usePassLogin(); 
 
   const onSubmit = (data: LoginData) => {
+    if(isPending) return;
     login(data);
   };
 
