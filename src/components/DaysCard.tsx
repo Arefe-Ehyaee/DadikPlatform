@@ -14,12 +14,15 @@ export default function DaysCard({passedDays, remainingDays }: CardProps) {
         <img src={roozShomar} alt="" className="h-6 w-6 rounded-full" />
         <span className="text-text-500 font-myYekanMedium">روز شمار طرح</span>
       </div>
-      <div className="text-text-200 font-myYekanFaNumRegular my-2">{`شما ${passedDays} روز از طرح خود را  مصرف کرده اید.`}</div>
+      {/* <div className="text-text-200 font-myYekanFaNumRegular my-2">{`شما ${passedDays} روز از طرح خود را  مصرف کرده اید.`}</div>
       <div>
         <img src={days} alt="" />
         <div className="pb-2 pt-1 text-left font-myYekanFaNumRegular text-text-200 text-sm">
           {remainingDays} روز باقیمانده
         </div>
+      </div> */}
+      <div className="text-text-200 font-myYekanFaNumRegular mt-2">
+      شما هنوز طرحی نخریده اید.همین حالا برای خرید طرح اقدام کنید تا بتوانید به امکانات بی نظیر دادیک دسترسی پیدا کنید.
       </div>
     </div>
   );

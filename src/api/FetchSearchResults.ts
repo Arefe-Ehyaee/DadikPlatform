@@ -5,7 +5,7 @@ export const FetchSearchResults = async (token: string, department : string, que
     params : {
         index: department,
         q: query,
-        fuzzy: fuzzy
+        fuzzy: fuzzy,
     },
     headers: {
       Authorization: `Bearer ${token}`, 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ReactComponent as SearchIcon } from "../../assets/icons/searchEngine.svg";
 import down from "../../assets/icons/down.svg";
 import SearchSelectDepartment from "./SearchSelectDepartmentModal";
@@ -49,6 +49,31 @@ export default function SearchBar({
   const [fuzzy, setFuzzy] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [enableWordMeaning, setEnableWordMeaning] = useState<boolean>(false);
+  const selectDepartmentButtonRef = useRef<HTMLButtonElement>(null);
+  const [buttonWidth, setButtonWidth] = useState<number | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // useEffect(() => {
+  //   function handleClickOutside(event: MouseEvent) {
+  //     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+  //       setShowModal(false);
+  //     }
+  //   }
+
+  //   if (showModal) {
+  //     document.addEventListener("mousedown", handleClickOutside);
+  //   }
+
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [showModal]);
+
+  useEffect(() => {
+    if (isSelectDepartmentModalOpen && selectDepartmentButtonRef.current) {
+      setButtonWidth(selectDepartmentButtonRef.current.offsetWidth);
+    }
+  }, [isSelectDepartmentModalOpen]);
 
   const token = getTokenFromCookie();
 
@@ -70,7 +95,7 @@ export default function SearchBar({
     isFetching: searchEngineDataIsFetching,
     refetch: searchEngineRefetch,
   } = useQuery({
-    queryKey: ["searchEngineSuggestion", searchEngineInput],
+    queryKey: ["searchEngineResults", searchEngineInput],
     queryFn: async () => {
       if (!searchTerm || searchTerm.length < 2 || !selectedDepartment)
         return [];
@@ -92,9 +117,11 @@ export default function SearchBar({
     }
   }, [searchEngineData, onSearchResults]);
 
-
   const toggleDepartmentModal = () => {
     SetSelectDepartmentModalOpen((prev) => !prev);
+    // if (selectDepartmentButtonRef.current) {
+    //   setButtonWidth(selectDepartmentButtonRef.current.offsetWidth);
+    // }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -176,23 +203,44 @@ export default function SearchBar({
 
           {showModal && (
             <div className="absolute w-full flex flex-row gap-4 bg-white border border-gray-300 rounded-b-lg z-10 px-4">
-              <div className="flex flex-col flex-1">
+              <div className=" flex flex-col flex-1">
+                <div className="relative">
+                  <button
+                    ref={selectDepartmentButtonRef}
+                    className="flex flex-row items-center justify-between w-full h-12 border border-neutral-100 rounded-lg my-4 px-4"
+                    type="button"
+                    onClick={toggleDepartmentModal}
+                  >
+                    <div className="flex flex-row items-center gap-3">
+                      <img
+                        src={departments}
+                        alt="department"
+                        className="w-6 h-6"
+                      />
+                      <p className="ml-1 text-sm">انتخاب سازمان</p>
+                    </div>
+                    <img src={down} alt="dropdown" className="w-3 h-[6px]" />
+                  </button>
+
+                  {isSelectDepartmentModalOpen && (
+                    <div className="absolute left-0 top-[172px]">
+                      <SearchDepartmentModalTemplate
+                        showModal={true}
+                        onClose={() => SetSelectDepartmentModalOpen(false)}
+                      >
+                        <SearchSelectDepartment
+                          onSelect={handleSelectDepartment}
+                          modalWidth={buttonWidth}
+                        />
+                      </SearchDepartmentModalTemplate>
+                    </div>
+                  )}
+                </div>
+
                 <button
-                  className="flex flex-row items-center justify-between w-full h-12 border border-neutral-100 rounded-lg my-4 px-4"
+                  className="h-12 border border-neutral-100 rounded-lg px-4 mb-4"
                   type="button"
-                  onClick={() => SetSelectDepartmentModalOpen((prev) => !prev)}
                 >
-                  <div className="flex flex-row items-center gap-3">
-                    <img
-                      src={departments}
-                      alt="department"
-                      className="w-6 h-6"
-                    />
-                    <p className="ml-1 text-sm">انتخاب سازمان</p>
-                  </div>
-                  <img src={down} alt="dropdown" className="w-3 h-[6px]" />
-                </button>
-                <button className="h-12 border border-neutral-100 rounded-lg px-4 mb-4" type="button">
                   <ToggleSwitch
                     label="فعالسازی معنی لغات"
                     onChange={(checked) => setEnableWordMeaning(checked)}
@@ -201,7 +249,10 @@ export default function SearchBar({
                 </button>
               </div>
 
-              <button className="flex-1 flex flex-row items-center gap-8 justify-start w-full h-12 border border-neutral-100 rounded-lg px-4 mt-4" type="button">
+              <button
+                className="flex-1 flex flex-row items-center gap-8 justify-start w-full h-12 border border-neutral-100 rounded-lg px-4 mt-4"
+                type="button"
+              >
                 <div className="flex flex-row items-center">
                   <input
                     type="checkbox"
@@ -232,20 +283,6 @@ export default function SearchBar({
                   </label>
                 </div>
               </button>
-
-              {isSelectDepartmentModalOpen && (
-                <div className="absolute -right-5 top-3">
-                  <SearchDepartmentModalTemplate
-                    showModal={true}
-                    onClose={() => SetSelectDepartmentModalOpen(false)}
-                  >
-                    <SearchSelectDepartment
-                      onClick={toggleDepartmentModal}
-                      onSelect={handleSelectDepartment}
-                    />
-                  </SearchDepartmentModalTemplate>
-                </div>
-              )}
             </div>
           )}
         </div>

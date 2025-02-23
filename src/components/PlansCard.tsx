@@ -10,12 +10,12 @@ export default function PlansCard() {
           طرح های بی نظیر سامانه دادیک
         </span>
       </div>
-      <div className="text-sm font-myYekanRegular text-text-200 mt-2 mb-4">
+      {/* <div className="text-sm font-myYekanRegular text-text-200 mt-2 mb-4">
         سامانه حقوقی دادیک طرح های متفاوتی شامل طرح های طلایی،نقره ای و برنزی
         دارد. این سامانه به شما کمک می کند لوایح مربوط به اداره مالیات ، اداره
         کار و تامین اجتماعی را تنظیم کنید . دادیک تا حصول نتیجه در کنار شماست.
-      </div>
-      <div className="flex flex-row gap-4">
+      </div> */}
+      <div className="flex flex-row gap-4 mt-4">
         <Plans planType={"gold"} />
         <Plans planType={"silver"} />
         <Plans planType={"bronze"} />

@@ -42,9 +42,9 @@ export default function SearchEngine() {
   const [ SearchedTerm, setSearchedTerm] = useState<string>("");
 
   const handleSearchResults = (results: SearchResult[]) => {
-    console.log(results[2]?._source.Subject);
-    console.log(" جدید")
-    console.log(results)
+    // console.log(results[2]?._source.Subject);
+    // console.log(" جدید")
+    // console.log(results)
     setSearchResults(results);
   };
 
