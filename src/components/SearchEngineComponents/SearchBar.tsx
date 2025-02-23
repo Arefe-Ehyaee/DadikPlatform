@@ -95,7 +95,7 @@ export default function SearchBar({
     isFetching: searchEngineDataIsFetching,
     refetch: searchEngineRefetch,
   } = useQuery({
-    queryKey: ["searchEngineResults", searchEngineInput],
+    queryKey: ["searchEngineSuggestion", searchEngineInput],
     queryFn: async () => {
       if (!searchTerm || searchTerm.length < 2 || !selectedDepartment)
         return [];
