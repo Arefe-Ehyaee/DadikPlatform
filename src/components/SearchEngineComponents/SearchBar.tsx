@@ -4,7 +4,7 @@ import down from "../../assets/icons/down.svg";
 import SearchSelectDepartment from "./SearchSelectDepartmentModal";
 import SearchDepartmentModalTemplate from "./SearchDepartmentModalTemplate";
 import SearchResult from "./SearchResult";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { FetchSearchEngineSuggestion } from "../../api/FetchSearchEngineSuggestion";
 import { getTokenFromCookie } from "../../utils/cookies";
 import SearchDelete from "../../assets/icons/searchCross.svg";
@@ -31,43 +31,39 @@ export interface SearchResult {
 
 interface SearchBarProps {
   onSearchResults: (results: SearchResult[]) => void;
-  setSearchedTerm: (term: string) => void;
+  searchedTerm: string;
+  setSearchedTerm: (searchTerm: string) => void;
+  setFuzzy: (fuzzy: boolean) => void;
+  fuzzy: boolean;
+  setSelectedDepartment: (department: string ) => void;
+  selectedDepartment: string ;
 }
 
 export default function SearchBar({
   onSearchResults,
   setSearchedTerm,
+  searchedTerm,
+  selectedDepartment,
+  setSelectedDepartment,
+  setFuzzy,
+  fuzzy
 }: SearchBarProps) {
   const [isSelectDepartmentModalOpen, SetSelectDepartmentModalOpen] =
     useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [selectedDepartment, setSelectedDepartment] = useState<string | null>(
-    null
-  );
+  // const [selectedDepartment, setSelectedDepartment] = useState<string | null>(
+  //   null
+  // );
   const [searchEngineInput, setSearchEngineInput] = useState<string>("");
-  const [fuzzy, setFuzzy] = useState<boolean>(true);
+  // const [fuzzy, setFuzzy] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [enableWordMeaning, setEnableWordMeaning] = useState<boolean>(false);
   const selectDepartmentButtonRef = useRef<HTMLButtonElement>(null);
   const [buttonWidth, setButtonWidth] = useState<number | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
-
-  // useEffect(() => {
-  //   function handleClickOutside(event: MouseEvent) {
-  //     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-  //       setShowModal(false);
-  //     }
-  //   }
-
-  //   if (showModal) {
-  //     document.addEventListener("mousedown", handleClickOutside);
-  //   }
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [showModal]);
+  const departmentModalRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isSelectDepartmentModalOpen && selectDepartmentButtonRef.current) {
@@ -90,38 +86,63 @@ export default function SearchBar({
 
   const {
     //results
-    data: searchEngineData,
+    data: searchEngineResult,
     isError: searchEngineDataIsError,
     isFetching: searchEngineDataIsFetching,
     refetch: searchEngineRefetch,
-  } = useQuery({
-    queryKey: ["searchEngineSuggestion", searchEngineInput],
-    queryFn: async () => {
+  } = useInfiniteQuery({
+    queryKey: ["searchEngineResults", searchEngineInput],
+    queryFn: async ({ pageParam = 1 }) => {
       if (!searchTerm || searchTerm.length < 2 || !selectedDepartment)
-        return [];
-      if (selectedDepartment === "سازمان امور مالیاتی")
-        return FetchSearchResults(token, "maliat", searchTerm, fuzzy);
-      if (selectedDepartment === "سازمان تامین اجتماعی")
-        return FetchSearchResults(token, "tamin_ejtemaei", searchTerm, fuzzy);
-      else
-        return FetchSearchResults(token, selectedDepartment, searchTerm, fuzzy);
+        return { data: [], nextCursor: undefined, prevCursor: undefined };
+  
+      let result;
+      if (selectedDepartment === "سازمان امور مالیاتی") {
+        result = await FetchSearchResults(token, "maliat", searchTerm, fuzzy, pageParam);
+      } else if (selectedDepartment === "سازمان تامین اجتماعی") {
+        result = await FetchSearchResults(
+          token,
+          "tamin_ejtemaei",
+          searchTerm,
+          fuzzy,
+          pageParam
+        );
+      } else {
+        result = await FetchSearchResults(
+          token,
+          selectedDepartment,
+          searchTerm,
+          fuzzy,
+          pageParam
+        );
+      }
+  
+      return {
+        data: result.data, 
+        nextCursor: result.page < result.total_pages ? result.page + 1 : undefined,
+        prevCursor: result.page > 1 ? result.page - 1 : undefined, 
+      };
     },
-    enabled: !!searchTerm && !!selectedDepartment,
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
+    getPreviousPageParam: (firstPage) => firstPage.prevCursor,
+    enabled: false,
     staleTime: 5000,
   });
 
   useEffect(() => {
-    if (searchEngineData && searchEngineData.length > 0) {
-      onSearchResults(searchEngineData);
+    if (searchEngineResult && searchEngineResult.pages?.length > 0) {
+      const allResults = searchEngineResult.pages.flatMap((page) => page.data);
+      
+      if (allResults.length === 0) return;
+      onSearchResults(allResults);
       setShowModal(false);
+      console.log(selectedDepartment)
     }
-  }, [searchEngineData, onSearchResults]);
+  }, [searchEngineResult]);
 
   const toggleDepartmentModal = () => {
     SetSelectDepartmentModalOpen((prev) => !prev);
-    // if (selectDepartmentButtonRef.current) {
-    //   setButtonWidth(selectDepartmentButtonRef.current.offsetWidth);
-    // }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -195,6 +216,7 @@ export default function SearchBar({
           <input
             className="w-full h-12 border rounded-lg pr-4 pl-28"
             placeholder="جستجو"
+            ref={inputRef}
             value={searchTerm}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
@@ -223,7 +245,7 @@ export default function SearchBar({
                   </button>
 
                   {isSelectDepartmentModalOpen && (
-                    <div className="absolute left-0 top-[172px]">
+                    <div ref={departmentModalRef} className="absolute left-0 top-[172px]">
                       <SearchDepartmentModalTemplate
                         showModal={true}
                         onClose={() => SetSelectDepartmentModalOpen(false)}

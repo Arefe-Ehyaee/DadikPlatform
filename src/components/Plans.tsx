@@ -25,6 +25,10 @@ type PlanDetails = {
   secondCondition: string;
   thirdCondition: string;
   fourthCondition?: string; 
+  fifthCondition: string;
+  sixthCondition: string;
+  seventhCondition: string;
+  eighthCondition?: string;
 };
 
 const planDetails: Record<PlanType, PlanDetails> = {
@@ -35,7 +39,11 @@ const planDetails: Record<PlanType, PlanDetails> = {
     firstCondition: "دسترسی به سرچ تخصصی جامع",
     secondCondition: "دسترسی به بخش لایحه دفاعیه جامع",
     thirdCondition: "گفتگو با هوش مصنوعی",
-    fourthCondition: 'شرکت در قرعه کشی ها'
+    fourthCondition: 'شرکت در قرعه کشی ها',
+    fifthCondition: 'ارائه آخرین اخبار و اعلانات',
+    sixthCondition: 'دسترسی نا محدود به محاسبه گرها',
+    seventhCondition: 'استفاده از دوره و پک های آموزشی',
+    eighthCondition: 'دسترسی به گزارشات تحلیلی'
   },
   silver: {
     title: "طرح نقره ای",
@@ -45,6 +53,10 @@ const planDetails: Record<PlanType, PlanDetails> = {
     secondCondition:
       "دسترسی به بخش لایحه دفاعیه چند  سازمانی (مالیات،اداره کار،تامین اجتماعی)",
     thirdCondition: "گفتگو با هوش مصنوعی",
+    fourthCondition: 'شرکت در قرعه کشی ها',
+    fifthCondition: 'ارائه آخرین اخبار و اعلانات',
+    sixthCondition: 'دسترسی نا محدود به محاسبه گرها',
+    seventhCondition: 'استفاده از دوره و پک های آموزشی'
 
   },
   bronze: {
@@ -54,7 +66,10 @@ const planDetails: Record<PlanType, PlanDetails> = {
     firstCondition: "دسترسی به سرچ تخصصی جامع",
     secondCondition: "دسترسی به بخش لایحه دفاعیه تک سازمانی ",
     thirdCondition: "گفتگو با هوش مصنوعی",
-    fourthCondition: 'شرکت در قرعه کشی ها'
+    fourthCondition: 'شرکت در قرعه کشی ها',
+    fifthCondition: 'ارائه آخرین اخبار و اعلانات',
+    sixthCondition: 'دسترسی نا محدود به محاسبه گرها',
+    seventhCondition: 'استفاده از دوره و پک های آموزشی'
   },
 };
 
@@ -65,7 +80,11 @@ export default function Plans({ planType }: PlansProps) {
     firstCondition,
     secondCondition,
     thirdCondition,
-    fourthCondition
+    fourthCondition,
+    fifthCondition,
+    sixthCondition,
+    seventhCondition,
+    eighthCondition
   } = planDetails[planType];
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -117,20 +136,26 @@ export default function Plans({ planType }: PlansProps) {
   return (
     <div className="min-w-[230px] h-[259px] rounded-lg bg-background-550 flex flex-1">
 
-      <div className="flex flex-col justify-between p-3 text-white w-full">
+      <div className="flex flex-col justify-between p-3 pl-2 text-white w-full">
         <div className="flex flex-row items-center gap-1 border-b border-neutral-100 pb-3">
           <img src={badgeIcon} alt="badge" className="w-6 h-6" />
           <h3 className="text-xs font-myYekanRegular text-black">{title}</h3>
         </div>
 
-        <ul className="list-disc pr-3 text-text-300 font-myYekanRegular text-xs leading-6 mt-3 h-[116px]">
+        <ul className="list-disc pr-3 text-text-300 font-myYekanRegular text-xs leading-6 mt-3 h-[144px] overflow-y-auto scrollbar-webkit ">
           <li className="mb-2">{firstCondition}</li>
           <li className="mb-2">{secondCondition}</li>
           <li className="mb-2">{thirdCondition}</li>
+          <li className="mb-2">{fourthCondition}</li>
+          <li className="mb-2">{fifthCondition}</li>
+          <li className="mb-2">{sixthCondition}</li>
+          <li className="mb-2">{seventhCondition}</li>
+          <li className="mb-2">{eighthCondition}</li>
+
           {fourthCondition && <li className="">{fourthCondition}</li>}
         </ul>
 
-        <div className="h-[75px] flex flex-col justify-end pb-4">
+        <div className="h-[43px] flex flex-col justify-end pb-4">
           {/* <button className="flex flex-row gap-1 items-center w-[112px] h-[26px] mr-2 mb-[14px]">
             <div className="font-myYekanRegular text-sm text-primary-500">
               مشاهده بیشتر
