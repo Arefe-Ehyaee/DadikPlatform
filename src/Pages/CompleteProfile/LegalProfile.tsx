@@ -21,20 +21,21 @@ import { toast } from "react-toastify";
 import RefferalCodeModalTemplate from "../../components/RefferalCodeModalTemplate";
 import RefferalCodeModal from "../../components/RefferalCodeModal";
 import prize from "../../assets/icons/gift-01.svg"
+import { useLocation } from "react-router-dom";
 
 interface LegalProfile {
   companyName: string;
-  companyNationalCode: string;
-  phone: string;
+  companyNationalId: string;
+  workNumber: string;
   workAddress: string;
-  avatar: string;
-  email: string;
-  referenceNCode: string;
-  referencePhone: string;
-  referenceName: string;
-  website: string;
-  referenceLetter:string;
-  officialGazette:string;
+  profilePicture: string;
+  companyEmail: string;
+  connectorPhoneNumber: string;
+  connectorName: string;
+  connectorNationalCode: string;
+  companyWebsite: string;
+  introductionLetter:string;
+  officialNewspaper:string;
 }
 
 export default function LegalProfile() {
@@ -44,6 +45,8 @@ export default function LegalProfile() {
   const avatar = useAuthStore((state) => state.user?.avatar || defaultAvatarMain);
   const [refferalModalOpen, setRefferalModalOpen] = useState<boolean>(false);
   const refferal_code = user?.referral_code || "";
+  const location = useLocation();
+  const lable = location.state?.label || "real";
 
 
   const {
@@ -55,7 +58,7 @@ export default function LegalProfile() {
     resolver: zodResolver(LegalProfileSchema),
   });
 
-  const watchReferenceName = watch("referenceName");
+  const watchReferenceName = watch("connectorName");
 
     const {mutate , isPending} = useMutation({
       mutationFn: postLegalProfile,
@@ -69,7 +72,19 @@ export default function LegalProfile() {
 
   const onSubmit = async (data: LegalProfile) => {
     if (isPending) return;
-    mutate(data);
+
+    const formData = new FormData();
+    // Object.entries(data).forEach(([key, value]) => {
+    //   if (key !== "profilePicture") {
+    //     formData.append(key, value);
+    //   }
+    // });
+    // if (selectedFile) {
+    //   formData.append("profilePicture", selectedFile, selectedFile.name);
+    // }
+
+    formData.append("lable", lable);
+    mutate(formData);
   };
 
   const handleDeleteImage = () => {
@@ -108,7 +123,7 @@ export default function LegalProfile() {
                   type="file"
                   id="avatar"
                   className="hidden"
-                  {...register("avatar", {
+                  {...register("profilePicture", {
                     onChange: (e) => {
                       const file = e.target.files?.[0];
                       if (file) {
@@ -171,24 +186,24 @@ export default function LegalProfile() {
               <div className="mb-[30px]">
                 <Label name={"شماره ملی شرکت"} necessary={true}></Label>
                 <Input
-                  name={"companyNationalCode"}
+                  name={"companyNationalId"}
                   type={"text"}
                   placeholder={""}
                   className={"border-neutral-100 w-[536px] h-[48px]"}
                   register={register}
-                  error={errors.companyNationalCode?.message}
+                  error={errors.companyNationalId?.message}
                 ></Input>
               </div>
 
               <div className="mb-[30px]">
-                <Label name={"شماره تماس"} necessary={false}></Label>
+                <Label name={"شماره تماس محل کار"} necessary={false}></Label>
                 <Input
-                  name={"phone"}
+                  name={"workNumber"}
                   type={"text"}
                   placeholder={""}
                   className={"border-neutral-100 w-[536px] h-[48px]"}
                   register={register}
-                  error={errors.phone?.message}
+                  error={errors.workNumber?.message}
                 ></Input>
               </div>
 
@@ -210,23 +225,23 @@ export default function LegalProfile() {
               <div className="mb-[30px]">
                 <Label name={"ایمیل"} necessary={true}></Label>
                 <EmailInput
-                  name={"email"}
+                  name={"companyEmail"}
                   type={"text"}
                   placeholder={""}
                   register={register}
-                  error={errors.email?.message}
+                  error={errors.companyEmail?.message}
                 ></EmailInput>
               </div>
 
               <div className="mb-[30px]">
                 <Label name={"آدرس وب سایت"} necessary={false}></Label>
                 <Input
-                  name={"website"}
+                  name={"companyWebsite"}
                   type={"text"}
                   placeholder={""}
                   className={"border-neutral-100 w-[536px] h-[48px]"}
                   register={register}
-                  error={errors.website?.message}
+                  error={errors.companyWebsite?.message}
                 ></Input>
               </div>
 
@@ -236,46 +251,46 @@ export default function LegalProfile() {
                   necessary={false}
                 ></Label>
                 <Input
-                  name={"referenceName"}
+                  name={"connectorName"}
                   type={"text"}
                   placeholder={""}
                   className={"border-neutral-100 w-[536px] h-[48px]"}
                   register={register}
-                  error={errors.referenceName?.message}
+                  error={errors.connectorName?.message}
                 ></Input>
               </div>
 
               <div className="mb-[30px]">
                 <Label name={"کد ملی معرف"} necessary={false}></Label>
                 <Input
-                  name={"referenceNCode"}
+                  name={"connectorNationalCode"}
                   type={"text"}
                   placeholder={""}
                   className={"border-neutral-100 w-[536px] h-[48px]"}
                   register={register}
-                  error={errors.referenceNCode?.message}
+                  error={errors.connectorNationalCode?.message}
                 ></Input>
               </div>
 
               <div className="mb-[30px]">
                 <Label name={"تلفن همراه معرف"} necessary={false}></Label>
                 <Input
-                  name={"referencePhone"}
+                  name={"connectorPhoneNumber"}
                   type={"text"}
                   placeholder={""}
                   className={"border-neutral-100 w-[536px] h-[48px]"}
                   register={register}
-                  error={errors.referencePhone?.message}
+                  error={errors.connectorPhoneNumber?.message}
                 ></Input>
               </div>
 
               <div className="mb-[30px]">
                 <Label name={"آپلود روزنامه رسمی"} necessary={true}></Label>
                 <FileInput
-                  name={"officialGazette"}
+                  name={"officialNewspaper"}
                   className={"border-neutral-100 w-[536px] h-[202px]"}
                   register={register}
-                  error={errors.officialGazette?.message}
+                  error={errors.officialNewspaper?.message}
                 ></FileInput>
               </div>
 
@@ -283,10 +298,10 @@ export default function LegalProfile() {
                 <div className="mb-[30px]">
                   <Label name={"آپلود معرفی نامه"} necessary={false}></Label>
                   <FileInput
-                    name={"referenceLetter"}
+                    name={"introductionLetter"}
                     className={"border-neutral-100 w-[536px] h-[202px]"}
                     register={register}
-                    error={errors.referenceLetter?.message}
+                    error={errors.introductionLetter?.message}
                   ></FileInput>
                 </div>
               )}

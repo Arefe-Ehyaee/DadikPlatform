@@ -1,30 +1,27 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import previous from "../../assets/icons/previous.svg";
+import prevIcon from "../../assets/icons/previous.svg";
 import { FetchSearchResults } from "../../api/FetchSearchResults";
 import { useEffect } from "react";
 import { SearchResult } from "./SearchBar";
 
-interface PreviousButtonProps {
-  text?: string;
+interface PreviousPageButtonProps {
+  text: string;
   token: string;
   department: string;
   searchedTerm: string;
   fuzzy: boolean;
   onSearchResults: (results: SearchResult[]) => void;
-  currentPage: number;
-  setCurrentPage: (page: number) => void;
 }
 
-const PreviousButton = ({
+const PreviousPageButton = ({
   text,
   token,
   department,
   searchedTerm,
   fuzzy,
   onSearchResults,
-  currentPage,
-  setCurrentPage,
-}: PreviousButtonProps) => {
+}: PreviousPageButtonProps) => {
+  
   const departmentKey =
     department === "سازمان امور مالیاتی"
       ? "maliat"
@@ -32,54 +29,59 @@ const PreviousButton = ({
       ? "tamin_ejtemaei"
       : department;
 
-  // Use Infinite Query for fetching pages
   const {
     data,
     fetchPreviousPage,
     isFetching,
     hasPreviousPage,
+    isError,
   } = useInfiniteQuery({
     queryKey: ["searchEngineResults", token, departmentKey, searchedTerm, fuzzy],
-    queryFn: async ({ pageParam = currentPage }) => {
+    queryFn: async ({ pageParam = 1 }) => {
       return FetchSearchResults(token, departmentKey, searchedTerm, fuzzy, pageParam);
     },
     initialPageParam: 1,
-    getNextPageParam: (lastPage) => lastPage.nextCursor || undefined,
-    getPreviousPageParam: (firstPage) =>
-      firstPage.page > 1 ? firstPage.page - 1 : undefined,
+    getNextPageParam: (lastPage) => {
+      console.log("Next Cursor:", lastPage.nextCursor); 
+      return lastPage.nextCursor || undefined;
+    },
+    getPreviousPageParam: (firstPage) => {
+      console.log("Previous Cursor:", firstPage.prevCursor); 
+      return firstPage.prevCursor || undefined;
+    },
     enabled: !!searchedTerm && !!department,
   });
 
-
   useEffect(() => {
     if (data && data.pages?.length > 0) {
-      const latestResults = data.pages[0]?.data.slice(0, 10);
+      const currentPage = data.pages[data.pages.length - 1]?.page; 
+      console.log("Current Page:", currentPage); 
+
+      const latestResults = data.pages[data.pages.length - 1]?.data.slice(0, 10);
       if (latestResults.length === 0) return;
       onSearchResults(latestResults || []);
     }
   }, [data]);
 
-  const handlePreviousClick = () => {
-    if (!hasPreviousPage || isFetching) return;
-    setCurrentPage(currentPage -1);
-    fetchPreviousPage();
-  };
-
+  console.log("Has Previous Page:", hasPreviousPage);
+  console.log("Is Fetching:", isFetching);
+  console.log("Data Pages:", data?.pages);
+  
   return (
     <button
-      onClick={handlePreviousClick}
-      className={`border border-primary-500 bg-white text-primary-500 text-sm font-myYekanRegular w-10 h-[40px] py-[10px] rounded-lg ${
+      onClick={() => fetchPreviousPage()} 
+      className={`bg-white text-white text-sm font-myYekanRegular w-[40px] h-[40px] py-[10px] border border-primary-500 rounded-lg ${
         !hasPreviousPage || isFetching ? "opacity-50 cursor-not-allowed" : ""
       }`}
-      disabled={!hasPreviousPage || isFetching}
+      disabled={!(data?.pages?.[0]?.prevCursor) || isFetching} 
       dir="rtl"
     >
       <div className="flex flex-row items-center gap-3 justify-center">
-        <img src={previous} alt="logo" className="h-3 w-[6px]" />
-        {text && <span className="text-center">{text}</span>}
+        <img src={prevIcon} alt="prev" className="h-3 w-[6px]" />
+        {/* {text && <span className="text-center">{text}</span>} */}
       </div>
     </button>
   );
 };
 
-export default PreviousButton;
+export default PreviousPageButton;

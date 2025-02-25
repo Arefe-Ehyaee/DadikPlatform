@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 import prize from "../../assets/icons/gift-01.svg"
 import RefferalCodeModal from "../../components/RefferalCodeModal";
 import RefferalCodeModalTemplate from "../../components/RefferalCodeModalTemplate";
+import { useLocation } from "react-router-dom";
 
 interface PersonProfile {
   name: string;
@@ -40,6 +41,8 @@ export default function PersonProfile() {
   const avatar = useAuthStore((state) => state.user?.avatar || defaultAvatarMain);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const refferal_code = user?.referral_code || "";
+  const location = useLocation();
+  const lable = location.state?.label || "real";
 
 
   const {
@@ -73,6 +76,8 @@ export default function PersonProfile() {
     if (selectedFile) {
       formData.append("profilePicture", selectedFile, selectedFile.name);
     }
+
+    formData.append("lable", lable);
     mutate(formData);
   };
 

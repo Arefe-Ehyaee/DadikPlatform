@@ -8,7 +8,7 @@ export const LegalProfileSchema = z.object({
     message: ".نام شرکت فقط باید شامل حروف فارسی باشد",
   }),
 
-  companyNationalCode: z
+  companyNationalId: z
   .string({ required_error: "شماره ملی شرکت را وارد کنید" })
   .nonempty("شماره ملی الزامی است")
   .min(11, { message: "شماره ملی شرکت باید حداقل 11 کاراکتر باشد" })
@@ -17,7 +17,7 @@ export const LegalProfileSchema = z.object({
     message: "شماره ملی شرکت فقط باید شامل اعداد باشد",
   }),
 
-  phone: z
+  workNumber: z
   .string()
   .regex(/^09\d{9}$/, {
     message: "فرمت شماره تماس معتبر نیست. لطفاً شماره معتبر وارد کنید",
@@ -25,13 +25,13 @@ export const LegalProfileSchema = z.object({
   .optional()
   .or(z.literal("")),
 
-  email: z
+  companyEmail: z
   .string({ required_error: "ایمیل را وارد کنید" })
   .nonempty("ایمیل الزامی است")
   .max(255,{ message: "ایمیل نباید بیشتر از 255 کاراکتر باشد" } )
   .email({ message: "ایمیل نامعتبر است" }),
 
-  referenceName: z
+  connectorName: z
   .string({ required_error: "نام و نام خانوادگی معرف را وارد کنید" })
   .regex(/^[آ-ی\s]+$/, {
     message: ".نام و نام خانوادگی معرف فقط باید شامل حروف فارسی باشد",
@@ -39,17 +39,17 @@ export const LegalProfileSchema = z.object({
   .optional()
   .or(z.literal("")),
 
-  referenceNCode: z
+  connectorNationalCode: z
   .string({ required_error: "کد ملی معرف را وارد کنید" })
-  .min(11, { message: "کد ملی معرف باید حداقل 11 کاراکتر باشد" })
-  .max(11, { message: "کد ملی معرف باید حداکثر 11 کاراکتر باشد" })
+  .min(10, { message: "کد ملی معرف باید حداقل 10 کاراکتر باشد" })
+  .max(10, { message: "کد ملی معرف باید حداکثر 10 کاراکتر باشد" })
   .regex(/^\d+$/, {
     message: "کد ملی معرف فقط باید شامل اعداد باشد",
   })
   .optional()
   .or(z.literal("")),
 
-  referencePhone: z
+  connectorPhoneNumber: z
   .string()
   .regex(/^09\d{9}$/, {
     message: "فرمت شماره تماس معتبر نیست. لطفاً شماره معتبر وارد کنید",
@@ -57,7 +57,7 @@ export const LegalProfileSchema = z.object({
   .optional()
   .or(z.literal("")),
 
-  officialGazette: z
+  officialNewspaper: z
   .any()
   .refine(
     (files) => files instanceof FileList && files.length > 0,

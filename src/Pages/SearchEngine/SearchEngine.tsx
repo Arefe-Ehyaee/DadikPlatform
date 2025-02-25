@@ -5,6 +5,8 @@ import PreviousButton from "../../components/SearchEngineComponents/PreviousButt
 import SearchBar from "../../components/SearchEngineComponents/SearchBar";
 import SearchEngineCard from "../../components/SearchEngineComponents/SearchEngineCard";
 import { getTokenFromCookie } from "../../utils/cookies";
+import PreviousPageButton from "../../components/SearchEngineComponents/PreviousButton";
+import SearchBadge from "../../components/SearchEngineComponents/SearchBadge";
 
 const finds = 1440;
 
@@ -80,17 +82,24 @@ export default function SearchEngine() {
           }
         ></CustomButton>
       </div>
+      {searchResults.length > 0 && (
+        <div className="flex flex-row items-center mt-3 gap-4">
+          <SearchBadge text={selectedDepartment}></SearchBadge>
+          <SearchBadge text={searchedTerm}></SearchBadge>
+          <SearchBadge
+            text={fuzzy ? "مشابه عبارت" : "مطابق عبارت"}
+          ></SearchBadge>
+        </div>
+      )}
 
-      <div className=" w-[200px] h-[50px] text-black">
-        {selectedDepartment}
-      </div>
-
-      <div className="flex flex-row justify-between items-center">
-        <p className="mb-4 mt-8 font-myYekanRegular text-base text-text-500">
-          نمایش نتایج {searchedTerm}
-        </p>
-        {/* <p className="text-text-200 font-myYekanFaNumRegular text-sm">{`تعداد نتایج یافت شده ${finds}`}</p> */}
-      </div>
+      {searchResults.length > 0 && (
+        <div className="flex flex-row justify-between items-center">
+          <p className="mb-4 mt-4 font-myYekanRegular text-base text-text-500">
+            نمایش نتایج {searchedTerm}
+          </p>
+          {/* <p className="text-text-200 font-myYekanFaNumRegular text-sm">{`تعداد نتایج یافت شده ${finds}`}</p> */}
+        </div>
+      )}
 
       <div className="overflow-y-auto overflow-x-hidden scrollbar-webkit mb-4 pl-[10px]">
         {/* {searchResults.map((result, index) => (
@@ -119,22 +128,21 @@ export default function SearchEngine() {
             ></SearchEngineCard>
           ))
         ) : (
-          <p>هنوز جستجویی انجام نشده است</p>
+          <p className="mt-4">هنوز جستجویی انجام نشده است</p>
         )}
       </div>
 
       {searchResults.length > 0 && (
         <div className="flex flex-row justify-between w-full">
           <div className="flex flex-grow justify-center gap-4">
-            <PreviousButton
+            <PreviousPageButton
+              onSearchResults={handleSearchResults}
+              text={"صفحه قبل"}
               token={token}
               department={selectedDepartment}
               searchedTerm={searchedTerm}
               fuzzy={fuzzy}
-              onSearchResults={handleSearchResults}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            ></PreviousButton>
+            ></PreviousPageButton>
             <NextPageButton
               onSearchResults={handleSearchResults}
               text={"صفحه بعد"}

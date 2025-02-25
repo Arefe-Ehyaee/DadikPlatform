@@ -1,27 +1,16 @@
 import { useForm } from "react-hook-form";
-import Input from "../../components/Input";
-import Label from "../../components/Label";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { personProfileSchema } from "../../Schemas/PersonProfileSchema";
-import SideNavbar from "../../components/SideNavbar";
-import TopBar from "../../components/Topbar/TopBar";
-import UserInfoHeader from "../../components/Header";
 import { useRef, useState } from "react";
-import cloud from "../../assets/icons/cloud.svg";
-import trash from "../../assets/icons/trash-02.svg";
 import useAuthStore from "../../Stores/authStore";
 import defaultAvatar from "../../assets/icons/newIcons/defaultAvatr.png";
 import CustomButton from "../../components/CustomButton";
-import FileInput from "../../components/FileInput";
 import { LegalProfileSchema } from "../../Schemas/LegalProfileSchema";
-import EmailInput from "../../components/EmailInput";
 import { useMutation } from "@tanstack/react-query";
-import { postLegalProfile } from "../../api/postLegalProfile";
 import { toast } from "react-toastify";
-import LegalPerson from "../Entrance/LegalPerson";
 import natural from "../../assets/icons/user-02.png";
 import legal from "../../assets/icons/building-04.svg";
 import { useNavigate } from "react-router-dom";
+import { postLegalProfile } from "../../api/postLegalProfile";
 
 interface CompleteProfileProps {
   companyName: string;
@@ -69,17 +58,10 @@ export default function CompleteProfile() {
     },
   });
 
-  const onSubmit = async (data: CompleteProfileProps) => {
-    mutate(data);
-  };
+  // const onSubmit = async (data: CompleteProfileProps) => {
+  //   mutate(data);
+  // };
 
-  const handleDeleteImage = () => {
-    setSelectedImage("");
-
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
 
   const navigate = useNavigate();
   const [legalPerson, setLegalPerson] = useState<LegalPersonType>();
@@ -93,14 +75,14 @@ export default function CompleteProfile() {
         progressClassName: "fancy-progress-bar",
       });
     } else if (legalPerson === "person") {
-      navigate("/personProfile", { state: { legalPerson } });
+      navigate("/personProfile", { state: { lable: "real" } });
     } else if (legalPerson === "legal") {
-      navigate("/legalProfile", { state: { legalPerson } });
+      navigate("/legalProfile", { state: { lable: "legal" } });
     }
   };
 
   return (
-    <div className="flex flex-row bg-white rounded-2xl">
+    <div className="flex flex-row bg-white rounded-2xl mb-8">
       <div className="flex-1 py-6 px-6">
         <div className="justify-center min-w-[504px] h-[676px] bg-background-550 rounded-lg px-8">
           <div className="flex flex-col items-center justify-center">
@@ -132,9 +114,8 @@ export default function CompleteProfile() {
                 "bg-primary-500 text-white font-myYekanDemibold w-full text-center rounded-lg h-10 text-base"
               }
               onClick={() => handleSignUpNavigate()}
-            
             >
-                ورود
+                ادامه
             </button>
 
           </div>

@@ -52,11 +52,7 @@ export default function SearchBar({
     useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
-  // const [selectedDepartment, setSelectedDepartment] = useState<string | null>(
-  //   null
-  // );
   const [searchEngineInput, setSearchEngineInput] = useState<string>("");
-  // const [fuzzy, setFuzzy] = useState<boolean>(true);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [enableWordMeaning, setEnableWordMeaning] = useState<boolean>(false);
   const selectDepartmentButtonRef = useRef<HTMLButtonElement>(null);
@@ -66,19 +62,28 @@ export default function SearchBar({
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+        setShowModal(false);
+      }
+    }
+
+    if (showModal) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showModal]);
+
+  useEffect(() => {
     if (isSelectDepartmentModalOpen && selectDepartmentButtonRef.current) {
       setButtonWidth(selectDepartmentButtonRef.current.offsetWidth);
     }
   }, [isSelectDepartmentModalOpen]);
 
   const token = getTokenFromCookie();
-
-  const fetchSuggestions = async () => {
-    if (!searchEngineInput || searchEngineInput.length < 2) {
-      return;
-    }
-    return FetchSearchEngineSuggestion(token, searchEngineInput) ?? [];
-  };
 
   const handleSelectDepartment = (department: string) => {
     setSelectedDepartment(department);
@@ -168,6 +173,7 @@ export default function SearchBar({
     }
     setSearchedTerm(searchTerm);
     searchEngineRefetch();
+
   };
 
   const handleSelectAccuracy = (accuracy: string) => {
@@ -224,7 +230,7 @@ export default function SearchBar({
           />
 
           {showModal && (
-            <div className="absolute w-full flex flex-row gap-4 bg-white border border-gray-300 rounded-b-lg z-10 px-4">
+            <div ref={modalRef} className="absolute w-full flex flex-row gap-4 bg-white border border-gray-300 rounded-b-lg z-10 px-4">
               <div className=" flex flex-col flex-1">
                 <div className="relative">
                   <button
