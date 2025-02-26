@@ -15,6 +15,7 @@ export const FetchSearchResults = async (token: string, department : string, que
   });
 
   console.log("Current Page from API:", response.data.page);
+  console.log("prevCursor", response.data.page > 1 ? response.data.page - 1 : undefined)
   return {
     data: response.data.hits, 
     page: response.data.page, 

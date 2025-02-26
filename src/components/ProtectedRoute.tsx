@@ -1,42 +1,24 @@
 import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import useAuthStore from "../Stores/authStore";
-import { getTokenFromCookie } from "../utils/cookies";
-import { fetchUserProfile } from "../api/Auth";
 
 const ProtectedRoute = () => {
-  const { user, setUser, setToken, isAuthenticated } = useAuthStore();
-  const token = getTokenFromCookie();
-  const [isVerifying, setIsVerifying] = useState(false);
-  const [authFailed, setAuthFailed] = useState(false);
+  const { user, isAuthenticated, restoreSession } = useAuthStore();
+  const [isVerifying, setIsVerifying] = useState(true);
 
   useEffect(() => {
-    console.log("token in protected route", token)
-    const verifyUser = async () => {
-      if (!token || isAuthenticated || user) return; // Skip if no token or already authenticated
-      console.log("in protected route code")
-
-      setIsVerifying(true);
-      try {
-        const userData = await fetchUserProfile(token);
-        setUser(userData);
-        setToken(token); // Ensure token is in store
-      } catch (error) {
-        console.error("Token verification failed", error);
-        setAuthFailed(true); // Trigger redirect
-      } finally {
-        setIsVerifying(false);
-      }
+    const checkAuth = async () => {
+      await restoreSession();
+      setIsVerifying(false);
     };
-
-    verifyUser();
-  }, [token, user, isAuthenticated, setUser, setToken]);
+    checkAuth();
+  }, []);
 
   if (isVerifying) {
-    return <div>در حال بررسی اعتبار...</div>; // Better UX message
+    return <div className="font-myYekanRegular text-lg">در حال انتقال ...</div>; 
   }
 
-  if (authFailed || !isAuthenticated) {
+  if (!isAuthenticated) {
     return <Navigate to="/loginWithPassword" replace />;
   }
 

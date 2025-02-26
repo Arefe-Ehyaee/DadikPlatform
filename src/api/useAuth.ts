@@ -16,7 +16,7 @@ export const usePassLogin = () => {
   const setUser = useAuthStore((state) => state.setUser);
   const setToken = useAuthStore((state) => state.setToken);
   const navigate = useNavigate();
-
+  
   const loginMutation = useMutation({
     mutationFn: postLoginPassAPI,
     onMutate: () => {
@@ -26,18 +26,18 @@ export const usePassLogin = () => {
       setToken(data.access);
       saveTokenToCookie(data.access);
 
-      try {
-        const userData = await fetchUserProfile(data.access);
-        setUser(userData);
+      // try {
+      //   const userData = await fetchUserProfile(data.access);
+      //   setUser(userData);
         // console.log("data.access", data.access)
         toast.success('ورود موفق', {
           className: 'toast',
           progressClassName: 'fancy-progress-bar',
         });
         navigate('/dashboard');
-      } catch (error) {
-        toast.error('خطا در دریافت اطلاعات کاربر');
-      }
+      // } catch (error) {
+      //   toast.error('خطا در دریافت اطلاعات کاربر');
+      // }
     },
     onError: (error) => {
       toast.error('نام کاربری یا رمز عبور اشتباه است', {

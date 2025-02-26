@@ -1,5 +1,7 @@
 import { create } from 'zustand';
+import { getTokenFromCookie, deleteTokenFromCookie } from "../utils/cookies";
 import defaultAvatar from "../assets/icons/defaultAvatar-rounded.svg";
+import { fetchUserProfile } from "../api/Auth";
 
 interface UserProfile {
   name: string;
@@ -20,9 +22,6 @@ interface Subscription {
   is_active: boolean;
 }
 
-
-// "2025-01-20T18:52:07.569331Z"
-
 export const defaultUserProfile: UserProfile = {
   username: '',
   avatar: defaultAvatar,
@@ -35,7 +34,6 @@ export const defaultUserProfile: UserProfile = {
   referral_code: ''
 };
 
-
 interface AuthState {
   user: UserProfile | null;
   token: string | null;
@@ -45,17 +43,48 @@ interface AuthState {
   setUser: (user: any) => void;
   setToken: (token: string) => void;
   clearUser: () => void;
+  restoreSession: () => Promise<void>;
 }
 
-const useAuthStore = create<AuthState>((set, get) => ({
-  user: defaultUserProfile,
-  isAuthenticated: false,
-  token: null,
-  setUser: (user) => set({ user }),
-  setToken: (token) => set({ token, isAuthenticated: !!token }),
-  clearUser: () => set({ user: null, token: null, isAuthenticated: false }),
-  login: (user, token) => set({ user, token, isAuthenticated: true }),
-  logout: () => set({ user: null, token: null,  isAuthenticated: false }),
-}));
+const useAuthStore = create<AuthState>((set) => {
+  const savedToken = getTokenFromCookie(); // Load token from cookies
+
+  return {
+    user: null,
+    token: savedToken || null,
+    isAuthenticated: !!savedToken,
+
+    setUser: (user) => set({ user }),
+    setToken: (token) => set({ token, isAuthenticated: !!token }),
+    clearUser: () => {
+      deleteTokenFromCookie();
+      set({ user: null, token: null, isAuthenticated: false });
+    },
+
+    login: (user, token) => {
+      set({ user, token, isAuthenticated: true });
+    },
+
+    logout: () => {
+      deleteTokenFromCookie();
+      set({ user: null, token: null, isAuthenticated: false });
+    },
+
+    restoreSession: async () => {
+      const token = getTokenFromCookie();
+      if (!token) {
+        set({ isAuthenticated: false, user: null });
+        return;
+      }
+      try {
+        const userData = await fetchUserProfile(token);
+        set({ user: userData, token, isAuthenticated: true });
+      } catch (error) {
+        console.error("Failed to restore session", error);
+        set({ isAuthenticated: false, user: null, token: null });
+      }
+    },
+  };
+});
 
 export default useAuthStore;

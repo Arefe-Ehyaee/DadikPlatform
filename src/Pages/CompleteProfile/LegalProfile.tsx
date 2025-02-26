@@ -6,7 +6,7 @@ import { personProfileSchema } from "../../Schemas/PersonProfileSchema";
 import SideNavbar from "../../components/SideNavbar";
 import TopBar from "../../components/Topbar/TopBar";
 import UserInfoHeader from "../../components/Header";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import cloud from "../../assets/icons/cloud.svg";
 import trash from "../../assets/icons/trash-02.svg";
 import useAuthStore from "../../Stores/authStore";
@@ -20,8 +20,9 @@ import { postLegalProfile } from "../../api/postLegalProfile";
 import { toast } from "react-toastify";
 import RefferalCodeModalTemplate from "../../components/RefferalCodeModalTemplate";
 import RefferalCodeModal from "../../components/RefferalCodeModal";
-import prize from "../../assets/icons/gift-01.svg"
+import prize from "../../assets/icons/gift-01.svg";
 import { useLocation } from "react-router-dom";
+import { ReactComponent as Arrow } from "../../assets/icons/input-prefix.svg";
 
 interface LegalProfile {
   companyName: string;
@@ -34,41 +35,49 @@ interface LegalProfile {
   connectorName: string;
   connectorNationalCode: string;
   companyWebsite: string;
-  introductionLetter:string;
-  officialNewspaper:string;
+  introductionLetter: string;
+  officialNewspaper: string;
+  role: string;
 }
 
 export default function LegalProfile() {
   const user = useAuthStore((state) => state.user);
   const [selectedImage, setSelectedImage] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const avatar = useAuthStore((state) => state.user?.avatar || defaultAvatarMain);
+  const avatar = useAuthStore(
+    (state) => state.user?.avatar || defaultAvatarMain
+  );
   const [refferalModalOpen, setRefferalModalOpen] = useState<boolean>(false);
   const refferal_code = user?.referral_code || "";
   const location = useLocation();
   const lable = location.state?.label || "real";
-
+  const [isRoleSelectorOpen, setIsSelectorOpen] = useState<boolean>(false);
+  const [selectedRole, setSelectedRole] = useState<string>("");
 
   const {
     watch,
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<LegalProfile>({
     resolver: zodResolver(LegalProfileSchema),
+    defaultValues: {
+      role: "", // Default empty selection
+    },
   });
 
   const watchReferenceName = watch("connectorName");
 
-    const {mutate , isPending} = useMutation({
-      mutationFn: postLegalProfile,
-      onSuccess: (data) => {
-        toast.success("تغییرات با موفقیت ثبت شد");
-      },
-      onError: (error) => {
-        toast.error("خطایی رخ داده است.")
-      },
-    })
+  const { mutate, isPending } = useMutation({
+    mutationFn: postLegalProfile,
+    onSuccess: (data) => {
+      toast.success("تغییرات با موفقیت ثبت شد");
+    },
+    onError: (error) => {
+      toast.error("خطایی رخ داده است.");
+    },
+  });
 
   const onSubmit = async (data: LegalProfile) => {
     if (isPending) return;
@@ -95,6 +104,10 @@ export default function LegalProfile() {
     }
   };
 
+  useEffect(() => {
+    console.log("selectedRole", selectedRole);
+  });
+
   return (
     <div className="min-h-screen flex flex-col overflow-hidden">
       <TopBar></TopBar>
@@ -112,67 +125,77 @@ export default function LegalProfile() {
           <div className="bg-white rounded-2xl p-6">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-row justify-between">
-              <div className="mb-4 flex flex-row items-center">
-                <img
-                  src={selectedImage || avatar}
-                  alt="profile image edit/upload"
-                  className="h-[72px] w-[72px] rounded-full border-[1px] border-neutral-100"
-                />
+                <div className="mb-4 flex flex-row items-center">
+                  <img
+                    src={selectedImage || avatar}
+                    alt="profile image edit/upload"
+                    className="h-[72px] w-[72px] rounded-full border-[1px] border-neutral-100"
+                  />
 
-                <input
-                  type="file"
-                  id="avatar"
-                  className="hidden"
-                  {...register("profilePicture", {
-                    onChange: (e) => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        setSelectedImage(URL.createObjectURL(file));
-                      }
-                    },
-                  })}
-                  
-                  ref={fileInputRef} // Attach the ref here
-                />
+                  <input
+                    type="file"
+                    id="avatar"
+                    className="hidden"
+                    {...register("profilePicture", {
+                      onChange: (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          setSelectedImage(URL.createObjectURL(file));
+                        }
+                      },
+                    })}
+                    ref={fileInputRef}
+                  />
+
+                  <button
+                    className="flex flex-row gap-2 mr-4 items-center"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    <img src={cloud} alt="upload" />
+                    <span className="font-myYekanRegular text-text-200 text-sm">
+                      تغییر لوگو
+                    </span>
+                  </button>
+
+                  <button
+                    className="flex flex-row gap-2 mr-4 items-center"
+                    onClick={handleDeleteImage}
+                  >
+                    <img src={trash} alt="trash" />
+                    <span className="font-myYekanRegular text-error-500 text-sm">
+                      حذف لوگو
+                    </span>
+                  </button>
+                </div>
 
                 <button
-                  className="flex flex-row gap-2 mr-4 items-center"
-                  onClick={() => fileInputRef.current?.click()}
+                  className="relative bg-primary-500 w-[113px] h-10 rounded-lg flex flex-row gap-2 items-center justify-center"
+                  type="button"
+                  onClick={() => setRefferalModalOpen((prev) => !prev)}
                 >
-                  <img src={cloud} alt="upload" />
-                  <span className="font-myYekanRegular text-text-200 text-sm">
-                    تغییر لوگو
-                  </span>
-                </button>
-
-                <button
-                  className="flex flex-row gap-2 mr-4 items-center"
-                  onClick={handleDeleteImage}
-                >
-                  <img src={trash} alt="trash" />
-                  <span className="font-myYekanRegular text-error-500 text-sm">
-                    حذف لوگو
-                  </span>
-                </button>
-              </div>
-              
-              <button className="relative bg-primary-500 w-[113px] h-10 rounded-lg flex flex-row gap-2 items-center justify-center" type="button" onClick={() => setRefferalModalOpen((prev) => !(prev))}>
-                    <img src={prize} alt="invitationCode" />
-                    <p className="text-base text-white font-myYekanRegular">کد دعوت</p>
+                  <img src={prize} alt="invitationCode" />
+                  <p className="text-base text-white font-myYekanRegular">
+                    کد دعوت
+                  </p>
                 </button>
 
                 {refferalModalOpen && (
-                <div className="absolute">
-                  <RefferalCodeModalTemplate showModal={refferalModalOpen}  onClose={() => setRefferalModalOpen(false)}>
-                    <RefferalCodeModal onClick={() => setRefferalModalOpen((prev) => !(prev))} refferal_code={refferal_code}></RefferalCodeModal>
-                  </RefferalCodeModalTemplate>
-                </div>
-              )}
-
+                  <div className="absolute">
+                    <RefferalCodeModalTemplate
+                      showModal={refferalModalOpen}
+                      onClose={() => setRefferalModalOpen(false)}
+                    >
+                      <RefferalCodeModal
+                        onClick={() => setRefferalModalOpen((prev) => !prev)}
+                        refferal_code={refferal_code}
+                      ></RefferalCodeModal>
+                    </RefferalCodeModalTemplate>
+                  </div>
+                )}
               </div>
 
               <div className="mb-[30px]">
-                <Label name={"نام شرکت"} necessary={true}></Label>
+                <Label name={"نام شرکت"} necessary={false}></Label>
                 <Input
                   name={"companyName"}
                   type={"text"}
@@ -184,7 +207,7 @@ export default function LegalProfile() {
               </div>
 
               <div className="mb-[30px]">
-                <Label name={"شماره ملی شرکت"} necessary={true}></Label>
+                <Label name={"شماره ملی شرکت"} necessary={false}></Label>
                 <Input
                   name={"companyNationalId"}
                   type={"text"}
@@ -195,13 +218,63 @@ export default function LegalProfile() {
                 ></Input>
               </div>
 
-              <div className="mb-[30px]">
+              <Label name={"سمت"} necessary={false}></Label>
+              <div
+                onClick={() => setIsSelectorOpen(!isRoleSelectorOpen)}
+                className="flex flex-row justify-between pl-3 mb-4 border border-neutral-100 rounded-[8px] w-[536px] h-[48px] "
+              >
+                <span className="mt-3 pr-4 text-text-500 text-sm font-myYekanRegular" dir="">{selectedRole || "...انتخاب سمت"}</span>
+                <Arrow
+                  className={`mt-4 ${isRoleSelectorOpen ? "rotate-180" : ""}`}
+                ></Arrow>
+              </div>
+
+              {isRoleSelectorOpen && (
+                <ul
+                  className={
+                    "w-[536px] rounded-[8px] border border-neutral-100 mb-[30px] text-sm font-myYekanRegular"
+                  }
+                >
+                  <li
+                    className="h-10 pr-4 py-[10px] rounded-t-[8px] bg-white hover:bg-neutral-50"
+                    onClick={() => {
+                      setSelectedRole("");
+                      setValue("role", "");
+                      setIsSelectorOpen(false);
+                    }}
+                  >
+                    انتخاب سمت...
+                  </li>
+                  <li
+                    className={`h-10 pr-4 py-[10px] rounded-[8px] hover:bg-neutral-50 ${selectedRole === "مدیر" ? "bg-primary-500 text-white" : "bg-white"}`}
+                    onClick={() => {
+                      setSelectedRole("مدیر");
+                      setValue("role", "مدیر");
+                      setIsSelectorOpen(false);
+                    }}
+                  >
+                    مدیر
+                  </li>
+                  <li
+                    className={`h-10 pr-4 py-[10px] rounded-[8px] hover:bg-neutral-50 ${selectedRole === "نماینده شرکت" ? "bg-primary-500 text-white" : "bg-white"}`}
+                    onClick={() => {
+                      setSelectedRole("نماینده شرکت");
+                      setValue("role", "نماینده شرکت");
+                      setIsSelectorOpen(false);
+                    }}
+                  >
+                    نماینده شرکت
+                  </li>
+                </ul>
+              )}
+
+              <div className="my-[30px]">
                 <Label name={"شماره تماس محل کار"} necessary={false}></Label>
                 <Input
                   name={"workNumber"}
                   type={"text"}
                   placeholder={""}
-                  className={"border-neutral-100 w-[536px] h-[48px]"}
+                  className={"border-neutral-100 w-[536px] h-[48px] "}
                   register={register}
                   error={errors.workNumber?.message}
                 ></Input>
@@ -223,7 +296,7 @@ export default function LegalProfile() {
               </div>
 
               <div className="mb-[30px]">
-                <Label name={"ایمیل"} necessary={true}></Label>
+                <Label name={"ایمیل"} necessary={false}></Label>
                 <EmailInput
                   name={"companyEmail"}
                   type={"text"}

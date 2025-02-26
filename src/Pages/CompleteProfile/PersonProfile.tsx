@@ -44,7 +44,6 @@ export default function PersonProfile() {
   const location = useLocation();
   const lable = location.state?.label || "real";
 
-
   const {
     register,
     handleSubmit,

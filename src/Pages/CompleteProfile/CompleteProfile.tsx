@@ -7,10 +7,12 @@ import CustomButton from "../../components/CustomButton";
 import { LegalProfileSchema } from "../../Schemas/LegalProfileSchema";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import natural from "../../assets/icons/user-02.png";
-import legal from "../../assets/icons/building-04.svg";
-import { useNavigate } from "react-router-dom";
+import { ReactComponent as Legal } from "../../assets/icons/building-04.svg";
+import { ReactComponent as Person } from "../../assets/icons/user-02.svg";
+import { NavLink, useNavigate } from "react-router-dom";
 import { postLegalProfile } from "../../api/postLegalProfile";
+import processGroup from "../../assets/icons/Group 339.svg";
+import logo from "../../assets/images/Group 343.svg";
 
 interface CompleteProfileProps {
   companyName: string;
@@ -58,11 +60,6 @@ export default function CompleteProfile() {
     },
   });
 
-  // const onSubmit = async (data: CompleteProfileProps) => {
-  //   mutate(data);
-  // };
-
-
   const navigate = useNavigate();
   const [legalPerson, setLegalPerson] = useState<LegalPersonType>();
 
@@ -90,24 +87,30 @@ export default function CompleteProfile() {
               آیا شما یک فرد حقیقی هستید یا نماینده یک کسب و کار ؟
             </p>
             <div className="flex justify-center gap-4 mb-[96px] mt-6">
-              <CustomButton
-                iconsrc={natural}
-                size={"large"}
-                text={"شخص حقیقی"}
-                className={
-                  "bg-neutral-100 text-primary-500 font-myYekanRegular w-[135px] text-sm"
-                }
-                handleOnClick={() => setLegalPerson("person")}
-              ></CustomButton>
-              <CustomButton
-                iconsrc={legal}
-                size={"large"}
-                text={"شخص حقوقی"}
-                className={
-                  "bg-neutral-100 text-text-500 font-myYekanRegular w-[135px] text-sm"
-                }
-                handleOnClick={() => setLegalPerson("legal")}
-              ></CustomButton>
+              <button
+                onClick={() => setLegalPerson("person")}
+                className={`flex flex-row items-center gap-2 h-[40px] px-[14px] py-4 text-center 
+                  justify-center rounded-md bg-neutral-100 text-text-500 hover:text-primary-500
+                   hover:bg-primary-50 font-myYekanRegular w-[135px] text-sm
+                  ${legalPerson === "person" 
+                   ? " text-[#3F51B5] bg-primary-50"
+                    : "text-text-500"}`}
+                >
+                <Person></Person>
+                <p>{"شخص حقیقی"}</p>
+              </button>
+              <button
+                onClick={() => setLegalPerson("legal")}
+                className={`flex flex-row items-center gap-2 h-[40px] px-[14px] py-4 text-center 
+                justify-center rounded-md bg-neutral-100 text-text-500 hover:text-primary-500
+                 hover:bg-primary-50 font-myYekanRegular w-[135px] text-sm
+                ${legalPerson === "legal" 
+                 ? "text-[#3F51B5] bg-primary-50"
+                  : "text-text-500"}`}
+              >
+                <Legal></Legal>
+                <p>{"شخص حقوقی"}</p>
+              </button>
             </div>
             <button
               className={
@@ -115,15 +118,36 @@ export default function CompleteProfile() {
               }
               onClick={() => handleSignUpNavigate()}
             >
-                ادامه
+              ادامه
             </button>
-
           </div>
         </div>
       </div>
 
       <div className="flex-1">
-        <div className="bg-primary-500 min-w-[552px] h-[724px] rounded-tl-2xl rounded-bl-2xl"></div>
+        <div className="relative bg-gradient-to-br from-[#17216E] to-[#3F51B5] min-w-[552px] h-[724px] rounded-tl-2xl rounded-bl-2xl">
+          <div className="text-white text-xl font-myYekanDemibold pt-8 pr-8">
+            مراحل ثبت نام در دادیک
+          </div>
+          <div className="relative flex flex-row items-center gap-2 ">
+            <img
+              src={processGroup}
+              alt="processGroup"
+              className="pr-10 pt-10"
+            />
+            <ul className="mt-[40px] font-myYekanRegular text-white text-xl w-full">
+              <li>انتخاب دسته مورد نظر</li>
+              <li className="my-[120px] w-full">کامل کردن اطلاعات</li>
+              <li>ورود به سامانه دادیک</li>
+            </ul>
+          </div>
+
+          <div className="absolute top-[236px] right-8 h-16 bg-white/10 opacity-32 py-4 min-w-[400px] rounded-lg"></div>
+
+          <div className="px-8 absolute bottom-0 w-full py-8">
+            <img src={logo} alt="logo" className="w-full" />
+          </div>
+        </div>
       </div>
     </div>
   );

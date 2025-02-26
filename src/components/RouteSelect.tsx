@@ -1,4 +1,4 @@
-import {ReactComponent as Grid} from "../assets/icons/newIcons/grid-01.svg";
+import {ReactComponent as Grid} from "../assets/icons/grid-01.svg";
 import {ReactComponent as Search} from "../assets/icons/newIcons/search-sm.svg";
 import {ReactComponent as Book} from "../assets/icons/newIcons/file-04.svg";
 import {ReactComponent as Line} from "../assets/icons/newIcons/line-chart-up-03.svg";

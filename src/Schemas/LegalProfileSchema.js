@@ -63,4 +63,6 @@ export const LegalProfileSchema = z.object({
     (files) => files instanceof FileList && files.length > 0,
     "آپلود روزنامه رسمی الزامی است"
   ),
+
+  role: z.enum(["مدیر", "نماینده شرکت"]),
 });

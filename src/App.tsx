@@ -24,9 +24,20 @@ import DocumentDetails from "./Pages/Document/DocumentDetail";
 import SearchResult from "./components/SearchEngineComponents/SearchResult";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CompleteProfile from "./Pages/CompleteProfile/CompleteProfile";
+import useAuthStore from "./Stores/authStore";
+import { useEffect } from "react";
 
 function App() {
   const queryClient = new QueryClient();
+  const restoreSession = useAuthStore((state) => state.restoreSession);
+
+  useEffect(() => {
+    if (!useAuthStore.getState().user) {
+      restoreSession();
+    }
+  }, []);
+  
+  
   return (
     <div className="App font-myYekanRegular" dir="rtl">
       <QueryClientProvider client={queryClient}>
@@ -116,14 +127,15 @@ function App() {
               />
               <Route
                 path="/CompleteProfile"
-                element={<SecondaryLayout mainComponents={<CompleteProfile />} title={"انتخاب نوع کاربر"} />}
+                element={
+                  <SecondaryLayout
+                    mainComponents={<CompleteProfile />}
+                    title={"انتخاب نوع کاربر"}
+                  />
+                }
               />
-                          <Route path="/personProfile" element={<PersonProfile />}></Route>
-                          <Route path="/legalProfile" element={<LegalProfile />}></Route>
-              {/* <Route
-                path="/worktable"
-                element={<MainLayout mainComponents={<WorkTableComponent />} />}
-              /> */}
+              <Route path="/personProfile" element={<PersonProfile />}></Route>
+              <Route path="/legalProfile" element={<LegalProfile />}></Route>
             </Route>
           </Routes>
         </BrowserRouter>

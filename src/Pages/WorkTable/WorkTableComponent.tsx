@@ -1,5 +1,6 @@
 import JalaliCalendar from "./JalaliCal";
-import { ReactComponent as Grid } from "../../assets/icons/newIcons/grid-01.svg";
+import { ReactComponent as Grid } from "../../assets/icons/grid-01.svg";
+import {ReactComponent as Calendar} from "../../assets/icons/calendar-check-01.svg";
 import { NavLink } from "react-router-dom";
 
 export default function WorkTableComponent() {
@@ -10,10 +11,10 @@ export default function WorkTableComponent() {
       <NavLink
               to="/dashboard"
               className={({ isActive }) =>
-                `flex flex-row items-center justify-center gap-2 font-myYekanMedium text-sm w-[120px] h-10 rounded bg-white text-secondary-500 ${
-                  isActive
-                    ? " text-primary-500 bg-primary-50"
-                    : "hover:bg-secondary-50 hover:text-secondary-500 "
+                `flex flex-row items-center justify-center gap-2 font-myYekanMedium text-sm w-[120px] h-10 rounded bg-white ${
+              isActive
+              ? "border-primary-500 text-primary-500 bg-secondary-50"
+              : "hover:bg-secondary-50 hover:text-secondary-500"
                 }`
               }
             >
@@ -32,7 +33,7 @@ export default function WorkTableComponent() {
                 }`
               }
             >
-              <Grid />
+              <Calendar />
               <span>میزکار</span>
             </NavLink>
       </div>

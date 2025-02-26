@@ -9,7 +9,7 @@ import CurrencyCard from "../../components/CurrencyCard";
 import CourseCard from "../../components/CourseCard";
 import ChatAIButton from "../../components/Chat/ChatAIButton";
 import defaultAvatarMain from "../../assets/icons/newIcons/defaultAvatarMain.svg";
-import { ReactComponent as Grid } from "../../assets/icons/newIcons/grid-01.svg";
+import { ReactComponent as Grid } from "../../assets/icons/grid-01.svg";
 import OnlineChatModaltemplate from "../../components/OnlineSupport/OnlineChatModalTemplate";
 import OnlineChatModal from "../../components/OnlineSupport/OnlineChatModal";
 import AIChatModal from "../../components/Chat/AIChatModal";
@@ -20,6 +20,7 @@ import {
   calculateRemainingDays,
 } from "../../utils/daysCardCalculation";
 import { WebSocketProvider } from "../../components/OnlineSupport/WebSocketContext";
+import {ReactComponent as Calendar} from "../../assets/icons/calendar-check-01.svg";
 
 export default function DashboardComponent() {
   const [showChatModal, setShowChatModal] = useState(false);
@@ -60,7 +61,7 @@ export default function DashboardComponent() {
           <NavLink
             to="/dashboard"
             className={({ isActive }) =>
-              `flex flex-row items-center justify-center gap-2 font-myYekanMedium text-sm w-[120px] h-10 rounded ${
+              `flex flex-row items-center justify-center gap-2 font-myYekanMedium text-sm w-[120px] h-10 rounded bg-secondary-50 text-secondary-500 ${
                 isActive
                   ? "border-primary-500 text-primary-500 bg-secondary-50"
                   : "hover:bg-secondary-50 hover:text-primary-500"
@@ -81,7 +82,7 @@ export default function DashboardComponent() {
               }`
             }
           >
-            <Grid />
+            <Calendar />
             <span>میزکار</span>
           </NavLink>
         </div>
